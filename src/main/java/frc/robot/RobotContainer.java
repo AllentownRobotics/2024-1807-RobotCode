@@ -4,83 +4,58 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OIConstants;
-import frc.robot.commands.CompressCMD;
-import frc.robot.commands.DriveCMDs.DriveCMD;
-import frc.robot.commands.DriveCMDs.SlowDriveCMD;
-import frc.robot.subsystems.Compress;
-import frc.robot.subsystems.DriveTrain;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Blinkin.BlinkinHitThatCoopertition;
+import frc.robot.commands.Blinkin.BlinkinDefault;
+import frc.robot.commands.Blinkin.BlinkinHitThatAmp;
+import frc.robot.commands.ComplexCMDs.CollectAndIndex;
+import frc.robot.subsystems.Blinkin;
+import frc.robot.subsystems.Collector;
+import frc.robot.subsystems.Indexer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in
- * the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of
- * the robot (including
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems
-  public DriveTrain driveTrain;
-  private Compress compressor;
+  private final Blinkin blinkin = new Blinkin();
+  private final Collector collector = new Collector();
+  private final Indexer indexer = new Indexer();
 
-  // Controllers
-  private CommandXboxController driverController = new CommandXboxController(OIConstants.driverControllerPort);
-  private CommandXboxController operatorController = new CommandXboxController(OIConstants.operatorControllerPort);
-  private final SendableChooser<Command> autoChooser;
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final CommandXboxController operatorController =
+      new CommandXboxController(OperatorConstants.operatorControllerID);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Subsystem Initialization
-    driveTrain = new DriveTrain();
-    compressor = new Compress();
-
-    // config default commands
-    driveTrain.setDefaultCommand(new DriveCMD(driveTrain, driverController, true, false));
-    compressor.setDefaultCommand(new CompressCMD(compressor));
-
-    // Config for Auto Chooser
-    autoChooser = AutoBuilder.buildAutoChooser("NAME DEFAULT AUTO HERE");
-    SmartDashboard.putData("Auto Chooser", autoChooser);
-
     // Configure the trigger bindings
     configureBindings();
   }
 
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be
-   * created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-   * an arbitrary
+   * Use this method to define your trigger->command mappings. Triggers can be created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link
-   * CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
-    // drive controller configs
-    driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
-    driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
-    driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
+    blinkin.setDefaultCommand(new BlinkinDefault(blinkin));
+    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-    // operator controller configs
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // cancelling on release.
+    operatorController.b().whileTrue(new CollectAndIndex(collector, indexer));
+    operatorController.povUp().whileTrue(new BlinkinHitThatAmp(blinkin));
+    operatorController.povDown().whileTrue(new BlinkinHitThatCoopertition(blinkin));
+
   }
 
   /**
@@ -90,6 +65,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    return null;
   }
 }
