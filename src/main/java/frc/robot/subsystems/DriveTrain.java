@@ -199,7 +199,7 @@ public class DriveTrain extends SubsystemBase {
   public void driveRobotRelative(ChassisSpeeds robotRelativeSpeeds) {
     ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(robotRelativeSpeeds, 0.02);
 
-    SwerveModuleState[] targetStates = swerveKinematics.toSwerveModuleStates(robotRelativeSpeeds);
+    SwerveModuleState[] targetStates = swerveKinematics.toSwerveModuleStates(targetSpeeds);
     setModuleStates(targetStates);
   }
 

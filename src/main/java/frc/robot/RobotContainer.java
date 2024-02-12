@@ -5,10 +5,8 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.CompressCMD;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
-import frc.robot.subsystems.Compress;
 import frc.robot.subsystems.DriveTrain;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -33,7 +31,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems
   public DriveTrain driveTrain;
-  private Compress compressor;
 
   // Controllers
   private CommandXboxController driverController = new CommandXboxController(OIConstants.driverControllerPort);
@@ -46,11 +43,9 @@ public class RobotContainer {
   public RobotContainer() {
     // Subsystem Initialization
     driveTrain = new DriveTrain();
-    compressor = new Compress();
 
     // config default commands
     driveTrain.setDefaultCommand(new DriveCMD(driveTrain, driverController, true, false));
-    compressor.setDefaultCommand(new CompressCMD(compressor));
 
     // Config for Auto Chooser
     autoChooser = AutoBuilder.buildAutoChooser("NAME DEFAULT AUTO HERE");

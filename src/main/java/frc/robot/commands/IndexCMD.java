@@ -5,34 +5,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Compress;
+import frc.robot.Constants.IndexerConstants;
+import frc.robot.subsystems.Indexer;
 
-public class CompressCMD extends Command {
-  Compress compressorSubsystem;
-
-  public CompressCMD(Compress comp) {
-   /** Creates a new Compress_ACTIVE. */
-   compressorSubsystem = comp;
-    addRequirements(comp);
+public class IndexCMD extends Command {
+  private Indexer indexerSubsystem;
+  /** Creates a new IndexCMD. */
+  public IndexCMD(Indexer indexerSubsystem) {
+    this.indexerSubsystem = indexerSubsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(indexerSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    indexerSubsystem.index(IndexerConstants.indexerSpeed);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    compressorSubsystem.run();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    indexerSubsystem.index(0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
-  }}
-
+  }
+}
