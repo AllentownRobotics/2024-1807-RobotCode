@@ -6,9 +6,9 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ClimbCommands.ManualControl;
-import frc.robot.commands.ComplexCommands.ClimbCurrent;
-import frc.robot.commands.ComplexCommands.ClimbHybrid;
-import frc.robot.commands.ComplexCommands.ClimbPigeon;
+import frc.robot.commands.ClimbTypes.ClimbCurrent;
+import frc.robot.commands.ClimbTypes.ClimbHybrid;
+import frc.robot.commands.ClimbTypes.ClimbPigeon;
 import frc.robot.subsystems.Climb;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;

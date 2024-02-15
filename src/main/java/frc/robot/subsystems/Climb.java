@@ -131,6 +131,87 @@ public class Climb extends SubsystemBase {
     return secondContactedMotor;
   }
 
+  public boolean getIsFirstContactedPigeon() {
+
+    // uses the tilt of the robot to see
+    // which motor contacted first
+    if (getTilt() < -ClimbConstants.climbMinTiltedDegrees) {
+
+      // sets the order of which motor contacted when
+      setContactOrder(getRightMotor(), getLeftMotor());
+      
+      // stops the first contacted motor and moves on
+      getFirstContact().set(0);
+
+      return true;
+    } else if (getTilt() > ClimbConstants.climbMinTiltedDegrees) {
+
+      // sets the order of which motor contacted when
+      setContactOrder(getLeftMotor(), getRightMotor());
+
+      // stops the first contacted motor and moves on
+      setLeftMotor(0);
+
+      return true;
+    } else {
+
+    return false;
+    }
+  }
+
+  public boolean getIsSecondContactedPigeon() {
+
+        // waits for the second motor to balance the robot and moves on
+        if (Math.abs(getTilt()) < ClimbConstants.climbBalancedDegrees) {
+
+          return true;
+    
+        } else {
+    
+          return false;
+      }
+  }
+
+  public boolean getIsFirstContactedCurrent() {
+  
+    // checks for a current spike in either motor
+    // afterward, it moves to the next step
+    if (getCurrentLeft() - getCurrentSnapshot() > ClimbConstants.climbCurrentDifference) {
+
+      // disables the contacted motor and
+      // sets it as first contacted
+      setLeftMotor(0);
+      setContactOrder(getLeftMotor(), getRightMotor());
+
+      return true;
+    } else if (getCurrentRight() - getCurrentSnapshot() > ClimbConstants.climbCurrentDifference) {
+
+      // disables the contacted motor and
+      // sets it as first contacted
+      setRightMotor(0);
+      setContactOrder(getRightMotor(), getLeftMotor());
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean getIsSecondContactedCurrent() {
+        // checks the second motor and waits for a current spike
+        if (getSecondContact().getOutputCurrent() - getCurrentSnapshot() > 
+        ClimbConstants.climbCurrentDifference) {
+          
+          // stops the second motor and moves on
+          getSecondContact().set(0);
+    
+          return true;
+        } else {
+    
+          return false;
+        }
+  }
+
   // gets the current of each of the motors
   public double getCurrentLeft() {
     return climbLeftMotor.getOutputCurrent();
