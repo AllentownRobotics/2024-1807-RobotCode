@@ -38,11 +38,15 @@ public class ClimbPigeonAwaitContact extends Command {
     // which motor contacted first
     if (climb.getTilt() < -ClimbConstants.climbMinTiltedDegrees) {
 
+      climb.setContactOrder(climb.getRightMotor(), climb.getLeftMotor());
+      
       // stops the first contacted motor and moves on
-      climb.setRightMotor(0);
+      climb.getFirstContact().set(0);
       return true;
 
     } else if (climb.getTilt() > ClimbConstants.climbMinTiltedDegrees) {
+
+      climb.setContactOrder(climb.getLeftMotor(), climb.getRightMotor());
 
       // stops the first contacted motor and moves on
       climb.setLeftMotor(0);

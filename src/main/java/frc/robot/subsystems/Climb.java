@@ -64,17 +64,6 @@ public class Climb extends SubsystemBase {
     SmartDashboard.putNumber("pid", speed);
   }
 
-  // starts and stops climbing
-  public void startClimb() {
-    climbLeftMotor.set(ClimbConstants.climbSpeedFactor);
-    climbRightMotor.set(ClimbConstants.climbSpeedFactor);
-  }
-
-  public void stopClimb() {
-    climbLeftMotor.set(0);
-    climbRightMotor.set(0);
-  }
-
   // sets speed value of motors
   public void setLeftMotor(double power) {
     climbLeftMotor.set(power);

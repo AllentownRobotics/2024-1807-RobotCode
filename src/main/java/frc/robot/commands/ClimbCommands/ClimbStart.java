@@ -5,6 +5,7 @@
 package frc.robot.commands.ClimbCommands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.Climb;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -22,6 +23,7 @@ public class ClimbStart extends InstantCommand {
   @Override
   public void initialize() {
     // starts the climber
-    climb.startClimb();
+    climb.setLeftMotor(ClimbConstants.climbSpeedFactor);
+    climb.setRightMotor(ClimbConstants.climbSpeedFactor);
   }
 }

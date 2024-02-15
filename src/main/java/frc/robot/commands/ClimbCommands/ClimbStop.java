@@ -22,6 +22,7 @@ public class ClimbStop extends InstantCommand {
   @Override
   public void initialize() {
     // stops the climber
-    climb.stopClimb();
+    climb.setLeftMotor(0);
+    climb.setRightMotor(0);
   }
 }
