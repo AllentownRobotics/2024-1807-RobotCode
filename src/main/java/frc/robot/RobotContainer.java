@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ClimbCommands.ManualControl;
+import frc.robot.commands.ClimbTypes.ClimbBasic;
 import frc.robot.commands.ClimbTypes.ClimbCurrent;
 import frc.robot.commands.ClimbTypes.ClimbHybrid;
 import frc.robot.commands.ClimbTypes.ClimbPigeon;
@@ -53,6 +54,7 @@ public class RobotContainer {
     m_operatorController.a().whileTrue(new ClimbCurrent(climb));
     m_operatorController.b().whileTrue(new ClimbPigeon(climb));
     m_operatorController.x().whileTrue(new ClimbHybrid(climb));
+    m_operatorController.y().whileTrue(new ClimbBasic(climb));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
