@@ -43,5 +43,8 @@ public final class Constants {
 
     public static final double climbMinTiltedDegrees = 5;
     public static final double climbBalancedDegrees = 2;
+
+    public static final double climbTiltMax = 10;
+    public static final double climbTiltMin = 5;
   }
 }

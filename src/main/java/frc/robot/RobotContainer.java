@@ -10,6 +10,7 @@ import frc.robot.commands.ClimbTypes.ClimbBasic;
 import frc.robot.commands.ClimbTypes.ClimbCurrent;
 import frc.robot.commands.ClimbTypes.ClimbHybrid;
 import frc.robot.commands.ClimbTypes.ClimbPigeon;
+import frc.robot.commands.ClimbTypes.ClimbPigeonSimple;
 import frc.robot.subsystems.Climb;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -55,6 +56,7 @@ public class RobotContainer {
     m_operatorController.b().whileTrue(new ClimbPigeon(climb));
     m_operatorController.x().whileTrue(new ClimbHybrid(climb));
     m_operatorController.y().whileTrue(new ClimbBasic(climb));
+    m_operatorController.leftBumper().whileTrue(new ClimbPigeonSimple(climb));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
   }
