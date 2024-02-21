@@ -4,10 +4,11 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OIConstants;
+import frc.robot.Utils.Constants.OIConstants;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -31,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems
   public DriveTrain driveTrain;
+  private Shooter shooterSubsystem;
 
   // Controllers
   private CommandXboxController driverController = new CommandXboxController(OIConstants.driverControllerPort);
@@ -43,6 +45,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Subsystem Initialization
     driveTrain = new DriveTrain();
+    shooterSubsystem = new Shooter();
 
     // config default commands
     driveTrain.setDefaultCommand(new DriveCMD(driveTrain, driverController, true, false));
@@ -74,8 +77,6 @@ public class RobotContainer {
     driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
-
-    // operator controller configs
   }
 
   /**

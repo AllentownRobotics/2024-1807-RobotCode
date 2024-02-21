@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.IndexerConstants;
+import frc.robot.Utils.Constants.IndexerConstants;
 import frc.robot.subsystems.Indexer;
 
 public class IndexCMD extends Command {

@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.Utils;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
@@ -151,15 +151,27 @@ public final class Constants {
     public static final int bottomShooterMotorID = 13;
     public static final int feederAMPShooterMotorID = 14;
 
-    public static final double pivotMotorReduction = 4.5;
+    public static final double pivotMotorReduction = 75;
     public static final double pivotPositionConversionFactor = 360.0/pivotMotorReduction;
 
-    public static final double pivotPID_P = .005;
+    public static final double pivotPID_P = .05;
     public static final double pivotPID_I = 0.0;
     public static final double pivotPID_D = 0.0;
     public static final double pivotPID_FF = 0.0;
-    public static final double pivotPID_OutputMin = -0.5;
-    public static final double pivotPID_OutputMax = 0.5;
+    public static final double pivotPID_OutputMin = -0.3;
+    public static final double pivotPID_OutputMax = 0.3;
+
+    public static final int pivotCurrentLimit = 40;
+
+    public static final double shooterAngleTolerance = 0.0;
+    public static final double shooterRestingAngle = 27.0;
+    public static final double sourceCollectionAngle = 110.0;
+    public static final double AMPAngle = 130.0;
+
+    public static final double feederAMPSpeed = 1.0;
+
+    public static final double sourceCollectionSpeed = -1.0;
+    public static final int beamBreakPort = 0;
   }
 
   public static class CollectorConstants {

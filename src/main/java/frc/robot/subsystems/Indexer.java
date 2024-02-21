@@ -9,7 +9,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.IndexerConstants;
+import frc.robot.Utils.Constants.IndexerConstants;
 
 public class Indexer extends SubsystemBase {
   private CANSparkMax frontIndexerMotor;
@@ -35,6 +35,7 @@ public class Indexer extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
 
   public void index(double speed)
   {
