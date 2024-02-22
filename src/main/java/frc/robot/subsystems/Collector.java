@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CollectorConstants;
 
 public class Collector extends SubsystemBase {
-    CANSparkMax frontCollectorMotor;
-    CANSparkMax backCollectorMotor;
+    private CANSparkMax frontCollectorMotor;
+    private CANSparkMax backCollectorMotor;
 
   /** Creates a new Collector. */
   public Collector() {
@@ -21,7 +21,7 @@ public class Collector extends SubsystemBase {
 
   }
 
-  public void Collect(double collectSpeed) {
+  public void collect(double collectSpeed) {
     frontCollectorMotor.set(collectSpeed);
     backCollectorMotor.set(collectSpeed);
     frontCollectorMotor.get();
@@ -29,7 +29,7 @@ public class Collector extends SubsystemBase {
 
   }
 
-  public boolean CollectingLight() {
+  public boolean collectingLight() {
     if (frontCollectorMotor.get() >= CollectorConstants.collectSpeed) {
     return true;
     } else if (backCollectorMotor.get() >= CollectorConstants.collectSpeed) {

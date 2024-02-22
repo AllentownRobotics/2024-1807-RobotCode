@@ -9,7 +9,7 @@ import frc.robot.Constants.CollectorConstants;
 import frc.robot.subsystems.Collector;
 
 public class CollectorCMD extends Command {
-  Collector collector;
+  private Collector collector;
   
   /** Creates a new CollectCMD. */
   public CollectorCMD(Collector collector) {
@@ -28,14 +28,14 @@ public class CollectorCMD extends Command {
   @Override
   public void execute() {
     
-    collector.Collect(CollectorConstants.collectSpeed);
+    collector.collect(CollectorConstants.collectSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     
-    collector.Collect(0);
+    collector.collect(0);
   }
 
   // Returns true when the command should end.

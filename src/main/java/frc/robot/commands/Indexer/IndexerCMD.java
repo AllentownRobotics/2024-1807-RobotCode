@@ -2,14 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Indexer;
+package frc.robot.commands.Indexer;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IndexerConstants;
 import frc.robot.subsystems.Indexer;
 
 public class IndexerCMD extends Command {
-  Indexer indexer;
+  private Indexer indexer;
   
   /** Creates a new IndexerCMD. */
   public IndexerCMD(Indexer indexer) {
@@ -28,7 +28,7 @@ public class IndexerCMD extends Command {
   @Override
   public void execute() {
   
-    indexer.Index(IndexerConstants.indexSpeed);
+    indexer.index(IndexerConstants.indexSpeed);
   
   }
 
@@ -36,7 +36,7 @@ public class IndexerCMD extends Command {
   @Override
   public void end(boolean interrupted) {
   
-    indexer.Index(0);
+    indexer.index(0);
   
   }
 

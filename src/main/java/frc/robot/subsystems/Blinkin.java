@@ -4,28 +4,20 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.BlinkinConstants;
 
 public class Blinkin extends SubsystemBase {
-  PWMSparkMax blinkin;
-  Collector collector;
+  private Spark blinkin;
 
   /** Creates a new Blinkin. */
   public Blinkin() {
-    blinkin = new PWMSparkMax(BlinkinConstants.blinkinID);
+    blinkin = new Spark(BlinkinConstants.blinkinID);
   }
 
-  public void BlinkinSet(double color) {
+  public void blinkinSet(double color) {
     blinkin.set(color);
-  }
-
-  public void BlinkinCustom() {
-    blinkin.set(BlinkinConstants.blinkinWaves);
-    //blinkin.set(BlinkinConstants.blinkinWhite);
-    //blinkin.set(BlinkinConstants.blinkinRed);
-
   }
   
 

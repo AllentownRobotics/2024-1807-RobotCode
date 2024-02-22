@@ -7,8 +7,8 @@ package frc.robot.commands.ComplexCMDs;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.CollectorConstants;
-import frc.robot.Indexer.IndexerCMD;
 import frc.robot.commands.Collector.CollectorCMD;
+import frc.robot.commands.Indexer.IndexerCMD;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 

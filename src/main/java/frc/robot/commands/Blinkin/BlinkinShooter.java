@@ -9,7 +9,7 @@ import frc.robot.Constants.BlinkinConstants;
 import frc.robot.subsystems.Blinkin;
 
 public class BlinkinShooter extends Command {
-  Blinkin blinkin;
+  private Blinkin blinkin;
   
   /** Creates a new BlinkinShooter. */
   public BlinkinShooter(Blinkin blinkin) {
@@ -25,7 +25,7 @@ public class BlinkinShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    blinkin.BlinkinSet(BlinkinConstants.blinkinDarkRed);
+    blinkin.blinkinSet(BlinkinConstants.blinkinDarkRed);
   }
 
   // Called once the command ends or is interrupted.

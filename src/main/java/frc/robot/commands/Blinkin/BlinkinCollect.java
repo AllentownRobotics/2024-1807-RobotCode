@@ -10,8 +10,8 @@ import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.Collector;
 
 public class BlinkinCollect extends Command {
-   Blinkin blinkin;
-   Collector collect;
+  private Blinkin blinkin;
+  private Collector collect;
    
   /** Creates a new BlinkinCollect. */
   public BlinkinCollect(Blinkin blinkin, Collector collect) {
@@ -19,7 +19,7 @@ public class BlinkinCollect extends Command {
     this.collect = collect;
     
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(blinkin);
+    addRequirements(blinkin, collect);
   }
 
   // Called when the command is initially scheduled.
@@ -29,8 +29,8 @@ public class BlinkinCollect extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (collect.CollectingLight() == true) {
-    blinkin.BlinkinSet(BlinkinConstants.blinkinOrange);
+    if (collect.collectingLight() == true) {
+    blinkin.blinkinSet(BlinkinConstants.blinkinOrange);
     }
   }
 

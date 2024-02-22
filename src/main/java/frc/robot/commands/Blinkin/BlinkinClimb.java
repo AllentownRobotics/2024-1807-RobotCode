@@ -9,7 +9,7 @@ import frc.robot.Constants.BlinkinConstants;
 import frc.robot.subsystems.Blinkin;
 
 public class BlinkinClimb extends Command {
-  Blinkin blinkin;
+  private Blinkin blinkin;
   
   /** Creates a new BlinkinClimb. */
   public BlinkinClimb(Blinkin blinkin) {
@@ -26,7 +26,7 @@ public class BlinkinClimb extends Command {
   @Override
   public void execute() {
     //change when climb code is finished
-    blinkin.BlinkinSet(BlinkinConstants.blinkinWavesLava);
+    blinkin.blinkinSet(BlinkinConstants.blinkinPartyRainbow);
   }
 
   // Called once the command ends or is interrupted.

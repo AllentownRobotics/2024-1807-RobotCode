@@ -5,10 +5,11 @@
 package frc.robot.commands.Blinkin;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.BlinkinConstants;
 import frc.robot.subsystems.Blinkin;
 
 public class BlinkinDefault extends Command {
-  Blinkin blinkin;
+  private Blinkin blinkin;
   
   /** Creates a new BlinkinDefault. */
   public BlinkinDefault(Blinkin blinkin) {
@@ -24,7 +25,7 @@ public class BlinkinDefault extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    blinkin.BlinkinCustom();
+    blinkin.blinkinSet(BlinkinConstants.blinkinColorGradient);
   }
 
   // Called once the command ends or is interrupted.

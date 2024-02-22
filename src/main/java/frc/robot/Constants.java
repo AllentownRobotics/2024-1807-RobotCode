@@ -18,15 +18,16 @@ public final class Constants {
   }
 
   public static class BlinkinConstants { //color values found from blinkin docs
+
+    //set default colors manually: red and white
     
     public static final int blinkinID = 3;
-    public static final double blinkinWaves = 0.53;
     public static final double blinkinOrange = -0.59;
     public static final double blinkinDarkRed = 0.59;
-    public static final double blinkinWhite = 0.93;
     public static final double blinkinGold = 0.67;
     public static final double blinkinViolet = 0.91;
-    public static final double blinkinWavesLava = -0.39;
+    public static final double blinkinPartyRainbow = -0.97;
+    public static final double blinkinColorGradient = 0.41;
     
   }
 
