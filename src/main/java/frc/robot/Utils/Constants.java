@@ -151,8 +151,9 @@ public final class Constants {
     public static final int bottomShooterMotorID = 13;
     public static final int feederAMPShooterMotorID = 14;
 
-    public static final double pivotMotorReduction = 75;
+    public static final double pivotMotorReduction = 300;
     public static final double pivotPositionConversionFactor = 360.0/pivotMotorReduction;
+    public static final double pivotVelocityConversionFactor = pivotPositionConversionFactor/60;
 
     public static final double pivotPID_P = .05;
     public static final double pivotPID_I = 0.0;

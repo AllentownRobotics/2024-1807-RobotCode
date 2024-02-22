@@ -4,16 +4,10 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,8 +16,7 @@ import frc.robot.Utils.Constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
   private CANSparkMax leftPivotMotor;
   private CANSparkMax rightPivotMotor;
-  private RelativeEncoder pivotEncoder;
-  private SparkPIDController pivotPIDController;
+  //private SparkPIDController pivotPIDController;
 
   private CANSparkFlex topFlywheelMotor;
   private CANSparkFlex bottomFlywheelMotor;
@@ -33,13 +26,15 @@ public class Shooter extends SubsystemBase {
   private double desiredPivotAngle;
 
   private DigitalInput beamBreak;
+
+  private double kG = 0.13107;
+
   /** Creates a new Shooter. */
   public Shooter() {
     leftPivotMotor = new CANSparkMax(ShooterConstants.leftPivotMotorID, MotorType.kBrushless);
     rightPivotMotor = new CANSparkMax(ShooterConstants.rightPivotMotorID, MotorType.kBrushless);
-    pivotEncoder = rightPivotMotor.getEncoder();
-    pivotPIDController = rightPivotMotor.getPIDController();
-    pivotPIDController.setFeedbackDevice(pivotEncoder);
+    //pivotPIDController = rightPivotMotor.getPIDController();
+    //pivotPIDController.setFeedbackDevice(pivotEncoder);
 
 
     topFlywheelMotor = new CANSparkFlex(ShooterConstants.topShooterMotorID, MotorType.kBrushless);
@@ -54,17 +49,19 @@ public class Shooter extends SubsystemBase {
     feederAMPShooterMotor.restoreFactoryDefaults();
 
     //pivot config
-    pivotEncoder.setPositionConversionFactor(ShooterConstants.pivotPositionConversionFactor);
+    rightPivotMotor.getEncoder().setPositionConversionFactor(ShooterConstants.pivotPositionConversionFactor);
+    rightPivotMotor.getEncoder().setVelocityConversionFactor(ShooterConstants.pivotVelocityConversionFactor);
     leftPivotMotor.getEncoder().setPositionConversionFactor(ShooterConstants.pivotPositionConversionFactor);
+    leftPivotMotor.getEncoder().setVelocityConversionFactor(ShooterConstants.pivotVelocityConversionFactor);
 
     rightPivotMotor.setInverted(true);
     leftPivotMotor.follow(rightPivotMotor, true);
 
-    pivotPIDController.setP(ShooterConstants.pivotPID_P, 0);
+    /*pivotPIDController.setP(ShooterConstants.pivotPID_P, 0);
     pivotPIDController.setI(ShooterConstants.pivotPID_I, 0);
     pivotPIDController.setD(ShooterConstants.pivotPID_D, 0);
     pivotPIDController.setFF(ShooterConstants.pivotPID_FF, 0);
-    pivotPIDController.setOutputRange(ShooterConstants.pivotPID_OutputMin, ShooterConstants.pivotPID_OutputMax);
+    pivotPIDController.setOutputRange(ShooterConstants.pivotPID_OutputMin, ShooterConstants.pivotPID_OutputMax);*/
 
     leftPivotMotor.setIdleMode(IdleMode.kBrake);
     rightPivotMotor.setIdleMode(IdleMode.kBrake);
@@ -102,9 +99,9 @@ public class Shooter extends SubsystemBase {
   public void periodic() 
   {
     // This method will be called once per scheduler run
-    pivotPIDController.setReference(desiredPivotAngle, ControlType.kPosition);
+    //pivotPIDController.setReference(desiredPivotAngle, ControlType.kPosition);
 
-    SmartDashboard.putNumber("Pivot Angle", pivotEncoder.getPosition());
+    SmartDashboard.putNumber("Pivot Angle", rightPivotMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Follower Pivot Angle", leftPivotMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Desired Pivot Angle", desiredPivotAngle);
   }
@@ -116,7 +113,7 @@ public class Shooter extends SubsystemBase {
 
   public boolean atDesiredAngle()
   {
-    return Math.abs(pivotEncoder.getPosition()-desiredPivotAngle) < ShooterConstants.shooterAngleTolerance;
+    return Math.abs(rightPivotMotor.getEncoder().getPosition()-desiredPivotAngle) < ShooterConstants.shooterAngleTolerance;
   }
 
   public void setFlywheels(double speed)
@@ -136,12 +133,13 @@ public class Shooter extends SubsystemBase {
 
   public void runVolts(double voltage)
   {
-    leftPivotMotor.setVoltage(voltage);
-    rightPivotMotor.set(voltage);
+    leftPivotMotor.setVoltage(voltage+kG*rightPivotMotor.getEncoder().getPosition());
+    rightPivotMotor.set(voltage+kG*rightPivotMotor.getEncoder().getPosition());
   }
 
   public boolean withinRange()
   {
-    return pivotEncoder.getPosition()>27&&pivotEncoder.getPosition()<130;
+    return rightPivotMotor.getEncoder().getPosition()>-5&&rightPivotMotor.getEncoder().getPosition()<85;
   }
+
 }

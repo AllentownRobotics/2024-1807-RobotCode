@@ -12,6 +12,9 @@ import frc.robot.subsystems.Shooter;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,6 +23,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+
+import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Volts;
 
 
@@ -43,6 +48,8 @@ public class RobotContainer {
   private final SendableChooser<Command> autoChooser;
 
   private SysIdRoutine sysIdRoutine;
+  private Measure<Velocity<Voltage>> rampRate = Volts.of(.5).per(Second);
+  private Measure<Voltage> stepVoltage = Volts.of(2);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -61,7 +68,7 @@ public class RobotContainer {
 
 
      sysIdRoutine = new SysIdRoutine(
-      new SysIdRoutine.Config(),
+      new SysIdRoutine.Config(rampRate,stepVoltage, Second.of(10)),
       new SysIdRoutine.Mechanism(
     (voltage) -> shooterSubsystem.runVolts(voltage.in(Volts)),
     null, shooterSubsystem));
