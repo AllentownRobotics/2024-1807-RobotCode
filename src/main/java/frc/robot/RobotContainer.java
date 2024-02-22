@@ -19,6 +19,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import static edu.wpi.first.units.Units.Volts;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -39,6 +42,8 @@ public class RobotContainer {
   private CommandXboxController operatorController = new CommandXboxController(OIConstants.operatorControllerPort);
   private final SendableChooser<Command> autoChooser;
 
+  private SysIdRoutine sysIdRoutine;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -53,6 +58,13 @@ public class RobotContainer {
     // Config for Auto Chooser
     autoChooser = AutoBuilder.buildAutoChooser("NAME DEFAULT AUTO HERE");
     SmartDashboard.putData("Auto Chooser", autoChooser);
+
+
+     sysIdRoutine = new SysIdRoutine(
+      new SysIdRoutine.Config(),
+      new SysIdRoutine.Mechanism(
+    (voltage) -> shooterSubsystem.runVolts(voltage.in(Volts)),
+    null, shooterSubsystem));
 
     // Configure the trigger bindings
     configureBindings();
@@ -77,6 +89,11 @@ public class RobotContainer {
     driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
+
+    operatorController.povUp().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward));
+    operatorController.povRight().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse));
+    operatorController.povDown().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward));
+    operatorController.povLeft().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse));
   }
 
   /**

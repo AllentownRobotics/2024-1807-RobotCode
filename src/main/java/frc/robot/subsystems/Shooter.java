@@ -133,4 +133,15 @@ public class Shooter extends SubsystemBase {
   {
     return beamBreak.get();
   }
+
+  public void runVolts(double voltage)
+  {
+    leftPivotMotor.setVoltage(voltage);
+    rightPivotMotor.set(voltage);
+  }
+
+  public boolean withinRange()
+  {
+    return pivotEncoder.getPosition()>27&&pivotEncoder.getPosition()<130;
+  }
 }
