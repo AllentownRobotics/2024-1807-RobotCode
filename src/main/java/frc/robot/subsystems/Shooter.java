@@ -8,6 +8,8 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -133,8 +135,12 @@ public class Shooter extends SubsystemBase {
 
   public void runVolts(double voltage)
   {
-    leftPivotMotor.setVoltage(voltage+kG*rightPivotMotor.getEncoder().getPosition());
-    rightPivotMotor.set(voltage+kG*rightPivotMotor.getEncoder().getPosition());
+    rightPivotMotor.setVoltage(voltage/*+kG*Math.cos(Units.degreesToRadians(rightPivotMotor.getEncoder().getPosition()))*/);
+  }
+
+  public void stopVolts()
+  {
+    rightPivotMotor.setVoltage(0);
   }
 
   public boolean withinRange()
@@ -142,4 +148,9 @@ public class Shooter extends SubsystemBase {
     return rightPivotMotor.getEncoder().getPosition()>-5&&rightPivotMotor.getEncoder().getPosition()<85;
   }
 
+  public void setEncoderPosition(double position)
+  {
+    rightPivotMotor.getEncoder().setPosition(position);
+    leftPivotMotor.getEncoder().setPosition(position);
+  }
 }
