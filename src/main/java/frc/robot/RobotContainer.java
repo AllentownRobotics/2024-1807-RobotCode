@@ -6,12 +6,11 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Blinkin.BlinkinHitThatCoopertition;
+import frc.robot.commands.Collector.CollectorCMD;
 import frc.robot.commands.Blinkin.BlinkinDefault;
 import frc.robot.commands.Blinkin.BlinkinHitThatAmp;
-import frc.robot.commands.ComplexCMDs.CollectAndIndex;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.Collector;
-import frc.robot.subsystems.Indexer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -25,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   private final Blinkin blinkin = new Blinkin();
   private final Collector collector = new Collector();
-  private final Indexer indexer = new Indexer();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController operatorController =
@@ -52,7 +50,7 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    operatorController.b().whileTrue(new CollectAndIndex(collector, indexer));
+    operatorController.a().whileTrue(new CollectorCMD(collector));
     operatorController.povUp().whileTrue(new BlinkinHitThatAmp(blinkin));
     operatorController.povDown().whileTrue(new BlinkinHitThatCoopertition(blinkin));
 

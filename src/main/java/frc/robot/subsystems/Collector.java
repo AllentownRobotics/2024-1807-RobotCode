@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,6 +19,9 @@ public class Collector extends SubsystemBase {
   public Collector() {
     frontCollectorMotor = new CANSparkMax(CollectorConstants.leftMotorID, MotorType.kBrushless);
     backCollectorMotor = new CANSparkMax(CollectorConstants.rightMotorID, MotorType.kBrushless);
+
+    frontCollectorMotor.setIdleMode(IdleMode.kBrake);
+    backCollectorMotor.setIdleMode(IdleMode.kBrake);
 
   }
 
