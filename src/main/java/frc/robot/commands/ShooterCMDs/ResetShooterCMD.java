@@ -21,6 +21,6 @@ public class ResetShooterCMD extends SequentialCommandGroup {
     addCommands(
     new SetPivotAngleCMD(ShooterConstants.shooterRestingAngle, shooterSubsystem),
     Commands.runOnce(() -> shooterSubsystem.setAMPFeeder(0.0), shooterSubsystem),
-    Commands.runOnce(() -> shooterSubsystem.setFlywheels(0), shooterSubsystem));
+    Commands.runOnce(() -> shooterSubsystem.setFlywheelsShooting(0), shooterSubsystem));
   }
 }

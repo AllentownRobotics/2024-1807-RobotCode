@@ -20,7 +20,7 @@ public class CollectSourceCMD extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new SetPivotAngleCMD(ShooterConstants.sourceCollectionAngle, shooterSubsystem),
-      Commands.runOnce(() -> shooterSubsystem.setFlywheels(ShooterConstants.sourceCollectionSpeed), shooterSubsystem)
+      Commands.runOnce(() -> shooterSubsystem.setFlywheelsShooting(ShooterConstants.sourceCollectionSpeed), shooterSubsystem)
     );
   }
 }

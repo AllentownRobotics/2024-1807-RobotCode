@@ -80,8 +80,6 @@ public class Shooter extends SubsystemBase {
     topFlywheelMotor.setInverted(true);
     bottomFlywheelMotor.setInverted(true);
 
-    bottomFlywheelMotor.follow(topFlywheelMotor, true);
-
     topFlywheelMotor.setIdleMode(IdleMode.kCoast);
     bottomFlywheelMotor.setIdleMode(IdleMode.kCoast);
 
@@ -118,9 +116,16 @@ public class Shooter extends SubsystemBase {
     return Math.abs(rightPivotMotor.getEncoder().getPosition()-desiredPivotAngle) < ShooterConstants.shooterAngleTolerance;
   }
 
-  public void setFlywheels(double speed)
+  public void setFlywheelsShooting(double speed)
   {
     topFlywheelMotor.set(speed);
+    bottomFlywheelMotor.set(speed);
+  }
+
+  public void setFlywheelsAMPing(double speed)
+  {
+    topFlywheelMotor.set(speed);
+    bottomFlywheelMotor.set(-speed);
   }
 
   public void setAMPFeeder(double speed)
