@@ -5,10 +5,13 @@
 package frc.robot;
 
 import frc.robot.Utils.Constants.OIConstants;
+import frc.robot.commands.CollectAndIndexCMD;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
-import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunVoltageCMD;
+import frc.robot.commands.ShooterCMDs.TestShootingCMD;
+import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -42,6 +45,8 @@ public class RobotContainer {
   // The robot's subsystems
   public DriveTrain driveTrain;
   private Shooter shooterSubsystem;
+  private Indexer indexerSubsystem;
+  private Collector collectorSubsystem;
 
   // Controllers
   private CommandXboxController driverController = new CommandXboxController(OIConstants.driverControllerPort);
@@ -59,6 +64,8 @@ public class RobotContainer {
     // Subsystem Initialization
     driveTrain = new DriveTrain();
     shooterSubsystem = new Shooter();
+    indexerSubsystem = new Indexer();
+    collectorSubsystem = new Collector();
 
     // config default commands
     driveTrain.setDefaultCommand(new DriveCMD(driveTrain, driverController, true, false));
@@ -98,13 +105,15 @@ public class RobotContainer {
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
 
-    operatorController.povUp().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
+    /*operatorController.povUp().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
     operatorController.povRight().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
     operatorController.povDown().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
     operatorController.povLeft().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
     operatorController.rightBumper().and(shooterSubsystem::withinRange).whileTrue(new RunVoltageCMD(2, shooterSubsystem));
     operatorController.leftBumper().and(shooterSubsystem::withinRange).whileTrue(new RunVoltageCMD(-2, shooterSubsystem));
-    operatorController.start().onTrue(new InstantCommand(() -> shooterSubsystem.setEncoderPosition(90)));
+    operatorController.start().onTrue(new InstantCommand(() -> shooterSubsystem.setEncoderPosition(90)));*/
+    operatorController.a().whileTrue(new CollectAndIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
+    operatorController.b().whileTrue(new TestShootingCMD(shooterSubsystem));
   }
 
   /**

@@ -178,12 +178,13 @@ public final class Constants {
   public static class CollectorConstants {
     public static final int frontCollectorMotorID = 15;
     public static final int rearCollectorMotorID = 16;
+    public static final double collectorSpeed = 1.0;
   }
 
   public static class IndexerConstants {
     public static final int frontIndexMotorID = 17;
     public static final int rearIndexMotorID = 18;
-    public static final double indexerSpeed = 1.0;
+    public static final double indexerSpeed = 0.5;
   }
 
   public static class ClimbConstants {

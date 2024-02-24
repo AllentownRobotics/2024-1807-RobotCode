@@ -87,7 +87,7 @@ public class Shooter extends SubsystemBase {
     bottomFlywheelMotor.burnFlash();
 
     //feeder&amp config
-    feederAMPShooterMotor.setInverted(true);
+    feederAMPShooterMotor.setInverted(false);
     feederAMPShooterMotor.setIdleMode(IdleMode.kBrake);
 
     feederAMPShooterMotor.burnFlash();

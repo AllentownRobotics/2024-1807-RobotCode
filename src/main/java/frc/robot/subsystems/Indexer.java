@@ -25,7 +25,8 @@ public class Indexer extends SubsystemBase {
     frontIndexerMotor.setIdleMode(IdleMode.kBrake);
     rearIndexerMotor.setIdleMode(IdleMode.kBrake);
 
-    rearIndexerMotor.follow(frontIndexerMotor);
+    frontIndexerMotor.setInverted(true);
+    rearIndexerMotor.follow(frontIndexerMotor, true);
 
     frontIndexerMotor.burnFlash();
     rearIndexerMotor.burnFlash();
