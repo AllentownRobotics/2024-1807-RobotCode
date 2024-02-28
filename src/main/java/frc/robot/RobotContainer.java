@@ -9,6 +9,7 @@ import frc.robot.commands.CollectAndIndexCMD;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
 import frc.robot.commands.ShooterCMDs.TestShootingCMD;
+import frc.robot.commands.ShooterCMDs.TestingShooting2CMD;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
@@ -113,7 +114,7 @@ public class RobotContainer {
     operatorController.leftBumper().and(shooterSubsystem::withinRange).whileTrue(new RunVoltageCMD(-2, shooterSubsystem));
     operatorController.start().onTrue(new InstantCommand(() -> shooterSubsystem.setEncoderPosition(90)));*/
     operatorController.a().whileTrue(new CollectAndIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
-    operatorController.b().whileTrue(new TestShootingCMD(shooterSubsystem));
+    operatorController.b().onTrue(new TestingShooting2CMD(shooterSubsystem));
   }
 
   /**

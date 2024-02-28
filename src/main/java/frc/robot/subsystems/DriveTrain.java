@@ -120,8 +120,12 @@ public class DriveTrain extends SubsystemBase {
 
     SmartDashboard.putNumber("testing", resetCount);
 
-    SmartDashboard.putNumber("Desired Velocity", frontLeftModule.getDesiredVelocity());
-    SmartDashboard.putNumber("Actual Velocity", frontLeftModule.getWheelVelocity());
+    SmartDashboard.putNumber("Front Left Velocity", frontLeftModule.getWheelVelocity());
+    SmartDashboard.putNumber("Front Right Velocity", frontRightModule.getWheelVelocity());
+    SmartDashboard.putNumber("Back Right Velocity", rearRightModule.getWheelVelocity());
+    SmartDashboard.putNumber("Back Left Velocity", rearLeftModule.getWheelVelocity());
+
+    SmartDashboard.putNumber("distance traveled", getPose().getX());
   }
 
   // general getter/setter methods BELOW
