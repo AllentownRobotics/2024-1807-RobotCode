@@ -152,10 +152,11 @@ public final class Constants {
     public static final int bottomShooterMotorID = 13;
     public static final int feederAMPShooterMotorID = 14;
 
-    //pivot encoder config
-    public static final double pivotMotorReduction = 300;
-    public static final double pivotPositionConversionFactor = 360.0/pivotMotorReduction;
-    public static final double pivotVelocityConversionFactor = pivotPositionConversionFactor/60;
+    public static final double pivotMotorReduction = 350;
+    public static final double pivotMotorPositionConversionFactor = 360.0/pivotMotorReduction;
+    public static final double pivotVelocityConversionFactor = pivotMotorPositionConversionFactor/60;
+    public static final double pivotAbsoluteEncoderReduction = 5.25;
+    public static final double pivotAbsoluteEncoderPositionConversionFactor = 360.0/pivotAbsoluteEncoderReduction;
 
     //pivot control config
     public static final double pivotPID_P = .05;
@@ -164,11 +165,17 @@ public final class Constants {
     public static final double pivotPID_FF = 0.0;
     public static final double pivotPID_OutputMin = -0.3;
     public static final double pivotPID_OutputMax = 0.3;
+
+    public static final double pivotFF_kS = 0.062522;
+    public static final double pivotFF_kG = 0.12218;
+    public static final double pivotFF_kV = 0.12352;
+    public static final double pivotFF_kA = 0.014506;
+
     public static final int pivotCurrentLimit = 40;
 
     //pivot angles
     public static final double shooterAngleTolerance = 0.0;
-    public static final double shooterRestingAngle = 27.0;
+    public static final double shooterRestingAngle = 45;
     public static final double sourceCollectionAngle = 110.0;
     public static final double AMPAngle = 130.0;
 

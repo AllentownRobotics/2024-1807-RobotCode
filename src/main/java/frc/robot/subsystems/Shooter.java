@@ -6,10 +6,17 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkPIDController.ArbFFUnits;
 
 import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,7 +25,8 @@ import frc.robot.Constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
   private CANSparkMax leftPivotMotor;
   private CANSparkMax rightPivotMotor;
-  //private SparkPIDController pivotPIDController;
+  private SparkPIDController pivotPIDController;
+  private ArmFeedforward armFeedforward;
 
   private CANSparkFlex topFlywheelMotor;
   private CANSparkFlex bottomFlywheelMotor;
@@ -32,14 +40,15 @@ public class Shooter extends SubsystemBase {
   private DigitalInput beamBreakIndex;
   private DigitalInput beamBreakSource;
 
-  //private double kG = 0.13107;
+  private double kG = 0.12218;
 
   /** Creates a new Shooter. */
   public Shooter() {
     leftPivotMotor = new CANSparkMax(ShooterConstants.leftPivotMotorID, MotorType.kBrushless);
     rightPivotMotor = new CANSparkMax(ShooterConstants.rightPivotMotorID, MotorType.kBrushless);
-    //pivotPIDController = rightPivotMotor.getPIDController();
-    //pivotPIDController.setFeedbackDevice(pivotEncoder);
+    pivotPIDController = rightPivotMotor.getPIDController();
+    pivotPIDController.setFeedbackDevice(rightPivotMotor.getEncoder());
+    armFeedforward = new ArmFeedforward(ShooterConstants.pivotFF_kS, ShooterConstants.pivotFF_kG, ShooterConstants.pivotFF_kV, ShooterConstants.pivotFF_kA);
 
 
     topFlywheelMotor = new CANSparkFlex(ShooterConstants.topShooterMotorID, MotorType.kBrushless);
@@ -54,25 +63,31 @@ public class Shooter extends SubsystemBase {
     feederAMPShooterMotor.restoreFactoryDefaults();
 
     //pivot config
-    rightPivotMotor.getEncoder().setPositionConversionFactor(ShooterConstants.pivotPositionConversionFactor);
+    rightPivotMotor.getEncoder().setPositionConversionFactor(ShooterConstants.pivotMotorPositionConversionFactor);
     rightPivotMotor.getEncoder().setVelocityConversionFactor(ShooterConstants.pivotVelocityConversionFactor);
-    leftPivotMotor.getEncoder().setPositionConversionFactor(ShooterConstants.pivotPositionConversionFactor);
+    leftPivotMotor.getEncoder().setPositionConversionFactor(ShooterConstants.pivotMotorPositionConversionFactor);
     leftPivotMotor.getEncoder().setVelocityConversionFactor(ShooterConstants.pivotVelocityConversionFactor);
 
-    rightPivotMotor.setInverted(true);
+    rightPivotMotor.setInverted(false);
     leftPivotMotor.follow(rightPivotMotor, true);
 
-    /*pivotPIDController.setP(ShooterConstants.pivotPID_P, 0);
+    pivotPIDController.setP(ShooterConstants.pivotPID_P, 0);
     pivotPIDController.setI(ShooterConstants.pivotPID_I, 0);
     pivotPIDController.setD(ShooterConstants.pivotPID_D, 0);
     pivotPIDController.setFF(ShooterConstants.pivotPID_FF, 0);
-    pivotPIDController.setOutputRange(ShooterConstants.pivotPID_OutputMin, ShooterConstants.pivotPID_OutputMax);*/
+    pivotPIDController.setOutputRange(ShooterConstants.pivotPID_OutputMin, ShooterConstants.pivotPID_OutputMax);
 
     leftPivotMotor.setIdleMode(IdleMode.kBrake);
     rightPivotMotor.setIdleMode(IdleMode.kBrake);
 
     leftPivotMotor.setSmartCurrentLimit(ShooterConstants.pivotCurrentLimit);
     rightPivotMotor.setSmartCurrentLimit(ShooterConstants.pivotCurrentLimit);
+
+    rightPivotMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    rightPivotMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    rightPivotMotor.setSoftLimit(SoftLimitDirection.kForward, 110);
+    rightPivotMotor.setSoftLimit(SoftLimitDirection.kReverse, 40);
+
 
     leftPivotMotor.burnFlash();
     rightPivotMotor.burnFlash();
@@ -103,7 +118,7 @@ public class Shooter extends SubsystemBase {
   public void periodic() 
   {
     // This method will be called once per scheduler run
-    //pivotPIDController.setReference(desiredPivotAngle, ControlType.kPosition);
+    pivotPIDController.setReference(desiredPivotAngle, ControlType.kPosition,0, armFeedforward.calculate(Units.degreesToRadians(desiredPivotAngle), 0), ArbFFUnits.kVoltage);
 
     SmartDashboard.putNumber("Pivot Angle", rightPivotMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Follower Pivot Angle", leftPivotMotor.getEncoder().getPosition());
@@ -170,7 +185,7 @@ public class Shooter extends SubsystemBase {
 
   public void runVolts(double voltage)
   {
-    rightPivotMotor.setVoltage(voltage/*+kG*Math.cos(Units.degreesToRadians(rightPivotMotor.getEncoder().getPosition()))*/);
+    rightPivotMotor.setVoltage(voltage+kG*Math.cos(Units.degreesToRadians(rightPivotMotor.getEncoder().getPosition())));
   }
 
   public void stopVolts()
@@ -181,6 +196,16 @@ public class Shooter extends SubsystemBase {
   public boolean withinRange()
   {
     return rightPivotMotor.getEncoder().getPosition()>-5&&rightPivotMotor.getEncoder().getPosition()<85;
+  }
+
+  public boolean atUpperThreshold()
+  {
+    return rightPivotMotor.getEncoder().getPosition()>110;
+  }
+
+  public boolean atLowerThreshold()
+  {
+    return rightPivotMotor.getEncoder().getPosition()<40;
   }
 
   public void setEncoderPosition(double position)

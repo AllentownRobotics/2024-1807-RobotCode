@@ -9,6 +9,8 @@ import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
 import frc.robot.commands.ShooterCMDs.TestingShooting2CMD;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunVoltageCMD;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
@@ -22,6 +24,7 @@ import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -105,13 +108,17 @@ public class RobotContainer {
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
 
-    /*operatorController.povUp().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
-    operatorController.povRight().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
-    operatorController.povDown().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
-    operatorController.povLeft().and(shooterSubsystem::withinRange).whileTrue(sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
-    operatorController.rightBumper().and(shooterSubsystem::withinRange).whileTrue(new RunVoltageCMD(2, shooterSubsystem));
-    operatorController.leftBumper().and(shooterSubsystem::withinRange).whileTrue(new RunVoltageCMD(-2, shooterSubsystem));
-    operatorController.start().onTrue(new InstantCommand(() -> shooterSubsystem.setEncoderPosition(90)));*/
+    /*operatorController.povUp().whileTrue(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward).until(shooterSubsystem::atUpperThreshold).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
+    operatorController.povRight().whileTrue(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).until(shooterSubsystem::atLowerThreshold).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
+    operatorController.povDown().whileTrue(sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward).until(shooterSubsystem::atUpperThreshold).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
+    operatorController.povLeft().whileTrue(sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).until(shooterSubsystem::atLowerThreshold).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));*/
+    operatorController.povUp().onTrue(new SetPivotAngleCMD(35, shooterSubsystem));
+    operatorController.povRight().onTrue(new SetPivotAngleCMD(50, shooterSubsystem));
+    operatorController.povDown().onTrue(new SetPivotAngleCMD(65, shooterSubsystem));
+    operatorController.povLeft().onTrue(new SetPivotAngleCMD(90, shooterSubsystem));
+    operatorController.rightBumper().whileTrue(new RunVoltageCMD(1, shooterSubsystem));
+    operatorController.leftBumper().whileTrue(new RunVoltageCMD(-1, shooterSubsystem));
+    operatorController.start().onTrue(new InstantCommand(() -> shooterSubsystem.setEncoderPosition(90)));
     operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
     operatorController.b().onTrue(new TestingShooting2CMD(shooterSubsystem));
   }

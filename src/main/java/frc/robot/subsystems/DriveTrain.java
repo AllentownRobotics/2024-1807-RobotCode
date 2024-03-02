@@ -33,7 +33,6 @@ import frc.robot.Constants.GlobalConstants;
 import frc.utils.SwerveUtils;
 
 public class DriveTrain extends SubsystemBase {
-  int resetCount = 0;
 
   // Create MAXSwerveModules
   private final SwerveModule frontLeftModule = new SwerveModule(
@@ -118,14 +117,13 @@ public class DriveTrain extends SubsystemBase {
       // updates field
     field.setRobotPose(getPose());
 
-    SmartDashboard.putNumber("testing", resetCount);
-
     SmartDashboard.putNumber("Front Left Velocity", frontLeftModule.getWheelVelocity());
     SmartDashboard.putNumber("Front Right Velocity", frontRightModule.getWheelVelocity());
     SmartDashboard.putNumber("Back Right Velocity", rearRightModule.getWheelVelocity());
     SmartDashboard.putNumber("Back Left Velocity", rearLeftModule.getWheelVelocity());
 
     SmartDashboard.putNumber("distance traveled", getPose().getX());
+    SmartDashboard.putNumber("Heading", gyro.getAngle());
   }
 
   // general getter/setter methods BELOW
@@ -152,7 +150,6 @@ public class DriveTrain extends SubsystemBase {
    */
   public void resetPose(Pose2d pose) {
     odometry.resetPosition(gyro.getRotation2d(), getPositions(), pose);
-    resetCount++;
   }
 
   /**

@@ -4,13 +4,10 @@
 
 package frc.robot.commands.ShooterCMDs;
 
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.commands.DriveCMDs.TurnToSpeakerCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunAMPFeedersCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunFlyWheelsCMD;
-import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
