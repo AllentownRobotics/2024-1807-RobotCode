@@ -6,7 +6,8 @@ package frc.robot.commands.ShooterCMDs;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Utils.Constants.ShooterConstants;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunAMPFeedersCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotToAMPCMD;
 import frc.robot.subsystems.Shooter;
 
@@ -21,6 +22,6 @@ public class ScoreAMPCMD extends SequentialCommandGroup {
     addCommands(
       new SetPivotToAMPCMD(shooterSubsystem),
       Commands.waitUntil(shooterSubsystem::atDesiredAngle),
-      Commands.runOnce(() -> shooterSubsystem.setAMPFeeder(ShooterConstants.feederAMPSpeed), shooterSubsystem));
+      new RunAMPFeedersCMD(ShooterConstants.feederAMPSpeed, shooterSubsystem));
   }
 }

@@ -9,11 +9,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Utils.Constants.ShooterConstants;
+import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
   private CANSparkMax leftPivotMotor;
@@ -22,14 +22,17 @@ public class Shooter extends SubsystemBase {
 
   private CANSparkFlex topFlywheelMotor;
   private CANSparkFlex bottomFlywheelMotor;
+  private BangBangController flywheelController;
+  private double desiredFlywheelRPM;
 
   private CANSparkFlex feederAMPShooterMotor;
 
   private double desiredPivotAngle;
 
-  private DigitalInput beamBreak;
+  private DigitalInput beamBreakIndex;
+  private DigitalInput beamBreakSource;
 
-  private double kG = 0.13107;
+  //private double kG = 0.13107;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -92,7 +95,8 @@ public class Shooter extends SubsystemBase {
 
     feederAMPShooterMotor.burnFlash();
 
-    beamBreak = new DigitalInput(ShooterConstants.beamBreakPort);
+    beamBreakIndex = new DigitalInput(ShooterConstants.beamBreakIndexPort);
+    beamBreakSource = new DigitalInput(ShooterConstants.beamBreakSourcePort);
   }
 
   @Override
@@ -104,6 +108,9 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Pivot Angle", rightPivotMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Follower Pivot Angle", leftPivotMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Desired Pivot Angle", desiredPivotAngle);
+
+    SmartDashboard.putNumber("top flywheel speed", topFlywheelMotor.getEncoder().getVelocity());
+    SmartDashboard.putNumber("bottom flywheel speed", bottomFlywheelMotor.getEncoder().getVelocity());
   }
 
   public void setPivotAngle(double angle)
@@ -114,6 +121,18 @@ public class Shooter extends SubsystemBase {
   public boolean atDesiredAngle()
   {
     return Math.abs(rightPivotMotor.getEncoder().getPosition()-desiredPivotAngle) < ShooterConstants.shooterAngleTolerance;
+  }
+
+  public void runFlywheelsShooting(double speed)
+  {
+    flywheelController.setSetpoint(speed);
+    topFlywheelMotor.set(flywheelController.calculate(topFlywheelMotor.getEncoder().getVelocity()));
+    bottomFlywheelMotor.set(flywheelController.calculate(bottomFlywheelMotor.getEncoder().getVelocity()));
+  }
+
+  public boolean shootingFlywheelsAtRPM()
+  {
+    return flywheelController.atSetpoint();
   }
 
   public void setFlywheelsShooting(double speed)
@@ -133,9 +152,20 @@ public class Shooter extends SubsystemBase {
     feederAMPShooterMotor.set(speed);
   }
 
-  public boolean getBeamBreak()
+  /**Returns state of the beam break for the ground collection in the shooter
+   * @return True if beam break is broken, false otherwise
+   */
+  public boolean getBeamBreakIndex()
   {
-    return beamBreak.get();
+    return !beamBreakIndex.get();
+  }
+
+  /**Returns state of the beam break for the source collection in the shooter
+   * @return True if beam break is broken, false otherwise
+   */
+  public boolean getBeamBreakSource()
+  {
+    return !beamBreakSource.get();
   }
 
   public void runVolts(double voltage)
@@ -157,5 +187,10 @@ public class Shooter extends SubsystemBase {
   {
     rightPivotMotor.getEncoder().setPosition(position);
     leftPivotMotor.getEncoder().setPosition(position);
+  }
+
+  public double getAimingAngle(double distance)
+  {
+    return distance;
   }
 }

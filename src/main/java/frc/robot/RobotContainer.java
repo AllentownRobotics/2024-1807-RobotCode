@@ -4,11 +4,10 @@
 
 package frc.robot;
 
-import frc.robot.Utils.Constants.OIConstants;
-import frc.robot.commands.CollectAndIndexCMD;
+import frc.robot.Constants.OIConstants;
+import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
-import frc.robot.commands.ShooterCMDs.TestShootingCMD;
 import frc.robot.commands.ShooterCMDs.TestingShooting2CMD;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveTrain;
@@ -113,7 +112,7 @@ public class RobotContainer {
     operatorController.rightBumper().and(shooterSubsystem::withinRange).whileTrue(new RunVoltageCMD(2, shooterSubsystem));
     operatorController.leftBumper().and(shooterSubsystem::withinRange).whileTrue(new RunVoltageCMD(-2, shooterSubsystem));
     operatorController.start().onTrue(new InstantCommand(() -> shooterSubsystem.setEncoderPosition(90)));*/
-    operatorController.a().whileTrue(new CollectAndIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
+    operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
     operatorController.b().onTrue(new TestingShooting2CMD(shooterSubsystem));
   }
 

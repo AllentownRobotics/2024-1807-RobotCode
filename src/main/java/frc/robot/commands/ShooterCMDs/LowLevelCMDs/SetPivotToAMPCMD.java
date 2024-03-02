@@ -5,7 +5,7 @@
 package frc.robot.commands.ShooterCMDs.LowLevelCMDs;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.Utils.Constants.ShooterConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

@@ -2,25 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ShooterCMDs.LowLevelCMDs;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Utils.Constants.IndexerConstants;
-import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Shooter;
 
-public class IndexCMD extends Command {
-  private Indexer indexerSubsystem;
-  /** Creates a new IndexCMD. */
-  public IndexCMD(Indexer indexerSubsystem) {
-    this.indexerSubsystem = indexerSubsystem;
+public class RunFlyWheelsCMD extends Command {
+  double speed;
+  Shooter shooterSubsystem;
+  /** Creates a new RunFlyWheelsCMD. */
+  public RunFlyWheelsCMD(double speed, Shooter shooterSubsystem) {
+    this.speed = speed;
+    this.shooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(indexerSubsystem);
+    addRequirements(shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    indexerSubsystem.index(IndexerConstants.indexerSpeed);
+    shooterSubsystem.runFlywheelsShooting(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -30,12 +31,11 @@ public class IndexCMD extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    indexerSubsystem.index(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return shooterSubsystem.shootingFlywheelsAtRPM();
   }
 }

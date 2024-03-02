@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.Utils;
+package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
@@ -145,34 +145,42 @@ public final class Constants {
   }
 
   public static class ShooterConstants{
+    //ids
     public static final int leftPivotMotorID = 10;
     public static final int rightPivotMotorID = 11;
     public static final int topShooterMotorID = 12;
     public static final int bottomShooterMotorID = 13;
     public static final int feederAMPShooterMotorID = 14;
 
+    //pivot encoder config
     public static final double pivotMotorReduction = 300;
     public static final double pivotPositionConversionFactor = 360.0/pivotMotorReduction;
     public static final double pivotVelocityConversionFactor = pivotPositionConversionFactor/60;
 
+    //pivot control config
     public static final double pivotPID_P = .05;
     public static final double pivotPID_I = 0.0;
     public static final double pivotPID_D = 0.0;
     public static final double pivotPID_FF = 0.0;
     public static final double pivotPID_OutputMin = -0.3;
     public static final double pivotPID_OutputMax = 0.3;
-
     public static final int pivotCurrentLimit = 40;
 
+    //pivot angles
     public static final double shooterAngleTolerance = 0.0;
     public static final double shooterRestingAngle = 27.0;
     public static final double sourceCollectionAngle = 110.0;
     public static final double AMPAngle = 130.0;
 
+    public static final double shootingRPM = 1000;
+    public static final double feederShootingSpeed = 1.0;
     public static final double feederAMPSpeed = 1.0;
+    public static final double feederIndexSpeed = 0.5;
+    public static final double feederSourceSpeed = -0.5;
 
     public static final double sourceCollectionSpeed = -1.0;
-    public static final int beamBreakPort = 0;
+    public static final int beamBreakIndexPort = 0;
+    public static final int beamBreakSourcePort = 1;
   }
 
   public static class CollectorConstants {

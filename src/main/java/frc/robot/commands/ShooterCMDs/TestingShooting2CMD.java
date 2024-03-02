@@ -5,8 +5,12 @@
 package frc.robot.commands.ShooterCMDs;
 
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.DriveCMDs.TurnToSpeakerCMD;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunAMPFeedersCMD;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunFlyWheelsCMD;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -18,11 +22,7 @@ public class TestingShooting2CMD extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-    new InstantCommand(() -> shooterSubsystem.setFlywheelsShooting(1)),
-    Commands.waitSeconds(3),
-    new InstantCommand(() -> shooterSubsystem.setAMPFeeder(1)),
-    Commands.waitSeconds(1),
-    new InstantCommand(() -> shooterSubsystem.setFlywheelsShooting(0)),
-    new InstantCommand(() -> shooterSubsystem.setAMPFeeder(0)));
+      new RunFlyWheelsCMD(ShooterConstants.shootingRPM, shooterSubsystem),
+      new RunAMPFeedersCMD(ShooterConstants.feederShootingSpeed, shooterSubsystem));
   }
 }
