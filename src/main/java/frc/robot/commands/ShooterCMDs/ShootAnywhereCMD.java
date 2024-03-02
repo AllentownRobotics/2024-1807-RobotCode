@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.DriveCMDs.TurnToSpeakerCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunAMPFeedersCMD;
-import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunFlyWheelsCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.Shooter;
 
@@ -25,7 +24,7 @@ public class ShootAnywhereCMD extends SequentialCommandGroup {
       new TurnToSpeakerCMD(),
       new SetPivotAngleCMD(shooterSubsystem.getAimingAngle(0/*REPLACE WITH DISTANCE TO SPEAKER*/), shooterSubsystem),
       Commands.waitUntil(shooterSubsystem::atDesiredAngle),
-      new RunFlyWheelsCMD(ShooterConstants.shootingRPM, shooterSubsystem),
+      //new RunFlyWheelsCMD(ShooterConstants.shootingRPM, shooterSubsystem),
       new RunAMPFeedersCMD(ShooterConstants.feederShootingSpeed, shooterSubsystem));
   }
 }

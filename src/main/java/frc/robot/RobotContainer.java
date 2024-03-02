@@ -8,7 +8,10 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
+import frc.robot.commands.ShooterCMDs.ResetShooterCMD;
+import frc.robot.commands.ShooterCMDs.ScoreAMPCMD;
 import frc.robot.commands.ShooterCMDs.TestingShooting2CMD;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunAMPFeedersCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunVoltageCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.Collector;
@@ -116,11 +119,13 @@ public class RobotContainer {
     operatorController.povRight().onTrue(new SetPivotAngleCMD(50, shooterSubsystem));
     operatorController.povDown().onTrue(new SetPivotAngleCMD(65, shooterSubsystem));
     operatorController.povLeft().onTrue(new SetPivotAngleCMD(90, shooterSubsystem));
-    operatorController.rightBumper().whileTrue(new RunVoltageCMD(1, shooterSubsystem));
-    operatorController.leftBumper().whileTrue(new RunVoltageCMD(-1, shooterSubsystem));
+    operatorController.rightBumper().whileTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(5), shooterSubsystem));
+    operatorController.leftBumper().whileTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-5), shooterSubsystem));
     operatorController.start().onTrue(new InstantCommand(() -> shooterSubsystem.setEncoderPosition(90)));
     operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
     operatorController.b().onTrue(new TestingShooting2CMD(shooterSubsystem));
+    operatorController.x().whileTrue(new ScoreAMPCMD(shooterSubsystem));
+    operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));
   }
 
   /**

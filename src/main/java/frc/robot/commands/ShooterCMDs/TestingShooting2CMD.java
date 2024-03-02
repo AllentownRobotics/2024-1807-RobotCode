@@ -4,10 +4,10 @@
 
 package frc.robot.commands.ShooterCMDs;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunAMPFeedersCMD;
-import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunFlyWheelsCMD;
 import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -19,7 +19,11 @@ public class TestingShooting2CMD extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new RunFlyWheelsCMD(ShooterConstants.shootingRPM, shooterSubsystem),
-      new RunAMPFeedersCMD(ShooterConstants.feederShootingSpeed, shooterSubsystem));
+      Commands.runOnce(() -> shooterSubsystem.setFlywheelsShooting(1)),
+      Commands.waitSeconds(3),
+      new RunAMPFeedersCMD(ShooterConstants.feederShootingSpeed, shooterSubsystem),
+      Commands.waitSeconds(1),
+      Commands.runOnce(() -> shooterSubsystem.setFlywheelsShooting(0), shooterSubsystem),
+      new RunAMPFeedersCMD(0, shooterSubsystem));
   }
 }

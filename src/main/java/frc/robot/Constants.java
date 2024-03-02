@@ -159,12 +159,12 @@ public final class Constants {
     public static final double pivotAbsoluteEncoderPositionConversionFactor = 360.0/pivotAbsoluteEncoderReduction;
 
     //pivot control config
-    public static final double pivotPID_P = .05;
+    public static final double pivotPID_P = .07;
     public static final double pivotPID_I = 0.0;
     public static final double pivotPID_D = 0.0;
     public static final double pivotPID_FF = 0.0;
-    public static final double pivotPID_OutputMin = -0.3;
-    public static final double pivotPID_OutputMax = 0.3;
+    public static final double pivotPID_OutputMin = -0.7;
+    public static final double pivotPID_OutputMax = 0.7;
 
     public static final double pivotFF_kS = 0.062522;
     public static final double pivotFF_kG = 0.12218;
@@ -174,10 +174,10 @@ public final class Constants {
     public static final int pivotCurrentLimit = 40;
 
     //pivot angles
-    public static final double shooterAngleTolerance = 0.0;
+    public static final double shooterAngleTolerance = 0.5;
     public static final double shooterRestingAngle = 45;
     public static final double sourceCollectionAngle = 110.0;
-    public static final double AMPAngle = 130.0;
+    public static final double AMPAngle = 120.0;
 
     public static final double shootingRPM = 1000;
     public static final double feederShootingSpeed = 1.0;
@@ -188,6 +188,7 @@ public final class Constants {
     public static final double sourceCollectionSpeed = -1.0;
     public static final int beamBreakIndexPort = 0;
     public static final int beamBreakSourcePort = 1;
+    public static final int limitSwitchPort = 4;
   }
 
   public static class CollectorConstants {

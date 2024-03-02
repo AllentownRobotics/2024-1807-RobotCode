@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -27,10 +26,10 @@ public class Shooter extends SubsystemBase {
   private CANSparkMax rightPivotMotor;
   private SparkPIDController pivotPIDController;
   private ArmFeedforward armFeedforward;
+  private DigitalInput limitSwitch;
 
   private CANSparkFlex topFlywheelMotor;
   private CANSparkFlex bottomFlywheelMotor;
-  private BangBangController flywheelController;
   private double desiredFlywheelRPM;
 
   private CANSparkFlex feederAMPShooterMotor;
@@ -46,6 +45,7 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
     leftPivotMotor = new CANSparkMax(ShooterConstants.leftPivotMotorID, MotorType.kBrushless);
     rightPivotMotor = new CANSparkMax(ShooterConstants.rightPivotMotorID, MotorType.kBrushless);
+    setEncoderPosition(90);
     pivotPIDController = rightPivotMotor.getPIDController();
     pivotPIDController.setFeedbackDevice(rightPivotMotor.getEncoder());
     armFeedforward = new ArmFeedforward(ShooterConstants.pivotFF_kS, ShooterConstants.pivotFF_kG, ShooterConstants.pivotFF_kV, ShooterConstants.pivotFF_kA);
@@ -85,7 +85,7 @@ public class Shooter extends SubsystemBase {
 
     rightPivotMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     rightPivotMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    rightPivotMotor.setSoftLimit(SoftLimitDirection.kForward, 110);
+    rightPivotMotor.setSoftLimit(SoftLimitDirection.kForward, 130);
     rightPivotMotor.setSoftLimit(SoftLimitDirection.kReverse, 40);
 
 
@@ -112,6 +112,7 @@ public class Shooter extends SubsystemBase {
 
     beamBreakIndex = new DigitalInput(ShooterConstants.beamBreakIndexPort);
     beamBreakSource = new DigitalInput(ShooterConstants.beamBreakSourcePort);
+    limitSwitch = new DigitalInput(ShooterConstants.limitSwitchPort);
   }
 
   @Override
@@ -119,13 +120,18 @@ public class Shooter extends SubsystemBase {
   {
     // This method will be called once per scheduler run
     pivotPIDController.setReference(desiredPivotAngle, ControlType.kPosition,0, armFeedforward.calculate(Units.degreesToRadians(desiredPivotAngle), 0), ArbFFUnits.kVoltage);
+    SmartDashboard.putNumber("shooter feedforward", armFeedforward.calculate(Units.degreesToRadians(desiredPivotAngle), 0));
 
     SmartDashboard.putNumber("Pivot Angle", rightPivotMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Follower Pivot Angle", leftPivotMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Desired Pivot Angle", desiredPivotAngle);
 
+    SmartDashboard.putNumber("rightPivotCurrent", rightPivotMotor.getOutputCurrent());
+
     SmartDashboard.putNumber("top flywheel speed", topFlywheelMotor.getEncoder().getVelocity());
     SmartDashboard.putNumber("bottom flywheel speed", bottomFlywheelMotor.getEncoder().getVelocity());
+
+    SmartDashboard.putBoolean("limitswtich", getLimitSwitch());
   }
 
   public void setPivotAngle(double angle)
@@ -140,14 +146,8 @@ public class Shooter extends SubsystemBase {
 
   public void runFlywheelsShooting(double speed)
   {
-    flywheelController.setSetpoint(speed);
-    topFlywheelMotor.set(flywheelController.calculate(topFlywheelMotor.getEncoder().getVelocity()));
-    bottomFlywheelMotor.set(flywheelController.calculate(bottomFlywheelMotor.getEncoder().getVelocity()));
-  }
-
-  public boolean shootingFlywheelsAtRPM()
-  {
-    return flywheelController.atSetpoint();
+    topFlywheelMotor.set(speed);
+    bottomFlywheelMotor.set(speed);
   }
 
   public void setFlywheelsShooting(double speed)
@@ -158,7 +158,7 @@ public class Shooter extends SubsystemBase {
 
   public void setFlywheelsAMPing(double speed)
   {
-    topFlywheelMotor.set(speed);
+    topFlywheelMotor.set(-speed);
     bottomFlywheelMotor.set(-speed);
   }
 
@@ -217,5 +217,15 @@ public class Shooter extends SubsystemBase {
   public double getAimingAngle(double distance)
   {
     return distance;
+  }
+
+  public void incrementSetpoit(double increment)
+  {
+    desiredPivotAngle += increment;
+  }
+
+  public boolean getLimitSwitch()
+  {
+    return limitSwitch.get();
   }
 }

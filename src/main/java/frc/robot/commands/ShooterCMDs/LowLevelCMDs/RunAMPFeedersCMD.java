@@ -22,6 +22,7 @@ public class RunAMPFeedersCMD extends Command {
   @Override
   public void initialize() {
     shooterSubsystem.setAMPFeeder(speed);
+    shooterSubsystem.setFlywheelsAMPing(.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -32,6 +33,7 @@ public class RunAMPFeedersCMD extends Command {
   @Override
   public void end(boolean interrupted) {
     shooterSubsystem.setAMPFeeder(0);
+    shooterSubsystem.setFlywheelsAMPing(0);
   }
 
   // Returns true when the command should end.
