@@ -4,7 +4,7 @@
 
 package frc.robot.commands.ShooterCMDs;
 
-import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
@@ -19,8 +19,8 @@ public class ResetShooterCMD extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-    new SetPivotAngleCMD(ShooterConstants.shooterRestingAngle, shooterSubsystem),
-    Commands.runOnce(() -> shooterSubsystem.setAMPFeeder(0.0), shooterSubsystem),
-    Commands.runOnce(() -> shooterSubsystem.runFlywheelsShooting(0), shooterSubsystem));
+      new InstantCommand(() -> shooterSubsystem.setFlywheelsPercent(0.0), shooterSubsystem),
+      new InstantCommand(() -> shooterSubsystem.setAMPFeeder(0.0), shooterSubsystem),
+      new SetPivotAngleCMD(ShooterConstants.shooterRestingAngle, shooterSubsystem));
   }
 }

@@ -11,8 +11,6 @@ import frc.robot.commands.DriveCMDs.SlowDriveCMD;
 import frc.robot.commands.ShooterCMDs.ResetShooterCMD;
 import frc.robot.commands.ShooterCMDs.ScoreAMPCMD;
 import frc.robot.commands.ShooterCMDs.TestingShooting2CMD;
-import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunAMPFeedersCMD;
-import frc.robot.commands.ShooterCMDs.LowLevelCMDs.RunVoltageCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveTrain;
@@ -21,9 +19,6 @@ import frc.robot.subsystems.Shooter;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.Velocity;
-import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,10 +27,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
-import static edu.wpi.first.units.Units.Second;
-import static edu.wpi.first.units.Units.Volts;
 
 
 /**
@@ -59,10 +50,6 @@ public class RobotContainer {
   private CommandXboxController operatorController = new CommandXboxController(OIConstants.operatorControllerPort);
   private final SendableChooser<Command> autoChooser;
 
-  private SysIdRoutine sysIdRoutine;
-  private Measure<Velocity<Voltage>> rampRate = Volts.of(.5).per(Second);
-  private Measure<Voltage> stepVoltage = Volts.of(2);
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -79,13 +66,6 @@ public class RobotContainer {
     // Config for Auto Chooser
     autoChooser = AutoBuilder.buildAutoChooser("NAME DEFAULT AUTO HERE");
     SmartDashboard.putData("Auto Chooser", autoChooser);
-
-
-     sysIdRoutine = new SysIdRoutine(
-      new SysIdRoutine.Config(rampRate,stepVoltage, Second.of(10)),
-      new SysIdRoutine.Mechanism(
-    (voltage) -> shooterSubsystem.runVolts(voltage.in(Volts)),
-    null, shooterSubsystem));
 
     // Configure the trigger bindings
     configureBindings();
@@ -111,10 +91,6 @@ public class RobotContainer {
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
 
-    /*operatorController.povUp().whileTrue(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kForward).until(shooterSubsystem::atUpperThreshold).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
-    operatorController.povRight().whileTrue(sysIdRoutine.quasistatic(SysIdRoutine.Direction.kReverse).until(shooterSubsystem::atLowerThreshold).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
-    operatorController.povDown().whileTrue(sysIdRoutine.dynamic(SysIdRoutine.Direction.kForward).until(shooterSubsystem::atUpperThreshold).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));
-    operatorController.povLeft().whileTrue(sysIdRoutine.dynamic(SysIdRoutine.Direction.kReverse).until(shooterSubsystem::atLowerThreshold).andThen(()-> shooterSubsystem.stopVolts(), shooterSubsystem));*/
     operatorController.povUp().onTrue(new SetPivotAngleCMD(35, shooterSubsystem));
     operatorController.povRight().onTrue(new SetPivotAngleCMD(50, shooterSubsystem));
     operatorController.povDown().onTrue(new SetPivotAngleCMD(65, shooterSubsystem));

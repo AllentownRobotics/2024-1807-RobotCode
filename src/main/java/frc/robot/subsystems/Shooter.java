@@ -13,7 +13,6 @@ import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 
-import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -26,20 +25,20 @@ public class Shooter extends SubsystemBase {
   private CANSparkMax rightPivotMotor;
   private SparkPIDController pivotPIDController;
   private ArmFeedforward armFeedforward;
-  private DigitalInput limitSwitch;
-
+  private double desiredPivotAngle;
+  
   private CANSparkFlex topFlywheelMotor;
   private CANSparkFlex bottomFlywheelMotor;
+  private SparkPIDController topFlywheelPIDController;
+  private SparkPIDController bottomFlywheelPIDController;
+
   private double desiredFlywheelRPM;
-
+  
   private CANSparkFlex feederAMPShooterMotor;
-
-  private double desiredPivotAngle;
-
+  
+  private DigitalInput limitSwitch;
   private DigitalInput beamBreakIndex;
   private DigitalInput beamBreakSource;
-
-  private double kG = 0.12218;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -88,7 +87,6 @@ public class Shooter extends SubsystemBase {
     rightPivotMotor.setSoftLimit(SoftLimitDirection.kForward, 130);
     rightPivotMotor.setSoftLimit(SoftLimitDirection.kReverse, 40);
 
-
     leftPivotMotor.burnFlash();
     rightPivotMotor.burnFlash();
 
@@ -101,8 +99,26 @@ public class Shooter extends SubsystemBase {
     topFlywheelMotor.setIdleMode(IdleMode.kCoast);
     bottomFlywheelMotor.setIdleMode(IdleMode.kCoast);
 
+    topFlywheelPIDController = topFlywheelMotor.getPIDController();
+    topFlywheelPIDController.setP(ShooterConstants.flywheelPID_P);
+    topFlywheelPIDController.setI(ShooterConstants.flywheelPID_I);
+    topFlywheelPIDController.setD(ShooterConstants.flywheelPID_D);
+    topFlywheelPIDController.setFF(ShooterConstants.flywheelPID_FF);
+    bottomFlywheelPIDController = bottomFlywheelMotor.getPIDController();
+    bottomFlywheelPIDController.setP(ShooterConstants.flywheelPID_P);
+    bottomFlywheelPIDController.setI(ShooterConstants.flywheelPID_I);
+    bottomFlywheelPIDController.setD(ShooterConstants.flywheelPID_D);
+    bottomFlywheelPIDController.setFF(ShooterConstants.flywheelPID_FF);
+
+    topFlywheelMotor.getEncoder().setPositionConversionFactor(ShooterConstants.flywheelPositionConversionFactor);
+    topFlywheelMotor.getEncoder().setVelocityConversionFactor(ShooterConstants.flywheelVelocityConversionFactor);
+    bottomFlywheelMotor.getEncoder().setPositionConversionFactor(ShooterConstants.flywheelPositionConversionFactor);
+    bottomFlywheelMotor.getEncoder().setVelocityConversionFactor(ShooterConstants.flywheelVelocityConversionFactor);
+
     topFlywheelMotor.burnFlash();
     bottomFlywheelMotor.burnFlash();
+
+    desiredFlywheelRPM = 0;
 
     //feeder&amp config
     feederAMPShooterMotor.setInverted(false);
@@ -110,15 +126,16 @@ public class Shooter extends SubsystemBase {
 
     feederAMPShooterMotor.burnFlash();
 
+    //sensor config
+    limitSwitch = new DigitalInput(ShooterConstants.limitSwitchPort);
     beamBreakIndex = new DigitalInput(ShooterConstants.beamBreakIndexPort);
     beamBreakSource = new DigitalInput(ShooterConstants.beamBreakSourcePort);
-    limitSwitch = new DigitalInput(ShooterConstants.limitSwitchPort);
   }
 
   @Override
   public void periodic() 
   {
-    // This method will be called once per scheduler run
+    //pivot periodic monitoring
     pivotPIDController.setReference(desiredPivotAngle, ControlType.kPosition,0, armFeedforward.calculate(Units.degreesToRadians(desiredPivotAngle), 0), ArbFFUnits.kVoltage);
     SmartDashboard.putNumber("shooter feedforward", armFeedforward.calculate(Units.degreesToRadians(desiredPivotAngle), 0));
 
@@ -128,6 +145,8 @@ public class Shooter extends SubsystemBase {
 
     SmartDashboard.putNumber("rightPivotCurrent", rightPivotMotor.getOutputCurrent());
 
+    //flywheels periodic monitoring
+    SmartDashboard.putNumber("desired RPM", desiredFlywheelRPM);
     SmartDashboard.putNumber("top flywheel speed", topFlywheelMotor.getEncoder().getVelocity());
     SmartDashboard.putNumber("bottom flywheel speed", bottomFlywheelMotor.getEncoder().getVelocity());
 
@@ -144,22 +163,16 @@ public class Shooter extends SubsystemBase {
     return Math.abs(rightPivotMotor.getEncoder().getPosition()-desiredPivotAngle) < ShooterConstants.shooterAngleTolerance;
   }
 
-  public void runFlywheelsShooting(double speed)
+  public void setFlywheelsRPM(double rpm)
   {
-    topFlywheelMotor.set(speed);
-    bottomFlywheelMotor.set(speed);
+    topFlywheelPIDController.setReference(rpm, ControlType.kVelocity);
+    bottomFlywheelPIDController.setReference(rpm, ControlType.kVelocity);
   }
 
-  public void setFlywheelsShooting(double speed)
+  public void setFlywheelsPercent(double percent)
   {
-    topFlywheelMotor.set(speed);
-    bottomFlywheelMotor.set(speed);
-  }
-
-  public void setFlywheelsAMPing(double speed)
-  {
-    topFlywheelMotor.set(-speed);
-    bottomFlywheelMotor.set(-speed);
+    topFlywheelPIDController.setReference(percent, ControlType.kDutyCycle);
+    bottomFlywheelPIDController.setReference(percent, ControlType.kDutyCycle);
   }
 
   public void setAMPFeeder(double speed)
@@ -181,31 +194,6 @@ public class Shooter extends SubsystemBase {
   public boolean getBeamBreakSource()
   {
     return !beamBreakSource.get();
-  }
-
-  public void runVolts(double voltage)
-  {
-    rightPivotMotor.setVoltage(voltage+kG*Math.cos(Units.degreesToRadians(rightPivotMotor.getEncoder().getPosition())));
-  }
-
-  public void stopVolts()
-  {
-    rightPivotMotor.setVoltage(0);
-  }
-
-  public boolean withinRange()
-  {
-    return rightPivotMotor.getEncoder().getPosition()>-5&&rightPivotMotor.getEncoder().getPosition()<85;
-  }
-
-  public boolean atUpperThreshold()
-  {
-    return rightPivotMotor.getEncoder().getPosition()>110;
-  }
-
-  public boolean atLowerThreshold()
-  {
-    return rightPivotMotor.getEncoder().getPosition()<40;
   }
 
   public void setEncoderPosition(double position)

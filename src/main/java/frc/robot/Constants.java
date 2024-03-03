@@ -179,7 +179,17 @@ public final class Constants {
     public static final double sourceCollectionAngle = 110.0;
     public static final double AMPAngle = 120.0;
 
+    //flywheel config
+    public static final double flywheelPositionConversionFactor = 2;
+    public static final double flywheelVelocityConversionFactor = flywheelPositionConversionFactor;
+
+    public static final double flywheelPID_P = 0.0;
+    public static final double flywheelPID_I = 0.0;
+    public static final double flywheelPID_D = 0.0;
+    public static final double flywheelPID_FF = 0.0;
+
     public static final double shootingRPM = 1000;
+    public static final double flywheelAMPSpeed = .5;
     public static final double feederShootingSpeed = 1.0;
     public static final double feederAMPSpeed = 1.0;
     public static final double feederIndexSpeed = 0.5;

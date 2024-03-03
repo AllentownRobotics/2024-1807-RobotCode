@@ -5,15 +5,14 @@
 package frc.robot.commands.ShooterCMDs.LowLevelCMDs;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
 
-public class RunVoltageCMD extends Command {
+public class FeedingAMPCMD extends Command {
   Shooter shooterSubsystem;
-  double volts;
-  /** Creates a new RunVoltageCMD. */
-  public RunVoltageCMD(double volts, Shooter shooterSubsystem) {
+  /** Creates a new FeedingAMPCMD. */
+  public FeedingAMPCMD(Shooter shooterSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
-    this.volts = volts;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterSubsystem);
   }
@@ -21,7 +20,8 @@ public class RunVoltageCMD extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterSubsystem.runVolts(volts);
+    shooterSubsystem.setFlywheelsPercent(-ShooterConstants.flywheelAMPSpeed);
+    shooterSubsystem.setAMPFeeder(ShooterConstants.feederAMPSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +31,8 @@ public class RunVoltageCMD extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.stopVolts();
+    shooterSubsystem.setFlywheelsPercent(0);
+    shooterSubsystem.setAMPFeeder(0);
   }
 
   // Returns true when the command should end.
