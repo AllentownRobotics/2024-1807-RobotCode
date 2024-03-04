@@ -5,19 +5,15 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ClimbCommands.ClimbLeftTest;
-import frc.robot.commands.ClimbCommands.ClimbRightTest;
-import frc.robot.commands.ClimbCommands.ClimbTestDown;
-import frc.robot.commands.ClimbCommands.ClimbTestUp;
-import frc.robot.commands.ClimbCommands.ManualControl;
-import frc.robot.commands.ClimbTypes.ClimbBasic;
-import frc.robot.commands.ClimbTypes.ClimbCurrent;
-import frc.robot.commands.ClimbTypes.ClimbHybrid;
-import frc.robot.commands.ClimbTypes.ClimbPigeon;
-import frc.robot.commands.ClimbTypes.ClimbPigeonSimple;
+import frc.robot.commands.Autos;
+import frc.robot.commands.ClimbBothTest;
+import frc.robot.commands.ClimbLeftTest;
+import frc.robot.commands.ClimbRightTest;
+import frc.robot.commands.ClimbTestUp;
+import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -29,19 +25,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private Climb climb = new Climb();
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Climb climb = new Climb();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
   private final CommandXboxController m_operatorController = 
-      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+      new CommandXboxController(1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
-    // climb.setDefaultCommand(new ManualControl(climb, m_operatorController));
     // Configure the trigger bindings
     configureBindings();
   }
@@ -57,19 +51,16 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    /*m_operatorController.a().whileTrue(new ClimbCurrent(climb));
-    m_operatorController.b().whileTrue(new ClimbPigeon(climb));
-    m_operatorController.x().whileTrue(new ClimbHybrid(climb));
-    m_operatorController.y().whileTrue(new ClimbBasic(climb));
-    m_operatorController.leftBumper().whileTrue(new ClimbPigeonSimple(climb));*/
-    m_operatorController.povUp().whileTrue(new ClimbTestUp(climb));
-    m_operatorController.povDown().whileTrue(new ClimbTestDown(climb));
-    m_operatorController.povLeft().whileTrue(new ClimbLeftTest(climb));
-    m_operatorController.povRight().whileTrue(new ClimbRightTest(climb));
-    m_operatorController.a().onTrue(new InstantCommand(() -> climb.setLeftMotor(.1)));
-    m_operatorController.b().onTrue(new InstantCommand(() -> climb.setLeftMotor(0)));
+    new Trigger(m_exampleSubsystem::exampleCondition)
+        .onTrue(new ExampleCommand(m_exampleSubsystem));
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
+    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_operatorController.povDown().whileTrue(new ClimbBothTest(climb));
+    m_operatorController.povLeft().whileTrue(new ClimbLeftTest(climb));
+    m_operatorController.povRight().whileTrue(new ClimbRightTest(climb));
+    m_operatorController.povUp().whileTrue(new ClimbTestUp(climb));
   }
 
   /**
@@ -79,6 +70,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return Autos.exampleAuto(m_exampleSubsystem);
   }
 }

@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -31,6 +32,8 @@ public class Climb extends SubsystemBase {
   /** Creates a new Climb. */
   public Climb() {
 
+    // IMPORTANT NOTE IF YOU SEE OR MODIFY THIS
+    // Positive motor values are down on the climber and vice versa
     climbLeftMotor = new CANSparkMax(ClimbConstants.climbLeftMotorID, MotorType.kBrushless);
     climbRightMotor = new CANSparkMax(ClimbConstants.climbRightMotorID, MotorType.kBrushless);
 
@@ -45,8 +48,22 @@ public class Climb extends SubsystemBase {
     climbLeftMotor.setSmartCurrentLimit(ClimbConstants.climbSmartCurrentLimit);
     climbRightMotor.setSmartCurrentLimit(ClimbConstants.climbSmartCurrentLimit);
 
+    climbLeftMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    climbLeftMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+    climbRightMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    climbRightMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+   /*  climbLeftMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+    climbLeftMotor.setSoftLimit(SoftLimitDirection.kReverse, 1);
+
+    climbRightMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+    climbRightMotor.setSoftLimit(SoftLimitDirection.kReverse, 1);
+    */
+
     climbLeftMotor.burnFlash();
     climbRightMotor.burnFlash();
+
 
     pidController = new PIDController
     (ClimbConstants.climbPID_P, ClimbConstants.climbPID_I, ClimbConstants.climb_PID_D);

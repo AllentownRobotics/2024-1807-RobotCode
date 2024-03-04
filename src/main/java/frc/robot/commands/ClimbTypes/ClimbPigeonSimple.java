@@ -27,6 +27,8 @@ public class ClimbPigeonSimple extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // if it's too tilted, slows the disadvantaged motor 
+    // (only makes one adjustment)
     if (Math.abs(climb.getTilt()) < ClimbConstants.climbTiltMin) {
 
       climb.setLeftMotor(ClimbConstants.climbSpeedFactor);

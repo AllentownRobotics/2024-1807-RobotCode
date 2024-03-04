@@ -24,13 +24,13 @@ public final class Constants {
 
   public static class ClimbConstants {
 
-    public static final int climbLeftMotorID = 0;
-    public static final int climbRightMotorID = 1;
-    public static final int climbPigeonID = 0;
+    public static final int climbLeftMotorID = 19;
+    public static final int climbRightMotorID = 20;
+    public static final int climbPigeonID = 9;
 
     public static final int climbSmartCurrentLimit = 60;
 
-    public static final double climbSpeedFactor = 1;
+    public static final double climbSpeedFactor = .1;
 
     public static final int climbCurrentStaticValue = 12;
 
