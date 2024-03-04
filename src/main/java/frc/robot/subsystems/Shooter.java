@@ -33,9 +33,9 @@ public class Shooter extends SubsystemBase {
   private SparkPIDController bottomFlywheelPIDController;
 
   private double desiredFlywheelRPM;
-  
+
   private CANSparkFlex feederAMPShooterMotor;
-  
+    
   private DigitalInput limitSwitch;
   private DigitalInput beamBreakIndex;
   private DigitalInput beamBreakSource;
@@ -49,17 +49,13 @@ public class Shooter extends SubsystemBase {
     pivotPIDController.setFeedbackDevice(rightPivotMotor.getEncoder());
     armFeedforward = new ArmFeedforward(ShooterConstants.pivotFF_kS, ShooterConstants.pivotFF_kG, ShooterConstants.pivotFF_kV, ShooterConstants.pivotFF_kA);
 
-
     topFlywheelMotor = new CANSparkFlex(ShooterConstants.topShooterMotorID, MotorType.kBrushless);
     bottomFlywheelMotor = new CANSparkFlex(ShooterConstants.bottomShooterMotorID, MotorType.kBrushless);
-
-    feederAMPShooterMotor = new CANSparkFlex(ShooterConstants.feederAMPShooterMotorID, MotorType.kBrushless);
 
     leftPivotMotor.restoreFactoryDefaults();
     rightPivotMotor.restoreFactoryDefaults();
     topFlywheelMotor.restoreFactoryDefaults();
     bottomFlywheelMotor.restoreFactoryDefaults();
-    feederAMPShooterMotor.restoreFactoryDefaults();
 
     //pivot config
     rightPivotMotor.getEncoder().setPositionConversionFactor(ShooterConstants.pivotMotorPositionConversionFactor);
@@ -121,6 +117,9 @@ public class Shooter extends SubsystemBase {
     desiredFlywheelRPM = 0;
 
     //feeder&amp config
+    feederAMPShooterMotor = new CANSparkFlex(ShooterConstants.feederAMPShooterMotorID, MotorType.kBrushless);
+    feederAMPShooterMotor.restoreFactoryDefaults();
+    
     feederAMPShooterMotor.setInverted(false);
     feederAMPShooterMotor.setIdleMode(IdleMode.kBrake);
 
@@ -173,6 +172,11 @@ public class Shooter extends SubsystemBase {
   {
     topFlywheelPIDController.setReference(percent, ControlType.kDutyCycle);
     bottomFlywheelPIDController.setReference(percent, ControlType.kDutyCycle);
+  }
+
+  public boolean atDesiredRPM()
+  {
+    return Math.abs(topFlywheelMotor.getEncoder().getVelocity()-desiredFlywheelRPM) < ShooterConstants.shootingRPMTolerance;
   }
 
   public void setAMPFeeder(double speed)

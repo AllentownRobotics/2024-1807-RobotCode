@@ -14,8 +14,10 @@ import frc.robot.Constants.IndexerConstants;
 public class Indexer extends SubsystemBase {
   private CANSparkMax frontIndexerMotor;
   private CANSparkMax rearIndexerMotor;
+
   /** Creates a new Indexer. */
   public Indexer() {
+    //indexer Config
     frontIndexerMotor = new CANSparkMax(IndexerConstants.frontIndexMotorID, MotorType.kBrushless);
     rearIndexerMotor = new CANSparkMax(IndexerConstants.rearIndexMotorID, MotorType.kBrushless);
 

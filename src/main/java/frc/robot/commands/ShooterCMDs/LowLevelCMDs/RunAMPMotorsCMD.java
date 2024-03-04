@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
 
-public class FeedingAMPCMD extends Command {
+public class RunAMPMotorsCMD extends Command {
   Shooter shooterSubsystem;
   /** Creates a new FeedingAMPCMD. */
-  public FeedingAMPCMD(Shooter shooterSubsystem) {
+  public RunAMPMotorsCMD(Shooter shooterSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterSubsystem);

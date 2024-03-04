@@ -136,7 +136,7 @@ public final class Constants {
 
   // Auto Constnts
   public static class AutoConstants {
-    public static final double AUTO_MAX_SPEED_MPS = 3;
+    public static final double AUTO_MAX_SPEED_MPS = 5;
 
     public static final double driveTrainRadius = Units.inchesToMeters(Math.sqrt(Math.pow(12, 2) + Math.pow(12, 2))); // in meters
 
@@ -189,6 +189,7 @@ public final class Constants {
     public static final double flywheelPID_FF = 0.0;
 
     public static final double shootingRPM = 1000;
+    public static final double shootingRPMTolerance = 100;
     public static final double flywheelAMPSpeed = .5;
     public static final double feederShootingSpeed = 1.0;
     public static final double feederAMPSpeed = 1.0;

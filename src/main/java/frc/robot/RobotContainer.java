@@ -8,9 +8,9 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
+import frc.robot.commands.ShooterCMDs.ManShootCurrentAngle;
 import frc.robot.commands.ShooterCMDs.ResetShooterCMD;
 import frc.robot.commands.ShooterCMDs.ScoreAMPCMD;
-import frc.robot.commands.ShooterCMDs.TestingShooting2CMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveTrain;
@@ -99,7 +99,7 @@ public class RobotContainer {
     operatorController.leftBumper().whileTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-5), shooterSubsystem));
     operatorController.start().onTrue(new InstantCommand(() -> shooterSubsystem.setEncoderPosition(90)));
     operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
-    operatorController.b().onTrue(new TestingShooting2CMD(shooterSubsystem));
+    operatorController.b().onTrue(new ManShootCurrentAngle(shooterSubsystem));
     operatorController.x().whileTrue(new ScoreAMPCMD(shooterSubsystem));
     operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));
   }

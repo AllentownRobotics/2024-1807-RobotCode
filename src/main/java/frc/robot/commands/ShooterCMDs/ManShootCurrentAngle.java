@@ -2,42 +2,43 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.CollectCMDs;
+package frc.robot.commands.ShooterCMDs;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
 
-public class SourceCollectIndex extends Command {
+public class ManShootCurrentAngle extends Command {
   Shooter shooterSubsystem;
-  /** Creates a new SourceCollectIndex. */
-  public SourceCollectIndex(Shooter shootersubsystem) {
-    this.shooterSubsystem = shootersubsystem;
-    // Use addRequirements() here to declare subsystem dependencies.\
-    addRequirements(shootersubsystem);
+  /** Creates a new ManShootCurrentAngle. */
+  public ManShootCurrentAngle(Shooter shooterSubsystem) {
+    this.shooterSubsystem = shooterSubsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterSubsystem.setFlywheelsPercent(ShooterConstants.sourceCollectionSpeed);
-    shooterSubsystem.setAMPFeeder(ShooterConstants.feederSourceSpeed);
+    shooterSubsystem.setFlywheelsRPM(ShooterConstants.shootingRPM);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    SmartDashboard.putBoolean("flywheels revved?", shooterSubsystem.atDesiredRPM());
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.setFlywheelsPercent(0);
-    shooterSubsystem.setAMPFeeder(0);
+    shooterSubsystem.setAMPFeeder(ShooterConstants.feederAMPSpeed);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooterSubsystem.getBeamBreakSource();
+    return false;
   }
 }
