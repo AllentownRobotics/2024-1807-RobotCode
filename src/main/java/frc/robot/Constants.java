@@ -157,6 +157,7 @@ public final class Constants {
     public static final double pivotVelocityConversionFactor = pivotMotorPositionConversionFactor/60;
     public static final double pivotAbsoluteEncoderReduction = 5.25;
     public static final double pivotAbsoluteEncoderPositionConversionFactor = 360.0/pivotAbsoluteEncoderReduction;
+    public static final double pivotAbsoluteEncoder90 = 66.0;
 
     //pivot control config
     public static final double pivotPID_P = .07;
@@ -183,12 +184,12 @@ public final class Constants {
     public static final double flywheelPositionConversionFactor = 2;
     public static final double flywheelVelocityConversionFactor = flywheelPositionConversionFactor;
 
-    public static final double flywheelPID_P = 0.0;
+    public static final double flywheelPID_P = 0.00025;
     public static final double flywheelPID_I = 0.0;
-    public static final double flywheelPID_D = 0.0;
-    public static final double flywheelPID_FF = 0.0;
+    public static final double flywheelPID_D = 0.002;
+    public static final double flywheelPID_FF = 0.0000825;
 
-    public static final double shootingRPM = 1000;
+    public static final double shootingRPM = 6000;
     public static final double shootingRPMTolerance = 100;
     public static final double flywheelAMPSpeed = .5;
     public static final double feederShootingSpeed = 1.0;
@@ -205,7 +206,7 @@ public final class Constants {
   public static class CollectorConstants {
     public static final int frontCollectorMotorID = 15;
     public static final int rearCollectorMotorID = 16;
-    public static final double collectorSpeed = 0.5;
+    public static final double collectorSpeed = 0.75;
   }
 
   public static class IndexerConstants {
