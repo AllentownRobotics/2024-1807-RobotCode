@@ -28,4 +28,14 @@ public class Climb extends SubsystemBase {
     leftClimbMotor.set(speed);
     rightClimbMotor.set(speed);
   }
+
+  public void setLeft(double speed)
+  {
+    leftClimbMotor.set(speed);
+  }
+
+  public void setRight(double speed)
+  {
+    rightClimbMotor.set(speed);
+  }
 }

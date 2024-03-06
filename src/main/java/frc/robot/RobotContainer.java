@@ -6,9 +6,12 @@ package frc.robot;
 
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ClimbCMD;
+import frc.robot.commands.ClimbLeftCMD;
+import frc.robot.commands.ClimbRightCMD;
 import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
+import frc.robot.commands.DriveCMDs.TurnToSpeakerCMD;
 import frc.robot.commands.ShooterCMDs.ManShootCurrentAngle;
 import frc.robot.commands.ShooterCMDs.ResetShooterCMD;
 import frc.robot.commands.ShooterCMDs.ScoreAMPCMD;
@@ -18,6 +21,7 @@ import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -47,6 +51,7 @@ public class RobotContainer {
   private Indexer indexerSubsystem;
   private Collector collectorSubsystem;
   private Climb climbSubsystem;
+  private Vision visionSubsystem;
 
   // Controllers
   private CommandXboxController driverController = new CommandXboxController(OIConstants.driverControllerPort);
@@ -63,6 +68,7 @@ public class RobotContainer {
     indexerSubsystem = new Indexer();
     collectorSubsystem = new Collector();
     climbSubsystem = new Climb();
+    visionSubsystem = new Vision();
 
     // config default commands
     driveTrain.setDefaultCommand(new DriveCMD(driveTrain, driverController, true, false));
@@ -94,6 +100,13 @@ public class RobotContainer {
     driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
+    //driverController.a().whileTrue(new TurnToSpeakerCMD(driverController, driveTrain, visionSubsystem));
+    driverController.y().whileTrue(new ClimbLeftCMD(.2, climbSubsystem));
+    driverController.b().whileTrue(new ClimbLeftCMD(-.2, climbSubsystem));
+    driverController.a().whileTrue(new ClimbRightCMD(.2, climbSubsystem));
+    driverController.x().whileTrue(new ClimbRightCMD(-.2, climbSubsystem));
+    driverController.povUp().whileTrue(new ClimbCMD(-.2, climbSubsystem));
+    driverController.povDown().whileTrue(new ClimbCMD(.2, climbSubsystem));
 
     operatorController.povUp().onTrue(new SetPivotAngleCMD(35, shooterSubsystem));
     operatorController.povRight().onTrue(new SetPivotAngleCMD(50, shooterSubsystem));
@@ -104,10 +117,9 @@ public class RobotContainer {
     operatorController.start().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(1), shooterSubsystem));
     operatorController.back().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-1), shooterSubsystem));
     operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
-    operatorController.b().whileTrue(new ClimbCMD(.2, climbSubsystem));
-    operatorController.povUp().whileTrue(new ClimbCMD(-.2, climbSubsystem));
     operatorController.x().whileTrue(new ScoreAMPCMD(shooterSubsystem));
     operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));
+    operatorController.b().whileTrue(new ManShootCurrentAngle(shooterSubsystem));
   }
 
   /**
