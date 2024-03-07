@@ -5,14 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.Climb;
 
-public class ClimbRightCMD extends Command {
+public class ZeroLeftClimbCMD extends Command {
   Climb climbSubsystem;
-  double speed;
   /** Creates a new ClimbCMD. */
-  public ClimbRightCMD(double speed, Climb climbSubsystem) {
-    this.speed = speed;
+  public ZeroLeftClimbCMD(Climb climbSubsystem) {
     this.climbSubsystem = climbSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(climbSubsystem);
@@ -21,7 +20,7 @@ public class ClimbRightCMD extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climbSubsystem.setRight(speed);
+    climbSubsystem.setLeft(ClimbConstants.climbZeroSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,12 +30,13 @@ public class ClimbRightCMD extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climbSubsystem.setRight(0);
+    climbSubsystem.setLeft(0);
+    climbSubsystem.zeroLeftEncoder();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return climbSubsystem.getLeftLimit();
   }
 }

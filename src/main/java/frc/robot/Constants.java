@@ -220,6 +220,7 @@ public final class Constants {
     public static final int rightClimbMotorID = 20;
     public static final int leftClimbLimitSwitch = 5;
     public static final int rightClimbLimitSwitch = 6;
+    public static final double climbZeroSpeed = 0.1;
   }
 
   public static class LEDConstants{
