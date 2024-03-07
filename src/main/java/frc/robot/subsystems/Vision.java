@@ -33,4 +33,10 @@ public class Vision extends SubsystemBase {
   {
     return frontLimelightTable.getEntry("tx").getDouble(0);
   }
+
+  public double getDistanceToShooter()
+  {
+    frontLimelightTable.getEntry("pipeline").setNumber(0);
+    return -frontLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[2];
+  }
 }

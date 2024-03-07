@@ -94,7 +94,7 @@ public final class Constants {
 
     // Calculations for drive motor conversion factors and feed forwards
     public static final double DRIVE_MOTOR_FREE_SPEED_RPS = NeoMotorConstants.NEOFreeSpeed / 60;
-    public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(3); //2.925 on well worn tread 2.935 worked new tread
+    public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(3); //2.925 on well worn tread 2.935 worked new tread // new test 3.3435311
     public static final double WHEEL_CIRCUMFRENCE_METERS = WHEEL_DIAMETER_METERS * Math.PI;
     public static final double DRIVE_MOTOR_REDUCTION = (45.0 * 20) / (driveMotorTeeth * 15);
     public static final double DRIVE_WHEEL_FREE_SPEED_RPS = (DRIVE_MOTOR_FREE_SPEED_RPS * WHEEL_CIRCUMFRENCE_METERS)
@@ -178,7 +178,7 @@ public final class Constants {
     public static final double shooterAngleTolerance = 0.5;
     public static final double shooterRestingAngle = 45;
     public static final double sourceCollectionAngle = 110.0;
-    public static final double AMPAngle = 120.0;
+    public static final double AMPAngle = 130.0;
 
     //flywheel config
     public static final double flywheelPositionConversionFactor = 2;
@@ -197,7 +197,7 @@ public final class Constants {
     public static final double feederIndexSpeed = 0.75;
     public static final double feederSourceSpeed = -0.5;
 
-    public static final double sourceCollectionSpeed = -1.0;
+    public static final double sourceCollectionSpeed = -0.2;
     public static final int beamBreakIndexPort = 0;
     public static final int beamBreakSourcePort = 1;
     public static final int limitSwitchPort = 4;
@@ -212,7 +212,7 @@ public final class Constants {
   public static class IndexerConstants {
     public static final int frontIndexMotorID = 17;
     public static final int rearIndexMotorID = 18;
-    public static final double indexerSpeed = 1.0;
+    public static final double indexerSpeed = 0.75;
   }
 
   public static class ClimbConstants {

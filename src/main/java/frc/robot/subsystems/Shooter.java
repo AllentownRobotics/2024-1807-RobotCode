@@ -15,6 +15,9 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
+import edu.wpi.first.math.interpolation.Interpolator;
+import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -40,6 +43,8 @@ public class Shooter extends SubsystemBase {
   private DigitalInput limitSwitch;
   private DigitalInput beamBreakIndex;
   private DigitalInput beamBreakSource;
+
+  private InterpolatingTreeMap<Double, Double> table;
 
   /** Creates a new Shooter. */
   public Shooter() {
@@ -132,6 +137,19 @@ public class Shooter extends SubsystemBase {
     limitSwitch = new DigitalInput(ShooterConstants.limitSwitchPort);
     beamBreakIndex = new DigitalInput(ShooterConstants.beamBreakIndexPort);
     beamBreakSource = new DigitalInput(ShooterConstants.beamBreakSourcePort);
+
+    //interpolation set up
+    table =
+        new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
+
+    table.put(1.37, 57.0);
+    table.put(2.0, 45.0);
+    table.put(3.0, 37.0);
+    table.put(3.5, 32.0);
+    table.put(3.75, 29.0);
+    table.put(4.0, 28.0);
+    table.put(4.2, 28.0);
+    table.put(4.3, 27.0);
   }
 
   @Override
@@ -145,17 +163,12 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Follower Pivot Angle", leftPivotMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Desired Pivot Angle", desiredPivotAngle);
 
-    SmartDashboard.putNumber("rightPivotCurrent", rightPivotMotor.getOutputCurrent());
-
     //flywheels periodic monitoring
     SmartDashboard.putNumber("desired RPM", desiredFlywheelRPM);
     SmartDashboard.putNumber("top flywheel speed", topFlywheelMotor.getEncoder().getVelocity());
     SmartDashboard.putNumber("bottom flywheel speed", bottomFlywheelMotor.getEncoder().getVelocity());
 
-    SmartDashboard.putBoolean("limitswtich", getLimitSwitch());
-
     SmartDashboard.putNumber("Absol encoder pos", leftPivotMotor.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
-    SmartDashboard.putNumber("Absol encoder factor", leftPivotMotor.getAbsoluteEncoder(Type.kDutyCycle).getPositionConversionFactor());
   }
 
   public void setPivotAngle(double angle)
@@ -183,7 +196,7 @@ public class Shooter extends SubsystemBase {
 
   public boolean atDesiredRPM()
   {
-    return Math.abs(topFlywheelMotor.getEncoder().getVelocity()-desiredFlywheelRPM) < ShooterConstants.shootingRPMTolerance;
+    return Math.abs(topFlywheelMotor.getEncoder().getVelocity()-ShooterConstants.shootingRPM) < ShooterConstants.shootingRPMTolerance;
   }
 
   public void setAMPFeeder(double speed)
@@ -215,7 +228,7 @@ public class Shooter extends SubsystemBase {
 
   public double getAimingAngle(double distance)
   {
-    return distance;
+    return table.get(distance);
   }
 
   public void incrementSetpoit(double increment)

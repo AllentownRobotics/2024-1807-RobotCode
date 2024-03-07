@@ -12,9 +12,13 @@ import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
 import frc.robot.commands.DriveCMDs.TurnToSpeakerCMD;
+import frc.robot.commands.ShooterCMDs.CollectSourceCMD;
 import frc.robot.commands.ShooterCMDs.ManShootCurrentAngle;
 import frc.robot.commands.ShooterCMDs.ResetShooterCMD;
 import frc.robot.commands.ShooterCMDs.ScoreAMPCMD;
+import frc.robot.commands.ShooterCMDs.SelfShootAnywhereCMD;
+import frc.robot.commands.ShooterCMDs.SelfSubShotCMD;
+import frc.robot.commands.ShooterCMDs.TestDistanceToAngle;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Collector;
@@ -24,6 +28,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -73,6 +78,12 @@ public class RobotContainer {
     // config default commands
     driveTrain.setDefaultCommand(new DriveCMD(driveTrain, driverController, true, false));
 
+    //config Named Commands
+    NamedCommands.registerCommand("SelfShootAnywhere", new SelfShootAnywhereCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    NamedCommands.registerCommand("ResetShooter", new ResetShooterCMD(shooterSubsystem));
+    NamedCommands.registerCommand("Collect", new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
+    NamedCommands.registerCommand("SelfSubShot", new SelfSubShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+
     // Config for Auto Chooser
     autoChooser = AutoBuilder.buildAutoChooser("NAME DEFAULT AUTO HERE");
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -100,26 +111,27 @@ public class RobotContainer {
     driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
-    //driverController.a().whileTrue(new TurnToSpeakerCMD(driverController, driveTrain, visionSubsystem));
-    driverController.y().whileTrue(new ClimbLeftCMD(.2, climbSubsystem));
+    driverController.a().whileTrue(new TurnToSpeakerCMD(driverController, driveTrain, visionSubsystem));
+    /*driverController.y().whileTrue(new ClimbLeftCMD(.2, climbSubsystem));
     driverController.b().whileTrue(new ClimbLeftCMD(-.2, climbSubsystem));
     driverController.a().whileTrue(new ClimbRightCMD(.2, climbSubsystem));
     driverController.x().whileTrue(new ClimbRightCMD(-.2, climbSubsystem));
     driverController.povUp().whileTrue(new ClimbCMD(-.2, climbSubsystem));
-    driverController.povDown().whileTrue(new ClimbCMD(.2, climbSubsystem));
+    driverController.povDown().whileTrue(new ClimbCMD(.2, climbSubsystem));*/
 
     operatorController.povUp().onTrue(new SetPivotAngleCMD(35, shooterSubsystem));
-    operatorController.povRight().onTrue(new SetPivotAngleCMD(50, shooterSubsystem));
+    operatorController.povRight().onTrue(new TestDistanceToAngle(shooterSubsystem, visionSubsystem));
     operatorController.povDown().onTrue(new SetPivotAngleCMD(65, shooterSubsystem));
     operatorController.povLeft().onTrue(new SetPivotAngleCMD(90, shooterSubsystem));
     operatorController.rightBumper().whileTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(5), shooterSubsystem));
     operatorController.leftBumper().whileTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-5), shooterSubsystem));
     operatorController.start().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(1), shooterSubsystem));
-    operatorController.back().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-1), shooterSubsystem));
+    //operatorController.back().whileTrue(new CollectSourceCMD(shooterSubsystem));
     operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
     operatorController.x().whileTrue(new ScoreAMPCMD(shooterSubsystem));
     operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));
     operatorController.b().whileTrue(new ManShootCurrentAngle(shooterSubsystem));
+    operatorController.back().whileTrue(new SelfSubShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
   }
 
   /**

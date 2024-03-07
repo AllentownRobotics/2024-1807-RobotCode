@@ -27,7 +27,6 @@ public class ManShootCurrentAngle extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putBoolean("flywheels revved??", shooterSubsystem.atDesiredRPM());
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +38,6 @@ public class ManShootCurrentAngle extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return shooterSubsystem.atDesiredRPM();
   }
 }
