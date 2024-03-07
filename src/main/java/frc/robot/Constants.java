@@ -218,6 +218,8 @@ public final class Constants {
   public static class ClimbConstants {
     public static final int leftClimbMotorID = 19;
     public static final int rightClimbMotorID = 20;
+    public static final int leftClimbLimitSwitch = 5;
+    public static final int rightClimbLimitSwitch = 6;
   }
 
   public static class LEDConstants{

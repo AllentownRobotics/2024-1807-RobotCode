@@ -8,6 +8,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.ClimbCMD;
 import frc.robot.commands.ClimbLeftCMD;
 import frc.robot.commands.ClimbRightCMD;
+import frc.robot.commands.ZeroClimbCMD;
 import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
@@ -77,6 +78,7 @@ public class RobotContainer {
 
     // config default commands
     driveTrain.setDefaultCommand(new DriveCMD(driveTrain, driverController, true, false));
+    //climbSubsystem.setDefaultCommand(new ZeroClimbCMD(climbSubsystem));
 
     //config Named Commands
     NamedCommands.registerCommand("SelfShootAnywhere", new SelfShootAnywhereCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
@@ -111,13 +113,13 @@ public class RobotContainer {
     driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
-    driverController.a().whileTrue(new TurnToSpeakerCMD(driverController, driveTrain, visionSubsystem));
-    /*driverController.y().whileTrue(new ClimbLeftCMD(.2, climbSubsystem));
+    //driverController.a().whileTrue(new TurnToSpeakerCMD(driverController, driveTrain, visionSubsystem));
+    driverController.y().whileTrue(new ClimbLeftCMD(.2, climbSubsystem));
     driverController.b().whileTrue(new ClimbLeftCMD(-.2, climbSubsystem));
     driverController.a().whileTrue(new ClimbRightCMD(.2, climbSubsystem));
     driverController.x().whileTrue(new ClimbRightCMD(-.2, climbSubsystem));
     driverController.povUp().whileTrue(new ClimbCMD(-.2, climbSubsystem));
-    driverController.povDown().whileTrue(new ClimbCMD(.2, climbSubsystem));*/
+    driverController.povDown().whileTrue(new ClimbCMD(.2, climbSubsystem));
 
     operatorController.povUp().onTrue(new SetPivotAngleCMD(35, shooterSubsystem));
     operatorController.povRight().onTrue(new TestDistanceToAngle(shooterSubsystem, visionSubsystem));
