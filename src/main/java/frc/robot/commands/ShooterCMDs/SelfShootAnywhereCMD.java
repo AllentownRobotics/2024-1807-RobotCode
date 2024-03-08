@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCMDs.RotateToSpeakerCMD;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SelfShootCurrentAngleCMD;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
@@ -23,6 +24,6 @@ public class SelfShootAnywhereCMD extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ParallelCommandGroup(new RotateToSpeakerCMD(driveTrain, visionSubsystem), new SetAngleDistanceCMD(shooterSubsystem, visionSubsystem)),
-      new SelfShootCurrentAngle(shooterSubsystem));
+      new SelfShootCurrentAngleCMD(shooterSubsystem));
   }
 }

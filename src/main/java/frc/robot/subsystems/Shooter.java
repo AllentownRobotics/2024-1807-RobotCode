@@ -181,6 +181,8 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("bottom flywheel speed", bottomFlywheelMotor.getEncoder().getVelocity());
 
     SmartDashboard.putNumber("Absol encoder pos", leftPivotMotor.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
+
+    SmartDashboard.putBoolean("source collectbreak", getBeamBreakSource());
   }
 
   public void setPivotAngle(double angle)

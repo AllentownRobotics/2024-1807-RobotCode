@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SelfShootAnyStraight"
+            "name": "SelfSubShot"
           }
         },
         {
@@ -49,7 +49,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left Sub to Left Note"
+                  "pathName": "AMP Sub to AMP Note"
                 }
               }
             ]
@@ -59,50 +59,6 @@
           "type": "named",
           "data": {
             "name": "Align"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SelfShootAnyStraight"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitShooter"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ResetShooter"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Collect"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Left Note to Center Note"
-                }
-              }
-            ]
           }
         },
         {

@@ -7,6 +7,8 @@ package frc.robot.commands.ShooterCMDs;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SelfShootCurrentAngleCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
@@ -21,8 +23,8 @@ public class SelfSubShotCMD extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetPivotAngleCMD(57.0, shooterSubsystem),
+      new SetPivotAngleCMD(ShooterConstants.subAngle, shooterSubsystem),
       Commands.waitUntil(shooterSubsystem::atDesiredAngle),
-      new SelfShootCurrentAngle(shooterSubsystem));
+      new SelfShootCurrentAngleCMD(shooterSubsystem));
   }
 }

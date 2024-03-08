@@ -7,17 +7,19 @@ package frc.robot;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.ClimbCMD;
+import frc.robot.commands.RumbleCMD;
 import frc.robot.commands.ZeroClimbCMD;
 import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
+import frc.robot.commands.CollectCMDs.SourceCollectIndex;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.RotateToSpeakerCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
 import frc.robot.commands.DriveCMDs.TurnInPlaceCMD;
 import frc.robot.commands.ShooterCMDs.CollectSourceCMD;
-import frc.robot.commands.ShooterCMDs.SelfShootCurrentAngle;
-import frc.robot.commands.ShooterCMDs.SelfShootCurrentAngleTrap;
+import frc.robot.commands.ShooterCMDs.ManShootAnyStraightCMD;
 import frc.robot.commands.ShooterCMDs.ResetShooterCMD;
 import frc.robot.commands.ShooterCMDs.ScoreAMPCMD;
+import frc.robot.commands.ShooterCMDs.SelfPodiumShotCMD;
 import frc.robot.commands.ShooterCMDs.SelfShootAnyStraightCMD;
 import frc.robot.commands.ShooterCMDs.SelfShootAnywhereCMD;
 import frc.robot.commands.ShooterCMDs.SelfSubShotCMD;
@@ -33,11 +35,13 @@ import frc.robot.subsystems.Vision;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -115,19 +119,12 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // drive controller configs
-    //planned controls delete line when implemented
-    /*Sticks - drive
-     * LeftBumper - SlowDrive
-     * RightBumper - xLock
-     * Start - zeroGyro
-     * a - turn to speaker
-     */
+
     driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, true));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
-    driverController.a().whileTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
-    //driverController.b().onTrue(new ZeroClimbCMD(climbSubsystem));
-    driverController.x().onTrue(new TurnInPlaceCMD(60, driveTrain));
+    driverController.leftTrigger().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
+    driverController.rightTrigger().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
 
     //operator controller configs
     //planned controls delete line when implemented
@@ -146,24 +143,21 @@ public class RobotContainer {
      * povUp - SelfSubShot
      * povDown - SelfPodiumShot
      */
-    operatorController.povUp().whileTrue(new ClimbCMD(-1.0, climbSubsystem));
-    operatorController.povDown().whileTrue(new ClimbCMD(.5, climbSubsystem));
-    operatorController.povLeft().onTrue(new ZeroClimbCMD(climbSubsystem));
-    operatorController.povRight().onTrue(new SetAngleDistanceCMD(shooterSubsystem, visionSubsystem));
-    operatorController.rightBumper().whileTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(5), shooterSubsystem));
-    operatorController.leftBumper().whileTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-5), shooterSubsystem));
-    operatorController.start().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(1), shooterSubsystem));
-    //operatorController.back().whileTrue(new CollectSourceCMD(shooterSubsystem));
-    operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
-    //operatorController.x().whileTrue(new ScoreAMPCMD(shooterSubsystem));
-    operatorController.x().whileTrue(new SelfShootCurrentAngleTrap(shooterSubsystem));
+    operatorController.leftTrigger().whileTrue(new ManShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    operatorController.rightTrigger().onTrue(new SelfShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    operatorController.leftBumper().whileTrue(new SourceCollectIndex(shooterSubsystem));
+    operatorController.rightBumper().whileTrue(new ScoreAMPCMD(shooterSubsystem));
+    operatorController.getLeftTriggerAxis(); // climb make this work!
     operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));
-    //operatorController.b().whileTrue(new SelfShootCurrentAngle(shooterSubsystem));
-    operatorController.b().onTrue(new SelfShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
-    //operatorController.back().onTrue(new SelfShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
-    //operatorController.back().onTrue(new SelfShootAnywhereCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
-    operatorController.back().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
-    //operatorController.back().onTrue(new SetPivotAngleCMD(shooterSubsystem.getAimingAngle(visionSubsystem.getDistanceToShooter()), shooterSubsystem));
+    operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
+    operatorController.povUp().onTrue(new SelfSubShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    operatorController.povDown().onTrue(new SelfPodiumShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+
+    operatorController.povRight().whileTrue(new ClimbCMD(-1.0, climbSubsystem));
+    operatorController.povLeft().whileTrue(new ClimbCMD(.5, climbSubsystem));
+    operatorController.back().onTrue(new ZeroClimbCMD(climbSubsystem));
+    operatorController.b().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(1), shooterSubsystem));
+    operatorController.x().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-1), shooterSubsystem));
   }
 
   /**

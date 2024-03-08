@@ -178,7 +178,9 @@ public final class Constants {
     public static final double shooterAngleTolerance = 0.5;
     public static final double shooterRestingAngle = 27.0;
     public static final double sourceCollectionAngle = 110.0;
-    public static final double AMPAngle = 130.0;
+    public static final double AMPAngle = 125.0;
+    public static final double subAngle = 54.0;
+    public static final double podiumAngle = 35.0;
 
     //flywheel config
     public static final double flywheelPositionConversionFactor = 2;
@@ -199,7 +201,7 @@ public final class Constants {
 
     public static final double sourceCollectionSpeed = -0.2;
     public static final int beamBreakIndexPort = 0;
-    public static final int beamBreakSourcePort = 1;
+    public static final int beamBreakSourcePort = 2;
     public static final int limitSwitchPort = 4;
     public static final double shooterAutoWait = 0.25;
   }
