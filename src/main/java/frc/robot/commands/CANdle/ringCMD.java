@@ -2,20 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Blinkin;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.BlinkinConstants;
-import frc.robot.subsystems.Blinkin;
+import frc.robot.subsystems.LightAnim;
+import frc.robot.subsystems.Lights;
 
-public class BlinkinHitThatAmp extends Command {
-  private Blinkin blinkin;
-  
-  /** Creates a new BlinkinHitThatAmp. */
-  public BlinkinHitThatAmp(Blinkin blinkin) {
-    this.blinkin = blinkin;
+public class ringCMD extends Command {
+  Lights CANdle;
+  /** Creates a new ringCMD. */
+  public ringCMD(Lights CANdle) {
+    this.CANdle = CANdle;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(blinkin);
+    addRequirements(CANdle);
   }
 
   // Called when the command is initially scheduled.
@@ -25,7 +24,7 @@ public class BlinkinHitThatAmp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    blinkin.blinkinSet(BlinkinConstants.blinkinViolet);
+    CANdle.setAnimation(LightAnim.requestRing);
   }
 
   // Called once the command ends or is interrupted.

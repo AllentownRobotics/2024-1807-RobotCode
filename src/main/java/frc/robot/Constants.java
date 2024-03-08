@@ -17,18 +17,14 @@ public final class Constants {
     public static final int operatorControllerID = 0;
   }
 
-  public static class BlinkinConstants { //color values found from blinkin docs
 
-    //set default colors manually: red and white
-    
-    public static final int blinkinID = 3;
-    public static final double blinkinOrange = -0.59;
-    public static final double blinkinDarkRed = 0.59;
-    public static final double blinkinGold = 0.67;
-    public static final double blinkinViolet = 0.91;
-    public static final double blinkinPartyRainbow = -0.97;
-    public static final double blinkinColorGradient = 0.41;
-    
+  public static class LightConstants {
+    public static final int brightness = 255;
+    public static final double speed = 0.2;
+    public static final int ledNumber = 60;
+    public static final int[] redbirdRed = {255, 0, 0};
+
+    public static final StrobeAnimation ringColor = new StrobeAnimation(255, 172, 28, brightness, speed, ledNumber);
   }
 
   public static class CollectorConstants {
@@ -37,11 +33,5 @@ public final class Constants {
     public static final int rightMotorID = 1;
     public static final double collectSpeed = 1.0;
     public static final double collectSeconds = 0.5;
-  }
-
-  public static class IndexerConstants {
-
-    public static final int indexMotorID = 2;
-    public static final double indexSpeed = 1.0;
   }
 }
