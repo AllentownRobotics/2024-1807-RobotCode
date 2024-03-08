@@ -23,6 +23,6 @@ public class SelfSubShotCMD extends SequentialCommandGroup {
     addCommands(
       new SetPivotAngleCMD(57.0, shooterSubsystem),
       Commands.waitUntil(shooterSubsystem::atDesiredAngle),
-      new ManShootCurrentAngle(shooterSubsystem));
+      new SelfShootCurrentAngle(shooterSubsystem));
   }
 }

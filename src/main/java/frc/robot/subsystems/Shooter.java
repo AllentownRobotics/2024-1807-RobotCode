@@ -142,6 +142,8 @@ public class Shooter extends SubsystemBase {
     table =
         new InterpolatingTreeMap<>(InverseInterpolator.forDouble(), Interpolator.forDouble());
 
+    /*
+    old data
     table.put(1.37, 57.0);
     table.put(2.0, 45.0);
     table.put(3.0, 37.0);
@@ -149,7 +151,17 @@ public class Shooter extends SubsystemBase {
     table.put(3.75, 29.0);
     table.put(4.0, 28.0);
     table.put(4.2, 28.0);
-    table.put(4.3, 27.0);
+    table.put(4.3, 27.0);*/
+
+    table.put(1.44, 54.0);
+    table.put(2.0, 43.0);
+    table.put(2.5, 39.0);
+    table.put(3.0, 35.0);
+    table.put(3.25, 34.0);
+    table.put(3.5, 33.0);
+    table.put(3.75, 31.0);
+    table.put(4.0, 30.0);
+    table.put(4.25, 27.0);
   }
 
   @Override
@@ -160,7 +172,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("shooter feedforward", armFeedforward.calculate(Units.degreesToRadians(desiredPivotAngle), 0));
 
     SmartDashboard.putNumber("Pivot Angle", rightPivotMotor.getEncoder().getPosition());
-    SmartDashboard.putNumber("Follower Pivot Angle", leftPivotMotor.getEncoder().getPosition());
+    SmartDashboard.putBoolean("at angle", atDesiredAngle());
     SmartDashboard.putNumber("Desired Pivot Angle", desiredPivotAngle);
 
     //flywheels periodic monitoring
@@ -195,6 +207,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean atDesiredRPM()
+  {
+    return Math.abs(topFlywheelMotor.getEncoder().getVelocity()-ShooterConstants.shootingRPM) < ShooterConstants.shootingRPMTolerance;
+  }
+
+  public boolean atDesiredRPMTrap()
   {
     return Math.abs(topFlywheelMotor.getEncoder().getVelocity()-ShooterConstants.shootingRPM) < ShooterConstants.shootingRPMTolerance;
   }

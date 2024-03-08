@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
 
-public class ManShootCurrentAngle extends Command {
+public class SelfShootCurrentAngle extends Command {
   Shooter shooterSubsystem;
   /** Creates a new ManShootCurrentAngle. */
-  public ManShootCurrentAngle(Shooter shooterSubsystem) {
+  public SelfShootCurrentAngle(Shooter shooterSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterSubsystem);

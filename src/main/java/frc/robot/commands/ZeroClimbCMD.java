@@ -4,19 +4,51 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.Climb;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ZeroClimbCMD extends ParallelCommandGroup {
+public class ZeroClimbCMD extends Command {
+  Climb climbSubsystem;
+  boolean leftZeroed = false;
+  boolean rightZeroed = false;
   /** Creates a new ZeroClimbCMD. */
   public ZeroClimbCMD(Climb climbSubsystem) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-      new ZeroLeftClimbCMD(climbSubsystem),
-      new ZeroRightClimbCMD(climbSubsystem));
+    this.climbSubsystem = climbSubsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(climbSubsystem);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    climbSubsystem.setLeft(ClimbConstants.climbZeroSpeed);
+    climbSubsystem.setRight(ClimbConstants.climbZeroSpeed);
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    if(climbSubsystem.getLeftLimit())
+    {
+      climbSubsystem.zeroLeftEncoder();
+      leftZeroed = true;
+    }
+
+    if(climbSubsystem.getRightLimit())
+    {
+      climbSubsystem.zeroRightEncoder();
+      rightZeroed = true;
+    }
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return leftZeroed && rightZeroed;
   }
 }

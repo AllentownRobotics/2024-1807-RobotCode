@@ -18,9 +18,9 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.5
+            "name": "WaitShooter"
           }
         },
         {
@@ -49,10 +49,28 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Center 2 Piece"
+                  "pathName": "Center Sub to Center Note"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SelfShootAnyStraight"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ResetShooter"
           }
         }
       ]

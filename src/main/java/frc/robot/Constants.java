@@ -78,7 +78,7 @@ public final class Constants {
 
     // slew stuff constants
     public static final double directionSlewRate = 1.2; // radians per second
-    public static final double magnitudeSlewRate = 1.8; // percent per second (1 = 100%)
+    public static final double magnitudeSlewRate = 3; //1.8; // percent per second (1 = 100%)
     public static final double rotationalSlewRate = 2.0; // percent per second (1 = 100%)
   }
 
@@ -140,7 +140,7 @@ public final class Constants {
 
     public static final double driveTrainRadius = Units.inchesToMeters(Math.sqrt(Math.pow(12, 2) + Math.pow(12, 2))); // in meters
 
-    public static final double PX_CONTROLLER = 1;
+    public static final double PX_CONTROLLER = 5;
     public static final double P_THETA_CONTROLLER = 1;
   }
 
@@ -176,7 +176,7 @@ public final class Constants {
 
     //pivot angles
     public static final double shooterAngleTolerance = 0.5;
-    public static final double shooterRestingAngle = 45;
+    public static final double shooterRestingAngle = 27.0;
     public static final double sourceCollectionAngle = 110.0;
     public static final double AMPAngle = 130.0;
 
@@ -201,6 +201,7 @@ public final class Constants {
     public static final int beamBreakIndexPort = 0;
     public static final int beamBreakSourcePort = 1;
     public static final int limitSwitchPort = 4;
+    public static final double shooterAutoWait = 0.25;
   }
 
   public static class CollectorConstants {
@@ -225,5 +226,9 @@ public final class Constants {
 
   public static class LEDConstants{
     public static final int blinkinID = 21;
+  }
+
+  public static class VisionConstants{
+    public static final double rotationTolerance = 0.5;
   }
 }
