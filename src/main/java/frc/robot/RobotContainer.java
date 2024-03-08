@@ -19,7 +19,7 @@ import frc.robot.commands.ShooterCMDs.SelfShootCurrentAngleTrap;
 import frc.robot.commands.ShooterCMDs.ResetShooterCMD;
 import frc.robot.commands.ShooterCMDs.ScoreAMPCMD;
 import frc.robot.commands.ShooterCMDs.SelfShootAnyStraightCMD;
-import frc.robot.commands.ShooterCMDs.SelfShootAnyWhereCMD;
+import frc.robot.commands.ShooterCMDs.SelfShootAnywhereCMD;
 import frc.robot.commands.ShooterCMDs.SelfSubShotCMD;
 import frc.robot.commands.ShooterCMDs.SetAngleDistanceCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
@@ -88,7 +88,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("SelfSubShot", new SelfSubShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
     NamedCommands.registerCommand("SelfShootAnyStraight", new SelfShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
     NamedCommands.registerCommand("Align", new RotateToSpeakerCMD(driveTrain, visionSubsystem));
-    NamedCommands.registerCommand("SelfShootAnyWhere", new SelfShootAnyWhereCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    NamedCommands.registerCommand("SelfShootAnywhere", new SelfShootAnywhereCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
     NamedCommands.registerCommand("WaitShooter", Commands.waitSeconds(ShooterConstants.shooterAutoWait));
 
     // Config for Auto Chooser
@@ -115,6 +115,13 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // drive controller configs
+    //planned controls delete line when implemented
+    /*Sticks - drive
+     * LeftBumper - SlowDrive
+     * RightBumper - xLock
+     * Start - zeroGyro
+     * a - turn to speaker
+     */
     driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, true));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
@@ -122,6 +129,23 @@ public class RobotContainer {
     //driverController.b().onTrue(new ZeroClimbCMD(climbSubsystem));
     driverController.x().onTrue(new TurnInPlaceCMD(60, driveTrain));
 
+    //operator controller configs
+    //planned controls delete line when implemented
+    /*Left Trigger - ManShotAnyStraight
+     * Right Trigger - SelfShotAnyStraight
+     * 
+     * Left Bumper - Source Collect
+     * Right Bumper - AMPScore
+     * 
+     * Left Stick - Climb
+     * Right Stick - 
+     * 
+     * Y - Reset Shooter
+     * A - Collect
+     * 
+     * povUp - SelfSubShot
+     * povDown - SelfPodiumShot
+     */
     operatorController.povUp().whileTrue(new ClimbCMD(-1.0, climbSubsystem));
     operatorController.povDown().whileTrue(new ClimbCMD(.5, climbSubsystem));
     operatorController.povLeft().onTrue(new ZeroClimbCMD(climbSubsystem));

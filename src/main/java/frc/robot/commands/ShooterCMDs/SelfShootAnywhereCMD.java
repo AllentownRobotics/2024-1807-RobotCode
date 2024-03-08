@@ -16,9 +16,9 @@ import frc.robot.subsystems.Vision;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class SelfShootAnyWhereCMD extends SequentialCommandGroup {
+public class SelfShootAnywhereCMD extends SequentialCommandGroup {
   /** Creates a new ShootAnywhereCMD. */
-  public SelfShootAnyWhereCMD(Shooter shooterSubsystem, CommandXboxController controller, DriveTrain driveTrain, Vision visionSubsystem) {
+  public SelfShootAnywhereCMD(Shooter shooterSubsystem, CommandXboxController controller, DriveTrain driveTrain, Vision visionSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
