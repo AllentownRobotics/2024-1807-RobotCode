@@ -33,7 +33,8 @@ public class Collector extends SubsystemBase {
     rearCollectorMotor.burnFlash();
   }
 
-  public void collect(double collectSpeed) {
+  public void collect(double collectSpeed)
+  {
     frontCollectorMotor.set(collectSpeed);
     rearCollectorMotor.set(collectSpeed);
   }

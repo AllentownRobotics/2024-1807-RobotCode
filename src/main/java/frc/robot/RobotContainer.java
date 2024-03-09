@@ -12,6 +12,7 @@ import frc.robot.commands.ZeroClimbCMD;
 import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.CollectCMDs.SourceCollectIndex;
 import frc.robot.commands.DriveCMDs.DriveCMD;
+import frc.robot.commands.DriveCMDs.RotateAndRumbleCMD;
 import frc.robot.commands.DriveCMDs.RotateToSpeakerCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
 import frc.robot.commands.DriveCMDs.TurnInPlaceCMD;
@@ -35,6 +36,8 @@ import frc.robot.subsystems.Vision;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -83,7 +86,8 @@ public class RobotContainer {
     visionSubsystem = new Vision();
 
     // config default commands
-    driveTrain.setDefaultCommand(new DriveCMD(driveTrain, driverController, true, true));
+    driveTrain.setDefaultCommand(new DriveCMD(driveTrain, driverController, true, false));
+    climbSubsystem.setDefaultCommand(new ClimbCMD(operatorController, climbSubsystem));
     //climbSubsystem.setDefaultCommand(new ZeroClimbCMD(climbSubsystem));
 
     //config Named Commands
@@ -121,9 +125,9 @@ public class RobotContainer {
     // drive controller configs
 
     driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
-    driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, true));
+    driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
-    driverController.leftTrigger().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
+    driverController.leftTrigger().onTrue(new RotateAndRumbleCMD(driveTrain, visionSubsystem, driverController, operatorController));
     driverController.rightTrigger().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
 
     //operator controller configs
@@ -146,15 +150,12 @@ public class RobotContainer {
     operatorController.leftTrigger().whileTrue(new ManShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
     operatorController.rightTrigger().onTrue(new SelfShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
     operatorController.leftBumper().whileTrue(new SourceCollectIndex(shooterSubsystem));
-    operatorController.rightBumper().whileTrue(new ScoreAMPCMD(shooterSubsystem));
-    operatorController.getLeftTriggerAxis(); // climb make this work!
+    operatorController.rightBumper().onTrue(new SetPivotAngleCMD(ShooterConstants.preAMPAngle, shooterSubsystem)).onFalse(new ScoreAMPCMD(shooterSubsystem));
     operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));
     operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
     operatorController.povUp().onTrue(new SelfSubShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
     operatorController.povDown().onTrue(new SelfPodiumShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
 
-    operatorController.povRight().whileTrue(new ClimbCMD(-1.0, climbSubsystem));
-    operatorController.povLeft().whileTrue(new ClimbCMD(.5, climbSubsystem));
     operatorController.back().onTrue(new ZeroClimbCMD(climbSubsystem));
     operatorController.b().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(1), shooterSubsystem));
     operatorController.x().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-1), shooterSubsystem));

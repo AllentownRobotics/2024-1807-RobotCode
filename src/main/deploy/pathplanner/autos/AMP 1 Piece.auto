@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 6.7
+    },
+    "rotation": -120.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SelfSubShot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ResetShooter"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

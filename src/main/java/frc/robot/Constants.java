@@ -178,6 +178,7 @@ public final class Constants {
     public static final double shooterAngleTolerance = 0.5;
     public static final double shooterRestingAngle = 27.0;
     public static final double sourceCollectionAngle = 110.0;
+    public static final double preAMPAngle = 110;
     public static final double AMPAngle = 125.0;
     public static final double subAngle = 54.0;
     public static final double podiumAngle = 35.0;
@@ -209,7 +210,7 @@ public final class Constants {
   public static class CollectorConstants {
     public static final int frontCollectorMotorID = 15;
     public static final int rearCollectorMotorID = 16;
-    public static final double collectorSpeed = 0.75;
+    public static final double collectorSpeed = 1.0;
   }
 
   public static class IndexerConstants {

@@ -94,7 +94,7 @@ public class Shooter extends SubsystemBase {
     leftPivotMotor.burnFlash();
     rightPivotMotor.burnFlash();
 
-    desiredPivotAngle = ShooterConstants.shooterRestingAngle;
+    desiredPivotAngle = 54;
 
     //flywheel config
     topFlywheelMotor.setInverted(true);
