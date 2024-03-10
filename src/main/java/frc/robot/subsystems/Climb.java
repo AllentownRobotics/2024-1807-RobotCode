@@ -34,10 +34,13 @@ public class Climb extends SubsystemBase {
     leftClimbMotor.setInverted(false);
     rightClimbMotor.setInverted(true);
 
-    leftClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+    leftClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     leftClimbMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
-    rightClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
+    rightClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     rightClimbMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
+    leftClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    rightClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    
 
     leftClimbLimitSwitch = new DigitalInput(ClimbConstants.leftClimbLimitSwitch);
     rightClimbLimitSwitch = new DigitalInput(ClimbConstants.rightClimbLimitSwitch);
@@ -77,21 +80,5 @@ public class Climb extends SubsystemBase {
   public boolean getRightLimit()
   {
     return rightClimbLimitSwitch.get();
-  }
-
-  public void zeroLeftEncoder()
-  {
-    leftClimbMotor.set(0);
-    leftClimbMotor.getEncoder().setPosition(0);
-    leftClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
-    leftClimbMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
-  }
-
-  public void zeroRightEncoder()
-  {
-    rightClimbMotor.set(0);
-    rightClimbMotor.getEncoder().setPosition(0);
-    rightClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
-    rightClimbMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
   }
 }

@@ -15,7 +15,6 @@ public class ClimbCMD extends Command {
   CommandXboxController operatorController;
   /** Creates a new ClimbCMD. */
   public ClimbCMD(CommandXboxController operatorController, Climb climbSubsystem) {
-    this.speed = speed;
     this.climbSubsystem = climbSubsystem;
     this.operatorController = operatorController;
     // Use addRequirements() here to declare subsystem dependencies.

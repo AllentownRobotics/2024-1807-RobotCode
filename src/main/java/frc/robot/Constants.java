@@ -157,7 +157,7 @@ public final class Constants {
     public static final double pivotVelocityConversionFactor = pivotMotorPositionConversionFactor/60;
     public static final double pivotAbsoluteEncoderReduction = 5.25;
     public static final double pivotAbsoluteEncoderPositionConversionFactor = 360.0/pivotAbsoluteEncoderReduction;
-    public static final double pivotAbsoluteEncoder90 = 67.0;
+    public static final double pivotAbsoluteEncoder90 = 68.5;
 
     //pivot control config
     public static final double pivotPID_P = .07;
@@ -210,7 +210,7 @@ public final class Constants {
   public static class CollectorConstants {
     public static final int frontCollectorMotorID = 15;
     public static final int rearCollectorMotorID = 16;
-    public static final double collectorSpeed = 1.0;
+    public static final double collectorSpeed = 0.75;
   }
 
   public static class IndexerConstants {
@@ -232,6 +232,6 @@ public final class Constants {
   }
 
   public static class VisionConstants{
-    public static final double rotationTolerance = 0.5;
+    public static final double rotationTolerance = 1.0;
   }
 }

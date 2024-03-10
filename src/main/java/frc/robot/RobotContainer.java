@@ -7,12 +7,9 @@ package frc.robot;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.ClimbCMD;
-import frc.robot.commands.RumbleCMD;
-import frc.robot.commands.ZeroClimbCMD;
 import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.CollectCMDs.SourceCollectIndex;
 import frc.robot.commands.DriveCMDs.DriveCMD;
-import frc.robot.commands.DriveCMDs.RotateAndRumbleCMD;
 import frc.robot.commands.DriveCMDs.RotateToSpeakerCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
 import frc.robot.commands.DriveCMDs.TurnInPlaceCMD;
@@ -127,7 +124,7 @@ public class RobotContainer {
     driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
-    driverController.leftTrigger().onTrue(new RotateAndRumbleCMD(driveTrain, visionSubsystem, driverController, operatorController));
+    driverController.leftTrigger().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
     driverController.rightTrigger().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
 
     //operator controller configs
@@ -156,7 +153,7 @@ public class RobotContainer {
     operatorController.povUp().onTrue(new SelfSubShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
     operatorController.povDown().onTrue(new SelfPodiumShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
 
-    operatorController.back().onTrue(new ZeroClimbCMD(climbSubsystem));
+    operatorController.back().onTrue(new SetPivotAngleCMD(90, shooterSubsystem));
     operatorController.b().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(1), shooterSubsystem));
     operatorController.x().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-1), shooterSubsystem));
   }
