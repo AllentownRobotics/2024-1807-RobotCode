@@ -138,4 +138,9 @@ public double getDesiredVelocity()
 {
   return desiredState.speedMetersPerSecond;
 }
+
+public double getRotations()
+{
+  return driveEncoder.getPosition()*(1/(ModuleConstants.WHEEL_DIAMETER_METERS*Math.PI));
+}
 }

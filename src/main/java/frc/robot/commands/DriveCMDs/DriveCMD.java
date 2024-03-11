@@ -29,9 +29,9 @@ public class DriveCMD extends Command {
   @Override
   public void execute() {
       drive.drive(
-          MathUtil.applyDeadband(drivecontroller.getLeftY(), 0.3),
-          MathUtil.applyDeadband(drivecontroller.getLeftX(), 0.3),
-          MathUtil.applyDeadband(-drivecontroller.getRightX(), 0.3),
+          MathUtil.applyDeadband(drivecontroller.getLeftY(), 0.1),
+          MathUtil.applyDeadband(drivecontroller.getLeftX(), 0.1),
+          MathUtil.applyDeadband(-drivecontroller.getRightX(), 0.1),
           fieldOriented, rateLimited);
   }
 }

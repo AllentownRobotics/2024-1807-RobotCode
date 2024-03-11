@@ -5,21 +5,47 @@
 package frc.robot;
 
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.CompressCMD;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.ClimbCMD;
+import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
+import frc.robot.commands.CollectCMDs.SourceCollectIndex;
 import frc.robot.commands.DriveCMDs.DriveCMD;
+import frc.robot.commands.DriveCMDs.RotateToSpeakerCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
-import frc.robot.subsystems.Compress;
+import frc.robot.commands.DriveCMDs.TurnInPlaceCMD;
+import frc.robot.commands.ShooterCMDs.CollectSourceCMD;
+import frc.robot.commands.ShooterCMDs.ManShootAnyStraightCMD;
+import frc.robot.commands.ShooterCMDs.ResetShooterCMD;
+import frc.robot.commands.ShooterCMDs.ScoreAMPCMD;
+import frc.robot.commands.ShooterCMDs.SelfPodiumShotCMD;
+import frc.robot.commands.ShooterCMDs.SelfShootAnyStraightCMD;
+import frc.robot.commands.ShooterCMDs.SelfShootAnywhereCMD;
+import frc.robot.commands.ShooterCMDs.SelfSubShotCMD;
+import frc.robot.commands.ShooterCMDs.SetAngleDistanceCMD;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
+import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -33,7 +59,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems
   public DriveTrain driveTrain;
-  private Compress compressor;
+  private Shooter shooterSubsystem;
+  private Indexer indexerSubsystem;
+  private Collector collectorSubsystem;
+  private Climb climbSubsystem;
+  private Vision visionSubsystem;
 
   // Controllers
   private CommandXboxController driverController = new CommandXboxController(OIConstants.driverControllerPort);
@@ -46,11 +76,25 @@ public class RobotContainer {
   public RobotContainer() {
     // Subsystem Initialization
     driveTrain = new DriveTrain();
-    compressor = new Compress();
+    shooterSubsystem = new Shooter();
+    indexerSubsystem = new Indexer();
+    collectorSubsystem = new Collector();
+    climbSubsystem = new Climb();
+    visionSubsystem = new Vision();
 
     // config default commands
     driveTrain.setDefaultCommand(new DriveCMD(driveTrain, driverController, true, false));
-    compressor.setDefaultCommand(new CompressCMD(compressor));
+    climbSubsystem.setDefaultCommand(new ClimbCMD(operatorController, climbSubsystem));
+    //climbSubsystem.setDefaultCommand(new ZeroClimbCMD(climbSubsystem));
+
+    //config Named Commands
+    NamedCommands.registerCommand("ResetShooter", new ResetShooterCMD(shooterSubsystem));
+    NamedCommands.registerCommand("Collect", new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
+    NamedCommands.registerCommand("SelfSubShot", new SelfSubShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    NamedCommands.registerCommand("SelfShootAnyStraight", new SelfShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    NamedCommands.registerCommand("Align", new RotateToSpeakerCMD(driveTrain, visionSubsystem));
+    NamedCommands.registerCommand("SelfShootAnywhere", new SelfShootAnywhereCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    NamedCommands.registerCommand("WaitShooter", Commands.waitSeconds(ShooterConstants.shooterAutoWait));
 
     // Config for Auto Chooser
     autoChooser = AutoBuilder.buildAutoChooser("NAME DEFAULT AUTO HERE");
@@ -76,11 +120,42 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // drive controller configs
+
     driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
+    driverController.leftTrigger().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
+    driverController.rightTrigger().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
 
-    // operator controller configs
+    //operator controller configs
+    //planned controls delete line when implemented
+    /*Left Trigger - ManShotAnyStraight
+     * Right Trigger - SelfShotAnyStraight
+     * 
+     * Left Bumper - Source Collect
+     * Right Bumper - AMPScore
+     * 
+     * Left Stick - Climb
+     * Right Stick - 
+     * 
+     * Y - Reset Shooter
+     * A - Collect
+     * 
+     * povUp - SelfSubShot
+     * povDown - SelfPodiumShot
+     */
+    operatorController.leftTrigger().whileTrue(new ManShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    operatorController.rightTrigger().onTrue(new SelfShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    operatorController.leftBumper().whileTrue(new SourceCollectIndex(shooterSubsystem));
+    operatorController.rightBumper().onTrue(new SetPivotAngleCMD(ShooterConstants.preAMPAngle, shooterSubsystem)).onFalse(new ScoreAMPCMD(shooterSubsystem));
+    operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));
+    operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
+    operatorController.povUp().onTrue(new SelfSubShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    operatorController.povDown().onTrue(new SelfPodiumShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+
+    operatorController.back().onTrue(new SetPivotAngleCMD(90, shooterSubsystem));
+    operatorController.b().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(1), shooterSubsystem));
+    operatorController.x().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-1), shooterSubsystem));
   }
 
   /**
