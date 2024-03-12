@@ -9,8 +9,8 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
 public class SetAngleDistanceCMD extends Command {
-  Shooter shooterSubsystem;
-  Vision visionSubsystem;
+  private Shooter shooterSubsystem;
+  private Vision visionSubsystem;
   public SetAngleDistanceCMD(Shooter shooterSubsystem, Vision visionSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
     this.visionSubsystem = visionSubsystem;
@@ -21,7 +21,7 @@ public class SetAngleDistanceCMD extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterSubsystem.setPivotAngle(shooterSubsystem.getAimingAngle(visionSubsystem.getDistanceToShooter()));
+    shooterSubsystem.setPivotAngle(shooterSubsystem.getAimingAngle(visionSubsystem.getDistanceToSpeaker()));
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -22,7 +22,7 @@ public class Vision extends SubsystemBase {
     frontLimelightTable = NetworkTableInstance.getDefault().getTable("limelight-front");
     //NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").getDoubleArray(new double[6]);
     frontLimelightTable.getEntry("pipeline").setNumber(0);
-    SmartDashboard.putNumber("test limelight", getX());
+    SmartDashboard.putNumber("test limelight", getDegreesToSpeaker());
 
   }
 
@@ -32,15 +32,15 @@ public class Vision extends SubsystemBase {
     z = Math.abs(frontLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[2]);
     x = Math.abs(frontLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[0]);
 
-    SmartDashboard.putNumber("THIS ONE: distance to speaker", getDistanceToShooter());
+    SmartDashboard.putNumber("THIS ONE: distance to speaker", getDistanceToSpeaker());
   }
 
-  public double getX()
+  public double getDegreesToSpeaker()
   {
     return frontLimelightTable.getEntry("tx").getDouble(0);
   }
 
-  public double getDistanceToShooter()
+  public double getDistanceToSpeaker()
   {
     frontLimelightTable.getEntry("pipeline").setNumber(0);
     return Math.sqrt(Math.pow(z, 2)+Math.pow(x,2));
@@ -48,6 +48,6 @@ public class Vision extends SubsystemBase {
 
   public boolean facingSpeaker()
   {
-    return Math.abs(getX())<VisionConstants.rotationTolerance;
+    return Math.abs(getDegreesToSpeaker())<VisionConstants.rotationTolerance;
   }
 }

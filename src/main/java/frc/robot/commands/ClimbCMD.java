@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Climb;
 
 public class ClimbCMD extends Command {
-  Climb climbSubsystem;
-  double speed;
-  CommandXboxController operatorController;
+  private Climb climbSubsystem;
+  private double speed;
+  private CommandXboxController operatorController;
   /** Creates a new ClimbCMD. */
   public ClimbCMD(CommandXboxController operatorController, Climb climbSubsystem) {
     this.climbSubsystem = climbSubsystem;

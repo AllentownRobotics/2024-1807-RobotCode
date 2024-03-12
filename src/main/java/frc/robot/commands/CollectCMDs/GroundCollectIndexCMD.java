@@ -13,9 +13,9 @@ import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 
 public class GroundCollectIndexCMD extends Command {
-  Collector collectorSubsystem;
-  Indexer indexerSubsystem;
-  Shooter shootersubsystem;
+  private Collector collectorSubsystem;
+  private Indexer indexerSubsystem;
+  private Shooter shootersubsystem;
   /** Creates a new CollectAndIndexCMD. */
   public GroundCollectIndexCMD(Collector collectorSubsystem, Indexer indexerSubsystem, Shooter shooterSubsystem) {
     this.collectorSubsystem = collectorSubsystem;

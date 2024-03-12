@@ -33,7 +33,7 @@ public class RotateToSpeakerCMD extends Command {
   @Override
   public void initialize() {
     initialHeading = driveTrain.getHeading();
-    desiredHeading = driveTrain.getHeading() - visionSubsystem.getX();
+    desiredHeading = driveTrain.getHeading() - visionSubsystem.getDegreesToSpeaker();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
