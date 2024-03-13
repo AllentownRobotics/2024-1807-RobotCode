@@ -33,7 +33,6 @@ import frc.robot.Constants.GlobalConstants;
 import frc.utils.SwerveUtils;
 
 public class DriveTrain extends SubsystemBase {
-
   // Create MAXSwerveModules
   private final SwerveModule frontLeftModule = new SwerveModule(
       DriveConstants.flDriveID,
@@ -117,6 +116,8 @@ public class DriveTrain extends SubsystemBase {
       // updates field
     field.setRobotPose(getPose());
     SmartDashboard.putNumber("Heading", getHeading());
+    SmartDashboard.putNumber("FL wheel velocity", frontLeftModule.getWheelVelocity());
+    SmartDashboard.putNumber("FL wheel rpm", frontLeftModule.getRotationsPerMinute());
   }
 
   // general getter/setter methods BELOW

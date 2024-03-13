@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.ClimbCMD;
+import frc.robot.commands.CMDStoTest.AlignToSpeakerCMD;
 import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.CollectCMDs.SourceCollectIndex;
 import frc.robot.commands.DriveCMDs.DriveCMD;
@@ -124,7 +125,7 @@ public class RobotContainer {
     driverController.rightBumper().whileTrue(new RunCommand(() -> driveTrain.setX(), driveTrain));
     driverController.leftBumper().whileTrue(new SlowDriveCMD(driveTrain, driverController, true, false));
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
-    driverController.leftTrigger().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
+    driverController.leftTrigger().whileTrue(new AlignToSpeakerCMD(driveTrain, driverController, visionSubsystem));
     driverController.rightTrigger().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
 
     //operator controller configs

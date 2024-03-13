@@ -40,7 +40,7 @@ public final class Constants {
   public static final class DriveConstants {
 
     // Drive parameters
-    public static final double maxSpeedMPS = 5.0;
+    public static final double maxSpeedMPS = 10.0;
     public static final double maxAngularSpeed = 2 * Math.PI; // Radians per sec
     public static final double slowDriveScalingConstant = .5; // Constant drive speed is multiplied by during slow drive
 

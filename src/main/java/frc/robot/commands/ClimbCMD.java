@@ -11,7 +11,6 @@ import frc.robot.subsystems.Climb;
 
 public class ClimbCMD extends Command {
   private Climb climbSubsystem;
-  private double speed;
   private CommandXboxController operatorController;
   /** Creates a new ClimbCMD. */
   public ClimbCMD(CommandXboxController operatorController, Climb climbSubsystem) {
