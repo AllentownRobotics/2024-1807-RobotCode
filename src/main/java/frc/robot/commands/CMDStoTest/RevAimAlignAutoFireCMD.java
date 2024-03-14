@@ -4,7 +4,6 @@
 
 package frc.robot.commands.CMDStoTest;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
@@ -22,6 +21,9 @@ public class RevAimAlignAutoFireCMD extends Command {
     this.shooterSubsystem = shooterSubsystem;
     this.visionSubsystem = visionSubsystem;
     this.driveTrain = driveTrain;
+
+    swerveRotationController = new PIDController(0.0075, 0.0, 0.0);
+    swerveRotationController.setSetpoint(0);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterSubsystem, driveTrain);
   }
