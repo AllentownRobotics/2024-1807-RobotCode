@@ -34,12 +34,15 @@ public class Climb extends SubsystemBase {
     leftClimbMotor.setInverted(false);
     rightClimbMotor.setInverted(true);
 
+    leftClimbMotor.getEncoder().setPosition(0);
+    rightClimbMotor.getEncoder().setPosition(0);
+
     leftClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     leftClimbMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
     rightClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     rightClimbMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
-    leftClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
-    rightClimbMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+    leftClimbMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+    rightClimbMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
     
 
     leftClimbLimitSwitch = new DigitalInput(ClimbConstants.leftClimbLimitSwitch);

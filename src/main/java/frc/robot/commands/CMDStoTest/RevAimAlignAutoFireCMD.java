@@ -35,9 +35,12 @@ public class RevAimAlignAutoFireCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double shooterAngle = shooterSubsystem.getAimingAngle(visionSubsystem.getDistanceToSpeaker());
-    shooterSubsystem.setPivotAngle(shooterAngle);
-
+    double distance = visionSubsystem.getDistanceToSpeaker();
+    if(distance != 0.0)
+    {
+      shooterSubsystem.setPivotAngle(shooterSubsystem.getAimingAngle(distance));
+    }
+    
     double rotationalSpeed = swerveRotationController.calculate(visionSubsystem.getDegreesToSpeaker());
     driveTrain.drive(
           0,

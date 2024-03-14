@@ -40,8 +40,8 @@ public final class Constants {
   public static final class DriveConstants {
 
     // Drive parameters
-    public static final double maxSpeedMPS = 10.0;
-    public static final double maxAngularSpeed = 2 * Math.PI; // Radians per sec
+    public static final double maxSpeedMPS = 6.0;
+    public static final double maxAngularSpeed = 3 * Math.PI; // Radians per sec
     public static final double slowDriveScalingConstant = .5; // Constant drive speed is multiplied by during slow drive
 
     // chassis config
@@ -157,15 +157,15 @@ public final class Constants {
     public static final double pivotVelocityConversionFactor = pivotMotorPositionConversionFactor/60;
     public static final double pivotAbsoluteEncoderReduction = 5.25;
     public static final double pivotAbsoluteEncoderPositionConversionFactor = 360.0/pivotAbsoluteEncoderReduction;
-    public static final double pivotAbsoluteEncoder90 = 68.5;
+    public static final double pivotAbsoluteEncoder90 = 68;
 
     //pivot control config
     public static final double pivotPID_P = .07;
     public static final double pivotPID_I = 0.0;
     public static final double pivotPID_D = 0.0;
     public static final double pivotPID_FF = 0.0;
-    public static final double pivotPID_OutputMin = -0.7;
-    public static final double pivotPID_OutputMax = 0.7;
+    public static final double pivotPID_OutputMin = -0.95;
+    public static final double pivotPID_OutputMax = 0.95;
 
     public static final double pivotFF_kS = 0.062522;
     public static final double pivotFF_kG = 0.12218;

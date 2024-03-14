@@ -8,12 +8,12 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.ClimbCMD;
 import frc.robot.commands.CMDStoTest.AlignToSpeakerCMD;
+import frc.robot.commands.CMDStoTest.RevAimEndFireCMD;
 import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.CollectCMDs.SourceCollectIndex;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.RotateToSpeakerCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
-import frc.robot.commands.DriveCMDs.TurnInPlaceCMD;
 import frc.robot.commands.ShooterCMDs.CollectSourceCMD;
 import frc.robot.commands.ShooterCMDs.ManShootAnyStraightCMD;
 import frc.robot.commands.ShooterCMDs.ResetShooterCMD;
@@ -22,7 +22,7 @@ import frc.robot.commands.ShooterCMDs.SelfPodiumShotCMD;
 import frc.robot.commands.ShooterCMDs.SelfShootAnyStraightCMD;
 import frc.robot.commands.ShooterCMDs.SelfShootAnywhereCMD;
 import frc.robot.commands.ShooterCMDs.SelfSubShotCMD;
-import frc.robot.commands.ShooterCMDs.SetAngleDistanceCMD;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.ManShootCurrentAngleCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Collector;
@@ -34,15 +34,11 @@ import frc.robot.subsystems.Vision;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -145,9 +141,9 @@ public class RobotContainer {
      * povUp - SelfSubShot
      * povDown - SelfPodiumShot
      */
-    operatorController.leftTrigger().whileTrue(new ManShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
+    operatorController.leftTrigger().whileTrue(new RevAimEndFireCMD(shooterSubsystem, visionSubsystem));
     operatorController.rightTrigger().onTrue(new SelfShootAnyStraightCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
-    operatorController.leftBumper().whileTrue(new SourceCollectIndex(shooterSubsystem));
+    operatorController.leftBumper().whileTrue(new CollectSourceCMD(shooterSubsystem));
     operatorController.rightBumper().onTrue(new SetPivotAngleCMD(ShooterConstants.preAMPAngle, shooterSubsystem)).onFalse(new ScoreAMPCMD(shooterSubsystem));
     operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));
     operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));

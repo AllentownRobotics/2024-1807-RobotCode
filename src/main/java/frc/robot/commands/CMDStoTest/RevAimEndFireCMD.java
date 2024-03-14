@@ -29,14 +29,20 @@ public class RevAimEndFireCMD extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double shooterAngle = shooterSubsystem.getAimingAngle(visionSubsystem.getDistanceToSpeaker());
-    shooterSubsystem.setPivotAngle(shooterAngle);
+    double distance = visionSubsystem.getDistanceToSpeaker();
+    if(distance != 0.0)
+    {
+      shooterSubsystem.setPivotAngle(shooterSubsystem.getAimingAngle(distance));
+    }
+
+    visionSubsystem.setShooterReady(shooterSubsystem.atDesiredAngle()&&shooterSubsystem.atDesiredRPM());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooterSubsystem.setAMPFeeder(ShooterConstants.feederAMPSpeed);
+    visionSubsystem.setShooterReady(false);
   }
 
   // Returns true when the command should end.

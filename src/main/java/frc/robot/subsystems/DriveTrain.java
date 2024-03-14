@@ -116,8 +116,6 @@ public class DriveTrain extends SubsystemBase {
       // updates field
     field.setRobotPose(getPose());
     SmartDashboard.putNumber("Heading", getHeading());
-    SmartDashboard.putNumber("FL wheel velocity", frontLeftModule.getWheelVelocity());
-    SmartDashboard.putNumber("FL wheel rpm", frontLeftModule.getRotationsPerMinute());
   }
 
   // general getter/setter methods BELOW

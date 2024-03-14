@@ -19,10 +19,12 @@ public class Vision extends SubsystemBase {
   double x;
   double z;
 
+  boolean shooterReady;
+  boolean alignReady;
+
   /** Creates a new Limelight. */
   public Vision() {
     frontLimelightTable = NetworkTableInstance.getDefault().getTable("limelight-front");
-    frontLimelightTable.getEntry("pipeline").setNumber(0);
     if(DriverStation.getAlliance().equals(Alliance.Blue))
     {
       frontLimelightTable.getEntry("priorityid").setNumber(7);
@@ -41,6 +43,18 @@ public class Vision extends SubsystemBase {
 
     SmartDashboard.putNumber("THIS ONE: distance to speaker", getDistanceToSpeaker());
     SmartDashboard.putNumber("degrees to speaker", getDegreesToSpeaker());
+
+    SmartDashboard.putBoolean("align Ready", facingSpeaker());
+    SmartDashboard.putBoolean("shooter ready", shooterReady);
+
+    if(shooterReady&&facingSpeaker())
+    {
+      frontLightOn();
+    }
+    else
+    {
+      rearLightOff();
+    }
   }
 
   public double getDegreesToSpeaker()
@@ -56,5 +70,25 @@ public class Vision extends SubsystemBase {
   public boolean facingSpeaker()
   {
     return Math.abs(getDegreesToSpeaker())<VisionConstants.rotationTolerance;
+  }
+
+  public void frontLightOn()
+  {
+    frontLimelightTable.getEntry("ledMode").setNumber(3);
+  }
+
+  public void rearLightOff()
+  {
+    frontLimelightTable.getEntry("ledMode").setNumber(1);
+  }
+
+  public void setShooterReady(boolean bool)
+  {
+    shooterReady = bool;
+  }
+
+  public void alignReady(boolean bool)
+  {
+    alignReady = bool;
   }
 }

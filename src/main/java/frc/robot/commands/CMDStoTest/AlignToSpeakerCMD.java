@@ -22,7 +22,7 @@ public class AlignToSpeakerCMD extends Command {
     this.controller = controller;
     this.visionSubsystem = visionSubsystem;
 
-    swerveRotationController = new PIDController(0.05, 0, 0.0005);
+    swerveRotationController = new PIDController(0.0075, 0.0, 0.0);
     swerveRotationController.setSetpoint(0);
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -42,6 +42,7 @@ public class AlignToSpeakerCMD extends Command {
           MathUtil.applyDeadband(controller.getLeftX(), 0.1),
           rotationalSpeed,
           true, false);
+    
   }
 
   // Called once the command ends or is interrupted.
