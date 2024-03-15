@@ -5,36 +5,38 @@
 package frc.robot.commands.ShooterCMDs;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Vision;
 
-public class SetAngleDistanceCMD extends Command {
+public class FeedShotFromMidLine extends Command {
   private Shooter shooterSubsystem;
-  private Vision visionSubsystem;
-  public SetAngleDistanceCMD(Shooter shooterSubsystem, Vision visionSubsystem) {
+  /** Creates a new ManShootCurrentAngle. */
+  public FeedShotFromMidLine(Shooter shooterSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
-    this.visionSubsystem = visionSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooterSubsystem, visionSubsystem);
+    addRequirements(shooterSubsystem);
   }
-
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterSubsystem.setPivotAngle(shooterSubsystem.getAimingAngle(visionSubsystem.getDistanceToSpeaker()));
+    shooterSubsystem.setPivotAngle(ShooterConstants.feedingAngle);
+    shooterSubsystem.setFlywheelsRPM(ShooterConstants.feedingMidRPM);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooterSubsystem.setAMPFeeder(ShooterConstants.feederAMPSpeed);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooterSubsystem.atDesiredAngle();
+    return shooterSubsystem.atDesiredAngle()&&shooterSubsystem.atDesiredRPM();
   }
 }

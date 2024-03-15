@@ -7,6 +7,7 @@ package frc.robot.commands.ShooterCMDs;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SelfShootCurrentAngleCMD;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetAngleDistanceCMD;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;

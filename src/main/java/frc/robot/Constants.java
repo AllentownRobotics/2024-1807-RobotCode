@@ -182,6 +182,7 @@ public final class Constants {
     public static final double AMPAngle = 125.0;
     public static final double subAngle = 54.0;
     public static final double podiumAngle = 35.0;
+    public static final double feedingAngle = 45.0;
 
     //flywheel config
     public static final double flywheelPositionConversionFactor = 2;
@@ -194,6 +195,8 @@ public final class Constants {
 
     public static final double shootingRPM = 7000;
     public static final double shootingRPMTolerance = 100;
+    public static final double feedingWingRPM = 5000;
+    public static final double feedingMidRPM = 4500;
     public static final double flywheelAMPSpeed = .5;
     public static final double feederShootingSpeed = 1.0;
     public static final double feederAMPSpeed = 1.0;
