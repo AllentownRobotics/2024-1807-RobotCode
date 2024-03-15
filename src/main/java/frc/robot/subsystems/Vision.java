@@ -87,6 +87,11 @@ public class Vision extends SubsystemBase {
     shooterReady = bool;
   }
 
+  public boolean getShooterReady()
+  {
+    return shooterReady;
+  }
+
   public void alignReady(boolean bool)
   {
     alignReady = bool;

@@ -4,28 +4,20 @@
 
 package frc.robot.commands.CMDStoTest;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 
-public class RevAimAlignAutoFireCMD extends Command {
+public class RevAimEndCMD extends Command {
   private Shooter shooterSubsystem;
   private Vision visionSubsystem;
-  private DriveTrain driveTrain;
-  private PIDController swerveRotationController;
   /** Creates a new RevAimEndFireCMD. */
-  public RevAimAlignAutoFireCMD(Shooter shooterSubsystem, Vision visionSubsystem, DriveTrain driveTrain) {
+  public RevAimEndCMD(Shooter shooterSubsystem, Vision visionSubsystem) {
     this.shooterSubsystem = shooterSubsystem;
     this.visionSubsystem = visionSubsystem;
-    this.driveTrain = driveTrain;
-
-    swerveRotationController = new PIDController(0.0065, 0.0, 0.0);
-    swerveRotationController.setSetpoint(0);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooterSubsystem, driveTrain);
+    addRequirements(shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -42,25 +34,16 @@ public class RevAimAlignAutoFireCMD extends Command {
     {
       shooterSubsystem.setPivotAngle(shooterSubsystem.getAimingAngle(distance));
     }
-    
-    double rotationalSpeed = swerveRotationController.calculate(visionSubsystem.getDegreesToSpeaker());
-    driveTrain.drive(
-          0,
-          0,
-          rotationalSpeed,
-          true, false);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return visionSubsystem.facingSpeaker()&&shooterSubsystem.atDesiredAngle()&&shooterSubsystem.atDesiredRPM();
+    return shooterSubsystem.atDesiredAngle()&&shooterSubsystem.atDesiredRPM();
   }
 }
-

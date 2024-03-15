@@ -193,7 +193,7 @@ public class Shooter extends SubsystemBase {
 
     SmartDashboard.putNumber("Absol encoder pos", leftPivotMotor.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
 
-    SmartDashboard.putBoolean("source collectbreak", getBeamBreakSource());
+    SmartDashboard.putBoolean("at RPM", atDesiredRPM());
   }
 
   public void setPivotAngle(double angle)

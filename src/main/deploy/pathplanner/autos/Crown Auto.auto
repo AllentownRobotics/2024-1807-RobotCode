@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 6.7
+    },
+    "rotation": -120.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Crown Pt1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Crown Pt2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Crown Pt3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Crown Pt4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Crown Pt5"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

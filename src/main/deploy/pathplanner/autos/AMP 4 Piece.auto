@@ -58,13 +58,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Align"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SelfShootAnyStraight"
+            "name": "ShootInAuto"
           }
         },
         {
@@ -108,7 +102,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SelfShootAnyStraight"
+            "name": "ShootInAuto"
           }
         },
         {
@@ -152,13 +146,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Align"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SelfShootAnyStraight"
+            "name": "ShootInAuto"
           }
         },
         {

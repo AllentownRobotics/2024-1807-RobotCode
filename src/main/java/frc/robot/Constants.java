@@ -232,6 +232,6 @@ public final class Constants {
   }
 
   public static class VisionConstants{
-    public static final double rotationTolerance = 1.0;
+    public static final double rotationTolerance = 2.0;
   }
 }

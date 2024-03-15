@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -13,12 +14,12 @@ import frc.robot.Constants.CollectorConstants;
 
 public class Collector extends SubsystemBase {
     private CANSparkMax frontCollectorMotor;
-    private CANSparkMax rearCollectorMotor;
+    private CANSparkFlex rearCollectorMotor;
 
   /** Creates a new Collector. */
   public Collector() {
     frontCollectorMotor = new CANSparkMax(CollectorConstants.frontCollectorMotorID, MotorType.kBrushless);
-    rearCollectorMotor = new CANSparkMax(CollectorConstants.rearCollectorMotorID, MotorType.kBrushless);
+    rearCollectorMotor = new CANSparkFlex(CollectorConstants.rearCollectorMotorID, MotorType.kBrushless);
 
     frontCollectorMotor.restoreFactoryDefaults();
     rearCollectorMotor.restoreFactoryDefaults();
