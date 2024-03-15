@@ -176,7 +176,7 @@ public final class Constants {
 
     //pivot angles
     public static final double shooterAngleTolerance = 0.5;
-    public static final double shooterRestingAngle = 27.0;
+    public static final double shooterRestingAngle = 25.0;
     public static final double sourceCollectionAngle = 110.0;
     public static final double preAMPAngle = 110;
     public static final double AMPAngle = 125.0;

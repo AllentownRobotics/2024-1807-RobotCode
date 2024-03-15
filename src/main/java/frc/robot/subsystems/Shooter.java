@@ -89,7 +89,7 @@ public class Shooter extends SubsystemBase {
     rightPivotMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     rightPivotMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     rightPivotMotor.setSoftLimit(SoftLimitDirection.kForward, 130);
-    rightPivotMotor.setSoftLimit(SoftLimitDirection.kReverse, 27);
+    rightPivotMotor.setSoftLimit(SoftLimitDirection.kReverse, 25);
 
     leftPivotMotor.burnFlash();
     rightPivotMotor.burnFlash();

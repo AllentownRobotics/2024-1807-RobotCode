@@ -142,19 +142,18 @@ public class RobotContainer {
      * povUp - SelfSubShot
      * povDown - SelfPodiumShot
      */
-    //operatorController.leftTrigger().whileTrue(new RevAimEndFireCMD(shooterSubsystem, visionSubsystem));
+    operatorController.leftTrigger().whileTrue(new RevAimEndFireCMD(shooterSubsystem, visionSubsystem));
     //operatorController.rightTrigger().onTrue(new ShootInAutoCMD(shooterSubsystem, visionSubsystem, driveTrain));
-    //operatorController.leftBumper().whileTrue(new CollectSourceCMD(shooterSubsystem)).onFalse(new ResetShooterCMD(shooterSubsystem));
-    //operatorController.rightBumper().onTrue(new SetPivotAngleCMD(ShooterConstants.preAMPAngle, shooterSubsystem)).onFalse(new ScoreAMPCMD(shooterSubsystem));
+    operatorController.leftBumper().whileTrue(new CollectSourceCMD(shooterSubsystem)).onFalse(new ResetShooterCMD(shooterSubsystem));
+    operatorController.rightBumper().onTrue(new SetPivotAngleCMD(ShooterConstants.preAMPAngle, shooterSubsystem)).onFalse(new ScoreAMPCMD(shooterSubsystem));
     operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));
     operatorController.a().whileTrue(new GroundCollectIndexCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
     operatorController.povUp().onTrue(new SelfSubShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
     operatorController.povDown().onTrue(new SelfPodiumShotCMD(shooterSubsystem, driverController, driveTrain, visionSubsystem));
     operatorController.start().whileTrue(new PanicButtonCMD(collectorSubsystem, indexerSubsystem, shooterSubsystem));
 
-    operatorController.rightTrigger().whileTrue(new FeedShotFromWingLine(shooterSubsystem));
-    operatorController.leftBumper().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-5), shooterSubsystem));
-    operatorController.rightBumper().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(5), shooterSubsystem));
+
+    operatorController.rightTrigger().whileTrue(new ManShootCurrentAngleCMD(shooterSubsystem));
     operatorController.back().onTrue(new SetPivotAngleCMD(90, shooterSubsystem));
     operatorController.b().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(1), shooterSubsystem));
     operatorController.x().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-1), shooterSubsystem));
