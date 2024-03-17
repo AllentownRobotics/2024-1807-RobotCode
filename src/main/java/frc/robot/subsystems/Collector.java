@@ -9,12 +9,15 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CollectorConstants;
 
 public class Collector extends SubsystemBase {
-    private CANSparkMax frontCollectorMotor;
-    private CANSparkFlex rearCollectorMotor;
+  private CANSparkMax frontCollectorMotor;
+  private CANSparkFlex rearCollectorMotor;
+  private DigitalInput collectorBeamBreak;
 
   /** Creates a new Collector. */
   public Collector() {
@@ -32,12 +35,22 @@ public class Collector extends SubsystemBase {
 
     frontCollectorMotor.burnFlash();
     rearCollectorMotor.burnFlash();
+
+    collectorBeamBreak = new DigitalInput(CollectorConstants.collectorBeamBreakPort);
   }
 
   public void collect(double collectSpeed)
   {
     frontCollectorMotor.set(collectSpeed);
     rearCollectorMotor.set(collectSpeed);
+  }
+
+  /**Returns state of the beam break for the ground collection 
+   * @return True if beam break is broken, false otherwise
+   */
+  public boolean getCollectorBeamBreak()
+  {
+    return !collectorBeamBreak.get();
   }
 
   @Override

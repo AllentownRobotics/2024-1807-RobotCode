@@ -40,7 +40,7 @@ public final class Constants {
   public static final class DriveConstants {
 
     // Drive parameters
-    public static final double maxSpeedMPS = 6.0;
+    public static final double maxSpeedMPS = 6.5;
     public static final double maxAngularSpeed = 3 * Math.PI; // Radians per sec
     public static final double slowDriveScalingConstant = .5; // Constant drive speed is multiplied by during slow drive
 
@@ -177,7 +177,7 @@ public final class Constants {
     //pivot angles
     public static final double shooterAngleTolerance = 0.5;
     public static final double shooterRestingAngle = 25.0;
-    public static final double sourceCollectionAngle = 110.0;
+    public static final double sourceCollectionAngle = 115.0;
     public static final double preAMPAngle = 110;
     public static final double AMPAngle = 125.0;
     public static final double subAngle = 54.0;
@@ -196,7 +196,7 @@ public final class Constants {
     public static final double shootingRPM = 7000;
     public static final double shootingRPMTolerance = 100;
     public static final double feedingWingRPM = 5000;
-    public static final double feedingMidRPM = 4500;
+    public static final double feedingMidRPM = 4000;
     public static final double flywheelAMPSpeed = .5;
     public static final double feederShootingSpeed = 1.0;
     public static final double feederAMPSpeed = 1.0;
@@ -213,7 +213,8 @@ public final class Constants {
   public static class CollectorConstants {
     public static final int frontCollectorMotorID = 15;
     public static final int rearCollectorMotorID = 16;
-    public static final double collectorSpeed = 0.75;
+    public static final double collectorSpeed = 0.9;
+    public static final int collectorBeamBreakPort = 6;
   }
 
   public static class IndexerConstants {

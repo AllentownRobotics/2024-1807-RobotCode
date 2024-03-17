@@ -25,14 +25,7 @@ public class Vision extends SubsystemBase {
   /** Creates a new Limelight. */
   public Vision() {
     frontLimelightTable = NetworkTableInstance.getDefault().getTable("limelight-front");
-    if(DriverStation.getAlliance().equals(Alliance.Blue))
-    {
-      frontLimelightTable.getEntry("priorityid").setNumber(7);
-    }
-    else
-    {
-      frontLimelightTable.getEntry("priorityid").setNumber(4);
-    }
+    frontLimelightTable.getEntry("priorityid").setNumber(-1);
   }
 
   @Override
@@ -40,9 +33,6 @@ public class Vision extends SubsystemBase {
     // This method will be called once per scheduler run
     z = Math.abs(frontLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[2]);
     x = Math.abs(frontLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[0]);
-
-    SmartDashboard.putNumber("THIS ONE: distance to speaker", getDistanceToSpeaker());
-    SmartDashboard.putNumber("degrees to speaker", getDegreesToSpeaker());
 
     SmartDashboard.putBoolean("align Ready", facingSpeaker());
     SmartDashboard.putBoolean("shooter ready", shooterReady);
@@ -53,7 +43,7 @@ public class Vision extends SubsystemBase {
     }
     else
     {
-      rearLightOff();
+      frontLightOff();
     }
   }
 
@@ -77,7 +67,7 @@ public class Vision extends SubsystemBase {
     frontLimelightTable.getEntry("ledMode").setNumber(3);
   }
 
-  public void rearLightOff()
+  public void frontLightOff()
   {
     frontLimelightTable.getEntry("ledMode").setNumber(1);
   }

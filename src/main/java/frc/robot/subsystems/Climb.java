@@ -17,9 +17,6 @@ import frc.robot.Constants.ClimbConstants;
 public class Climb extends SubsystemBase {
   CANSparkMax leftClimbMotor;
   CANSparkMax rightClimbMotor;
-
-  DigitalInput leftClimbLimitSwitch;
-  DigitalInput rightClimbLimitSwitch;
   /** Creates a new Climb. */
   public Climb() {
     leftClimbMotor = new CANSparkMax(ClimbConstants.leftClimbMotorID, MotorType.kBrushless);
@@ -43,20 +40,11 @@ public class Climb extends SubsystemBase {
     rightClimbMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
     leftClimbMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
     rightClimbMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
-    
-
-    leftClimbLimitSwitch = new DigitalInput(ClimbConstants.leftClimbLimitSwitch);
-    rightClimbLimitSwitch = new DigitalInput(ClimbConstants.rightClimbLimitSwitch);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("left Climb", leftClimbLimitSwitch.get());
-    SmartDashboard.putBoolean("right climb", rightClimbLimitSwitch.get());
-
-    SmartDashboard.putNumber("left rotations", leftClimbMotor.getEncoder().getPosition());
-    SmartDashboard.putNumber("right rotations", rightClimbMotor.getEncoder().getPosition());
   }
 
   public void setClimb(double speed)
@@ -73,15 +61,5 @@ public class Climb extends SubsystemBase {
   public void setRight(double speed)
   {
     rightClimbMotor.set(speed);
-  }
-
-  public boolean getLeftLimit()
-  {
-    return leftClimbLimitSwitch.get();
-  }
-
-  public boolean getRightLimit()
-  {
-    return rightClimbLimitSwitch.get();
   }
 }

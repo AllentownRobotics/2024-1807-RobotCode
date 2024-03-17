@@ -11,16 +11,19 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 
 public class GroundCollectIndexCMD extends Command {
   private Collector collectorSubsystem;
   private Indexer indexerSubsystem;
   private Shooter shootersubsystem;
+  private Vision visionSubsystem;
   /** Creates a new CollectAndIndexCMD. */
-  public GroundCollectIndexCMD(Collector collectorSubsystem, Indexer indexerSubsystem, Shooter shooterSubsystem) {
+  public GroundCollectIndexCMD(Collector collectorSubsystem, Indexer indexerSubsystem, Shooter shooterSubsystem, Vision visionSubsystem) {
     this.collectorSubsystem = collectorSubsystem;
     this.indexerSubsystem = indexerSubsystem;
     this.shootersubsystem = shooterSubsystem;
+    this.visionSubsystem = visionSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(collectorSubsystem,indexerSubsystem,shooterSubsystem);
   }
@@ -35,7 +38,16 @@ public class GroundCollectIndexCMD extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if(collectorSubsystem.getCollectorBeamBreak())
+    {
+      visionSubsystem.frontLightOn();
+    }
+    else
+    {
+      visionSubsystem.frontLightOff();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override

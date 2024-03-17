@@ -116,6 +116,7 @@ public class DriveTrain extends SubsystemBase {
       // updates field
     field.setRobotPose(getPose());
     SmartDashboard.putNumber("Heading", getHeading());
+    SmartDashboard.putNumber("wheel speed", frontLeftModule.getWheelVelocity());
   }
 
   // general getter/setter methods BELOW
@@ -269,9 +270,6 @@ public class DriveTrain extends SubsystemBase {
                 gyro.getRotation2d())
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     setModuleStates(swerveModuleStates);
-
-    SmartDashboard.putNumber("front right desired", xSpeed * DriveConstants.maxSpeedMPS);
-    SmartDashboard.putNumber("front right actual", frontRightModule.getWheelVelocity());
   }
 
   /**
