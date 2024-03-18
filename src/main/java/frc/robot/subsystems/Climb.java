@@ -40,6 +40,9 @@ public class Climb extends SubsystemBase {
     rightClimbMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
     leftClimbMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
     rightClimbMotor.setSoftLimit(SoftLimitDirection.kForward, 0);
+
+    leftClimbMotor.setSmartCurrentLimit(38);
+    rightClimbMotor.setSmartCurrentLimit(38);
   }
 
   @Override

@@ -173,6 +173,8 @@ public class Shooter extends SubsystemBase {
     table.put(3.75, 29.0);
     table.put(4.0, 28.0);
     table.put(4.25, 27.0);
+    table.put(4.5, 26.5);
+    table.put(4.75, 26.0);
   }
 
   @Override
