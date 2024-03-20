@@ -96,7 +96,7 @@ public final class Constants {
     public static final double DRIVE_MOTOR_FREE_SPEED_RPS = NeoMotorConstants.NEOFreeSpeed / 60;
     public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(3); //2.925 on well worn tread 2.935 worked new tread // new test 3.3435311
     public static final double WHEEL_CIRCUMFRENCE_METERS = WHEEL_DIAMETER_METERS * Math.PI;
-    public static final double DRIVE_MOTOR_REDUCTION = (45.0 * 20) / (driveMotorTeeth * 15);
+    public static final double DRIVE_MOTOR_REDUCTION = (45.0 * 22) / (driveMotorTeeth * 15);
     public static final double DRIVE_WHEEL_FREE_SPEED_RPS = (DRIVE_MOTOR_FREE_SPEED_RPS * WHEEL_CIRCUMFRENCE_METERS)
         / DRIVE_MOTOR_REDUCTION;
 

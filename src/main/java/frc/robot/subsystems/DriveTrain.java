@@ -117,7 +117,7 @@ public class DriveTrain extends SubsystemBase {
     field.setRobotPose(getPose());
     SmartDashboard.putNumber("Heading", getHeading());
     SmartDashboard.putNumber("wheel speed", frontLeftModule.getWheelVelocity());
-  }
+    SmartDashboard.putNumber("wheel rotations", frontLeftModule.getRotations());  }
 
   // general getter/setter methods BELOW
 
@@ -319,7 +319,7 @@ public class DriveTrain extends SubsystemBase {
     // Create the constraints to use while pathfinding. The constraints defined in
     // the path will only be used for the path.
     PathConstraints constraints = new PathConstraints(
-        3.0, 3.0, 2 * Math.PI, 4 * Math.PI);
+        3.0, 2.0, 2 * Math.PI, 4 * Math.PI);
 
     // Since AutoBuilder is configured, we can use it to build pathfinding commands
     Command pathfindingCommand = AutoBuilder.pathfindThenFollowPath(

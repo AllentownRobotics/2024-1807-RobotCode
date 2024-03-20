@@ -128,6 +128,7 @@ public class RobotContainer {
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.zeroHeading(), driveTrain));
     driverController.leftTrigger().whileTrue(new AlignToSpeakerCMD(driveTrain, driverController, visionSubsystem));
     driverController.rightTrigger().onTrue(new RotateToSpeakerCMD(driveTrain, visionSubsystem));
+    driverController.a().whileTrue(driveTrain.generateAndFollowPath("PathFindToBlueAMP"));
 
     //operator controller configs
     //planned controls delete line when implemented
