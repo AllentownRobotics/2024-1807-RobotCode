@@ -143,4 +143,9 @@ public double getRotations()
 {
   return driveEncoder.getPosition()*(1/(ModuleConstants.WHEEL_DIAMETER_METERS*Math.PI));
 }
+
+public double getRotationsPerMinute()
+{
+  return driveEncoder.getVelocity()/driveEncoder.getVelocityConversionFactor();
+}
 }

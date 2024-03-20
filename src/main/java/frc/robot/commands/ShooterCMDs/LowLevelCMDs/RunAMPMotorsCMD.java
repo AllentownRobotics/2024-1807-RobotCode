@@ -9,7 +9,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
 
 public class RunAMPMotorsCMD extends Command {
-  Shooter shooterSubsystem;
+  private Shooter shooterSubsystem;
   /** Creates a new FeedingAMPCMD. */
   public RunAMPMotorsCMD(Shooter shooterSubsystem) {
     this.shooterSubsystem = shooterSubsystem;

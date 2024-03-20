@@ -2,26 +2,25 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ShooterCMDs;
+package frc.robot.commands.CollectCMDs;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Vision;
+import frc.robot.Constants.CollectorConstants;
+import frc.robot.subsystems.Collector;
 
-public class SetAngleDistanceCMD extends Command {
-  Shooter shooterSubsystem;
-  Vision visionSubsystem;
-  public SetAngleDistanceCMD(Shooter shooterSubsystem, Vision visionSubsystem) {
-    this.shooterSubsystem = shooterSubsystem;
-    this.visionSubsystem = visionSubsystem;
+public class GroundCollectUntilBreakCMD extends Command {
+  Collector collectorSubsystem;
+  /** Creates a new GroundCollectUntilBreakCMD. */
+  public GroundCollectUntilBreakCMD(Collector collectorSubsystem) {
+    this.collectorSubsystem = collectorSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooterSubsystem, visionSubsystem);
+    addRequirements(collectorSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterSubsystem.setPivotAngle(shooterSubsystem.getAimingAngle(visionSubsystem.getDistanceToShooter()));
+    collectorSubsystem.collect(CollectorConstants.collectorSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,6 +34,6 @@ public class SetAngleDistanceCMD extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return shooterSubsystem.atDesiredAngle();
+    return collectorSubsystem.getCollectorBeamBreak();
   }
 }

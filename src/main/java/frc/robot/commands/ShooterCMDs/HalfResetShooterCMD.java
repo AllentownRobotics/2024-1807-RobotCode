@@ -4,23 +4,23 @@
 
 package frc.robot.commands.ShooterCMDs;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.commands.ShooterCMDs.LowLevelCMDs.ManShootCurrentAngleCMD;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Vision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ManShootAnyStraightCMD extends SequentialCommandGroup {
-  /** Creates a new ShootAnywhereCMD. */
-  public ManShootAnyStraightCMD(Shooter shooterSubsystem, CommandXboxController controller, DriveTrain driveTrain, Vision visionSubsystem) {
+public class HalfResetShooterCMD extends SequentialCommandGroup {
+  /** Creates a new ResetShooterCMD. */
+  public HalfResetShooterCMD(Shooter shooterSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetAngleDistanceCMD(shooterSubsystem, visionSubsystem),
-      new ManShootCurrentAngleCMD(shooterSubsystem));
+      new InstantCommand(() -> shooterSubsystem.setFlywheelsRPM(ShooterConstants.shootingRPM/2), shooterSubsystem),
+      new InstantCommand(() -> shooterSubsystem.setAMPFeeder(0.0), shooterSubsystem),
+      new SetPivotAngleCMD(ShooterConstants.shooterRestingAngle, shooterSubsystem));
   }
 }

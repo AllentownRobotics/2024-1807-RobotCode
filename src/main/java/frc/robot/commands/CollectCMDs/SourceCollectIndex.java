@@ -9,7 +9,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
 
 public class SourceCollectIndex extends Command {
-  Shooter shooterSubsystem;
+  private Shooter shooterSubsystem;
   /** Creates a new SourceCollectIndex. */
   public SourceCollectIndex(Shooter shootersubsystem) {
     this.shooterSubsystem = shootersubsystem;

@@ -40,8 +40,8 @@ public final class Constants {
   public static final class DriveConstants {
 
     // Drive parameters
-    public static final double maxSpeedMPS = 5.0;
-    public static final double maxAngularSpeed = 2 * Math.PI; // Radians per sec
+    public static final double maxSpeedMPS = 6.5;
+    public static final double maxAngularSpeed = 3 * Math.PI; // Radians per sec
     public static final double slowDriveScalingConstant = .5; // Constant drive speed is multiplied by during slow drive
 
     // chassis config
@@ -157,15 +157,15 @@ public final class Constants {
     public static final double pivotVelocityConversionFactor = pivotMotorPositionConversionFactor/60;
     public static final double pivotAbsoluteEncoderReduction = 5.25;
     public static final double pivotAbsoluteEncoderPositionConversionFactor = 360.0/pivotAbsoluteEncoderReduction;
-    public static final double pivotAbsoluteEncoder90 = 68.5;
+    public static final double pivotAbsoluteEncoder90 = 68;
 
     //pivot control config
     public static final double pivotPID_P = .07;
     public static final double pivotPID_I = 0.0;
     public static final double pivotPID_D = 0.0;
     public static final double pivotPID_FF = 0.0;
-    public static final double pivotPID_OutputMin = -0.7;
-    public static final double pivotPID_OutputMax = 0.7;
+    public static final double pivotPID_OutputMin = -0.95;
+    public static final double pivotPID_OutputMax = 0.95;
 
     public static final double pivotFF_kS = 0.062522;
     public static final double pivotFF_kG = 0.12218;
@@ -176,12 +176,13 @@ public final class Constants {
 
     //pivot angles
     public static final double shooterAngleTolerance = 0.5;
-    public static final double shooterRestingAngle = 27.0;
-    public static final double sourceCollectionAngle = 110.0;
+    public static final double shooterRestingAngle = 25.0;
+    public static final double sourceCollectionAngle = 115.0;
     public static final double preAMPAngle = 110;
     public static final double AMPAngle = 125.0;
     public static final double subAngle = 54.0;
     public static final double podiumAngle = 35.0;
+    public static final double feedingAngle = 45.0;
 
     //flywheel config
     public static final double flywheelPositionConversionFactor = 2;
@@ -194,6 +195,8 @@ public final class Constants {
 
     public static final double shootingRPM = 7000;
     public static final double shootingRPMTolerance = 100;
+    public static final double feedingWingRPM = 5000;
+    public static final double feedingMidRPM = 4000;
     public static final double flywheelAMPSpeed = .5;
     public static final double feederShootingSpeed = 1.0;
     public static final double feederAMPSpeed = 1.0;
@@ -210,7 +213,8 @@ public final class Constants {
   public static class CollectorConstants {
     public static final int frontCollectorMotorID = 15;
     public static final int rearCollectorMotorID = 16;
-    public static final double collectorSpeed = 0.75;
+    public static final double collectorSpeed = 0.9;
+    public static final int collectorBeamBreakPort = 6;
   }
 
   public static class IndexerConstants {
@@ -232,6 +236,6 @@ public final class Constants {
   }
 
   public static class VisionConstants{
-    public static final double rotationTolerance = 1.0;
+    public static final double rotationTolerance = 2.0;
   }
 }

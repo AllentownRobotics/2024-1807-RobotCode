@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SelfShootAnyStraight"
+            "name": "SelfSubShot"
           }
         },
         {
@@ -40,7 +40,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Collect"
+                        "name": "Collect Pt1"
                       }
                     }
                   ]
@@ -49,7 +49,89 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "AMP Sub to AMP Note"
+                  "pathName": "Crown Pt1"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Crown Pt2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Collect"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootInAuto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitShooter"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ResetShooter"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Collect Pt1"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Crown Pt3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Crown Pt4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Collect"
                 }
               }
             ]
@@ -93,72 +175,10 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "AMP Note to Center Note"
+                  "pathName": "Crown Pt5"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootInAuto"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitShooter"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ResetShooter"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Collect"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Center Note to Source Note"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootInAuto"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitShooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ResetShooter"
           }
         }
       ]

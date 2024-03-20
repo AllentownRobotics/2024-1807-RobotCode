@@ -9,7 +9,7 @@ import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.Shooter;
 
 public class ManShootCurrentAngleCMD extends Command {
-  Shooter shooterSubsystem;
+  private Shooter shooterSubsystem;
   /** Creates a new ManShootCurrentAngle. */
   public ManShootCurrentAngleCMD(Shooter shooterSubsystem) {
     this.shooterSubsystem = shooterSubsystem;

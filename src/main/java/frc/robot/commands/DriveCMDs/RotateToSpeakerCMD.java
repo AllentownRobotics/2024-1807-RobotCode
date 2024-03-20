@@ -33,7 +33,7 @@ public class RotateToSpeakerCMD extends Command {
   @Override
   public void initialize() {
     initialHeading = driveTrain.getHeading();
-    desiredHeading = driveTrain.getHeading() - visionSubsystem.getX();
+    desiredHeading = driveTrain.getHeading() - visionSubsystem.getDegreesToSpeaker();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,12 +41,6 @@ public class RotateToSpeakerCMD extends Command {
   public void execute() {
     currentDifference = driveTrain.getHeading()-desiredHeading;
     driveTrain.drive(0, 0, turningPIDContoller.calculate(currentDifference), true, false);
-
-    SmartDashboard.putNumber("current difference", currentDifference);
-    SmartDashboard.putNumber("initial heading", initialHeading);
-    SmartDashboard.putNumber("heading difference", headingDifference);
-    SmartDashboard.putNumber("desired heading", desiredHeading);
-    SmartDashboard.putBoolean("at setpoint", turningPIDContoller.atSetpoint());
   }
 
   // Called once the command ends or is interrupted.

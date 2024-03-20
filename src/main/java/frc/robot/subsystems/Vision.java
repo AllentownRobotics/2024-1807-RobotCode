@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.VisionConstants;
@@ -17,13 +19,13 @@ public class Vision extends SubsystemBase {
   double x;
   double z;
 
+  boolean shooterReady;
+  boolean alignReady;
+
   /** Creates a new Limelight. */
   public Vision() {
     frontLimelightTable = NetworkTableInstance.getDefault().getTable("limelight-front");
-    //NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").getDoubleArray(new double[6]);
-    frontLimelightTable.getEntry("pipeline").setNumber(0);
-    SmartDashboard.putNumber("test limelight", getX());
-
+    frontLimelightTable.getEntry("priorityid").setNumber(-1);
   }
 
   @Override
@@ -32,22 +34,56 @@ public class Vision extends SubsystemBase {
     z = Math.abs(frontLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[2]);
     x = Math.abs(frontLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[0]);
 
-    SmartDashboard.putNumber("THIS ONE: distance to speaker", getDistanceToShooter());
+    SmartDashboard.putBoolean("align Ready", facingSpeaker());
+    SmartDashboard.putBoolean("shooter ready", shooterReady);
+
+    if(shooterReady&&facingSpeaker())
+    {
+      frontLightOn();
+    }
+    else
+    {
+      frontLightOff();
+    }
   }
 
-  public double getX()
+  public double getDegreesToSpeaker()
   {
     return frontLimelightTable.getEntry("tx").getDouble(0);
   }
 
-  public double getDistanceToShooter()
+  public double getDistanceToSpeaker()
   {
-    frontLimelightTable.getEntry("pipeline").setNumber(0);
     return Math.sqrt(Math.pow(z, 2)+Math.pow(x,2));
   }
 
   public boolean facingSpeaker()
   {
-    return Math.abs(getX())<VisionConstants.rotationTolerance;
+    return Math.abs(getDegreesToSpeaker())<VisionConstants.rotationTolerance;
+  }
+
+  public void frontLightOn()
+  {
+    frontLimelightTable.getEntry("ledMode").setNumber(3);
+  }
+
+  public void frontLightOff()
+  {
+    frontLimelightTable.getEntry("ledMode").setNumber(1);
+  }
+
+  public void setShooterReady(boolean bool)
+  {
+    shooterReady = bool;
+  }
+
+  public boolean getShooterReady()
+  {
+    return shooterReady;
+  }
+
+  public void alignReady(boolean bool)
+  {
+    alignReady = bool;
   }
 }

@@ -89,7 +89,7 @@ public class Shooter extends SubsystemBase {
     rightPivotMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     rightPivotMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     rightPivotMotor.setSoftLimit(SoftLimitDirection.kForward, 130);
-    rightPivotMotor.setSoftLimit(SoftLimitDirection.kReverse, 27);
+    rightPivotMotor.setSoftLimit(SoftLimitDirection.kReverse, 25);
 
     leftPivotMotor.burnFlash();
     rightPivotMotor.burnFlash();
@@ -153,7 +153,7 @@ public class Shooter extends SubsystemBase {
     table.put(4.2, 28.0);
     table.put(4.3, 27.0);*/
 
-    table.put(1.44, 54.0);
+    /*table.put(1.44, 54.0);
     table.put(2.0, 43.0);
     table.put(2.5, 39.0);
     table.put(3.0, 35.0);
@@ -161,7 +161,20 @@ public class Shooter extends SubsystemBase {
     table.put(3.5, 33.0);
     table.put(3.75, 31.0);
     table.put(4.0, 30.0);
+    table.put(4.25, 27.0);*/
+
+    table.put(1.4, 54.0);
+    table.put(1.75, 47.0);
+    table.put(2.0, 42.0);
+    table.put(2.5, 38.0);
+    table.put(3.0, 33.0);
+    table.put(3.25, 32.0);
+    table.put(3.5, 30.0);
+    table.put(3.75, 29.0);
+    table.put(4.0, 28.0);
     table.put(4.25, 27.0);
+    table.put(4.5, 26.5);
+    table.put(4.75, 26.0);
   }
 
   @Override
@@ -169,10 +182,7 @@ public class Shooter extends SubsystemBase {
   {
     //pivot periodic monitoring
     pivotPIDController.setReference(desiredPivotAngle, ControlType.kPosition,0, armFeedforward.calculate(Units.degreesToRadians(desiredPivotAngle), 0), ArbFFUnits.kVoltage);
-    SmartDashboard.putNumber("shooter feedforward", armFeedforward.calculate(Units.degreesToRadians(desiredPivotAngle), 0));
-
     SmartDashboard.putNumber("Pivot Angle", rightPivotMotor.getEncoder().getPosition());
-    SmartDashboard.putBoolean("at angle", atDesiredAngle());
     SmartDashboard.putNumber("Desired Pivot Angle", desiredPivotAngle);
 
     //flywheels periodic monitoring
@@ -181,8 +191,6 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("bottom flywheel speed", bottomFlywheelMotor.getEncoder().getVelocity());
 
     SmartDashboard.putNumber("Absol encoder pos", leftPivotMotor.getAbsoluteEncoder(Type.kDutyCycle).getPosition());
-
-    SmartDashboard.putBoolean("source collectbreak", getBeamBreakSource());
   }
 
   public void setPivotAngle(double angle)
@@ -199,7 +207,6 @@ public class Shooter extends SubsystemBase {
   {
     topFlywheelPIDController.setReference(rpm, ControlType.kVelocity);
     bottomFlywheelPIDController.setReference(rpm, ControlType.kVelocity);
-    SmartDashboard.putNumber("desiredrpm", rpm);
   }
 
   public void setFlywheelsPercent(double percent)
