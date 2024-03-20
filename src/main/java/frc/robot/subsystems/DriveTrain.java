@@ -117,7 +117,9 @@ public class DriveTrain extends SubsystemBase {
     field.setRobotPose(getPose());
     SmartDashboard.putNumber("Heading", getHeading());
     SmartDashboard.putNumber("wheel speed", frontLeftModule.getWheelVelocity());
-    SmartDashboard.putNumber("wheel rotations", frontLeftModule.getRotations());  }
+    SmartDashboard.putNumber("wheel rotations", frontLeftModule.getRotations());
+    SmartDashboard.putNumber("get pose heading", getPose().getRotation().getDegrees());
+  }
 
   // general getter/setter methods BELOW
 
@@ -293,6 +295,11 @@ public class DriveTrain extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     gyro.reset();
+  }
+
+  public void setHeadingToPoseHeading()
+  {
+    gyro.setYaw(getPose().getRotation().getDegrees()+180);
   }
 
   /**
