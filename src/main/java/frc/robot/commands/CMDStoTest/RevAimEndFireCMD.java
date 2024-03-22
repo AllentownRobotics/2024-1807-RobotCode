@@ -34,15 +34,12 @@ public class RevAimEndFireCMD extends Command {
     {
       shooterSubsystem.setPivotAngle(shooterSubsystem.getAimingAngle(distance));
     }
-
-    visionSubsystem.setShooterReady(shooterSubsystem.atDesiredAngle()&&shooterSubsystem.atDesiredRPM());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooterSubsystem.setAMPFeeder(ShooterConstants.feederAMPSpeed);
-    visionSubsystem.setShooterReady(false);
   }
 
   // Returns true when the command should end.

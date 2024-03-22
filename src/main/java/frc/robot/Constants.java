@@ -237,5 +237,8 @@ public final class Constants {
 
   public static class VisionConstants{
     public static final double rotationTolerance = 2.0;
+    public static final int minNumberOfTags = 2;
+    public static final double maxDistance = 5.0;
+    public static final double maxSingleTagAmbiguity = .9;
   }
 }
