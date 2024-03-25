@@ -203,27 +203,27 @@ public final class Constants {
     public static final double flywheelAMPSpeed = .5;
     public static final double feederShootingSpeed = 1.0;
     public static final double feederAMPSpeed = 1.0;
-    public static final double feederIndexSpeed = 0.75;
+    public static final double feederIndexSpeed = 1.0;
     public static final double feederSourceSpeed = -0.5;
 
     public static final double sourceCollectionSpeed = -0.2;
     public static final int beamBreakIndexPort = 0;
     public static final int beamBreakSourcePort = 2;
     public static final int limitSwitchPort = 4;
-    public static final double shooterAutoWait = 0.25;
+    public static final double shooterAutoWait = 0.15;
   }
 
   public static class CollectorConstants {
     public static final int frontCollectorMotorID = 15;
     public static final int rearCollectorMotorID = 16;
-    public static final double collectorSpeed = 0.9;
+    public static final double collectorSpeed = 1.0;
     public static final int collectorBeamBreakPort = 6;
   }
 
   public static class IndexerConstants {
     public static final int frontIndexMotorID = 17;
     public static final int rearIndexMotorID = 18;
-    public static final double indexerSpeed = 0.75;
+    public static final double indexerSpeed = 0.85;
   }
 
   public static class ClimbConstants {

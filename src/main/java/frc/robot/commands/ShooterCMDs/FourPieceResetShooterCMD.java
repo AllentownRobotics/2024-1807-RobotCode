@@ -13,14 +13,14 @@ import frc.robot.subsystems.Shooter;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class HalfResetShooterCMD extends SequentialCommandGroup {
+public class FourPieceResetShooterCMD extends SequentialCommandGroup {
   /** Creates a new ResetShooterCMD. */
-  public HalfResetShooterCMD(Shooter shooterSubsystem) {
+  public FourPieceResetShooterCMD(Shooter shooterSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(() -> shooterSubsystem.setFlywheelsRPM(ShooterConstants.shootingRPM), shooterSubsystem),
       new InstantCommand(() -> shooterSubsystem.setAMPFeeder(0.0), shooterSubsystem),
-      new SetPivotAngleCMD(ShooterConstants.shooterRestingAngle, shooterSubsystem));
+      new SetPivotAngleCMD(32, shooterSubsystem));
   }
 }

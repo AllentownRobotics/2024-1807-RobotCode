@@ -20,6 +20,7 @@ import frc.robot.commands.DriveCMDs.SlowDriveCMD;
 import frc.robot.commands.ShooterCMDs.CollectSourceCMD;
 import frc.robot.commands.ShooterCMDs.FeedShotFromMidLine;
 import frc.robot.commands.ShooterCMDs.FeedShotFromWingLine;
+import frc.robot.commands.ShooterCMDs.FourPieceResetShooterCMD;
 import frc.robot.commands.ShooterCMDs.HalfResetShooterCMD;
 import frc.robot.commands.ShooterCMDs.ResetShooterCMD;
 import frc.robot.commands.ShooterCMDs.ScoreAMPCMD;
@@ -97,6 +98,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("WaitShooter", Commands.waitSeconds(ShooterConstants.shooterAutoWait));
     NamedCommands.registerCommand("ShootInAuto", new ShootInAutoCMD(shooterSubsystem, visionSubsystem, driveTrain));
     NamedCommands.registerCommand("Collect Pt1", new GroundCollectUntilBreakCMD(collectorSubsystem));
+    NamedCommands.registerCommand("ResetFourPiece", new FourPieceResetShooterCMD(shooterSubsystem));
 
     // Config for Auto Chooser
     autoChooser = AutoBuilder.buildAutoChooser("NAME DEFAULT AUTO HERE");
