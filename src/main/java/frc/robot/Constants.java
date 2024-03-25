@@ -40,7 +40,7 @@ public final class Constants {
   public static final class DriveConstants {
 
     // Drive parameters
-    public static final double maxSpeedMPS = 6.5;
+    public static final double maxSpeedMPS = 5;
     public static final double maxAngularSpeed = 3 * Math.PI; // Radians per sec
     public static final double slowDriveScalingConstant = .5; // Constant drive speed is multiplied by during slow drive
 
@@ -83,12 +83,12 @@ public final class Constants {
   }
 
   public static final class NeoMotorConstants {
-    public static final double NEOFreeSpeed = 6784;
+    public static final double NEOFreeSpeed = 6000;
   }
 
   public static final class ModuleConstants {
     /* pinion gear teeth */
-    public static final int driveMotorTeeth = 14;
+    public static final int driveMotorTeeth = 13;
 
     public static final boolean invertTurnEncoder = true;
 
@@ -115,7 +115,7 @@ public final class Constants {
     public static final double DRIVE_P = 0.04;
     public static final double DRIVE_I = 0.001;
     public static final double DRIVE_D = 0;
-    public static final double DRIVE_FF = 1 / DRIVE_WHEEL_FREE_SPEED_RPS; // 1/6.31562329844;
+    public static final double DRIVE_FF = 1 / DRIVE_WHEEL_FREE_SPEED_RPS; //
     public static final double DRIVE_MIN_OUTPUT = -1;
     public static final double DRIVE_MAX_OUTPUT = 1;
 
@@ -132,6 +132,9 @@ public final class Constants {
 
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 50; // amps
     public static final int TURN_MOTOR_CURRENT_LIMIT = 20; // amps
+
+    public static final double OPEN_LOOP_RAMP_RATE = 0.25;
+    public static final double CLOSED_LOOP_RAMP_RATE = 0.0;
   }
 
   // Auto Constnts
@@ -237,8 +240,5 @@ public final class Constants {
 
   public static class VisionConstants{
     public static final double rotationTolerance = 2.0;
-    public static final int minNumberOfTags = 2;
-    public static final double maxDistance = 5.0;
-    public static final double maxSingleTagAmbiguity = .9;
   }
 }

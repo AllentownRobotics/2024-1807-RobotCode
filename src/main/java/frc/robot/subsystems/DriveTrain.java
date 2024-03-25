@@ -13,9 +13,6 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.Vector;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,8 +21,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -73,11 +68,8 @@ public class DriveTrain extends SubsystemBase {
   // config swervekinematics constant used too work with chassis speeds
   private SwerveDriveKinematics swerveKinematics = DriveConstants.swerveKinematics;
 
-  private static final Vector<N3> stateStdDevs = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
-  private static final Vector<N3> visionMeasurementStdDevs = VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(10));
   // Odometry class for tracking robot pose
-  private SwerveDrivePoseEstimator odometry = new SwerveDrivePoseEstimator(swerveKinematics, gyro.getRotation2d(), getPositions(), new Pose2d(), stateStdDevs, visionMeasurementStdDevs);
-
+    SwerveDriveOdometry odometry = new SwerveDriveOdometry(swerveKinematics, gyro.getRotation2d(), getPositions());
 
   private Field2d field = new Field2d();
 
@@ -123,10 +115,8 @@ public class DriveTrain extends SubsystemBase {
     odometry.update(gyro.getRotation2d(), getPositions());
       // updates field
     field.setRobotPose(getPose());
-    SmartDashboard.putNumber("Heading", getHeading());
     SmartDashboard.putNumber("wheel speed", frontLeftModule.getWheelVelocity());
-    SmartDashboard.putNumber("wheel rotations", frontLeftModule.getRotations());
-    SmartDashboard.putNumber("get pose heading", getPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("desired wheel speed", frontLeftModule.getDesiredVelocity());
   }
 
   // general getter/setter methods BELOW
@@ -143,7 +133,7 @@ public class DriveTrain extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return odometry.getEstimatedPosition();
+    return odometry.getPoseMeters();
   }
 
   /**
@@ -343,10 +333,5 @@ public class DriveTrain extends SubsystemBase {
         3.0); // Rotation delay distance in meters. This is how far the robot should travel
               // before attempting to rotate.
     return pathfindingCommand;
-  }
-
-  public static void addVisionMeasurement(Pose2d pose, double latency)
-  {
-    odometry.addVisionMeasurement(pose, latency);
   }
 }
