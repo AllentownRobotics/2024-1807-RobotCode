@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 0.75,
-      "y": 6.7
+      "y": 4.4
     },
-    "rotation": -120.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -49,7 +49,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Crown Pt1"
+                  "pathName": "Source Midline Pt1"
                 }
               }
             ]
@@ -62,7 +62,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Crown Pt2"
+                  "pathName": "Source Midline Pt2"
                 }
               },
               {
@@ -112,7 +112,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Crown Pt3"
+                  "pathName": "Source Midline Pt3"
                 }
               }
             ]
@@ -125,7 +125,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Crown Pt4"
+                  "pathName": "Source Midline Pt4"
                 }
               },
               {
@@ -175,7 +175,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Crown Pt5"
+                  "pathName": "Source Midline Pt5"
                 }
               }
             ]
@@ -188,7 +188,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Crown Pt6"
+                  "pathName": "Source Midline Pt6"
                 }
               },
               {
