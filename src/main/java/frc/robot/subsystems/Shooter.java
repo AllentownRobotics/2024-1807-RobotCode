@@ -163,7 +163,7 @@ public class Shooter extends SubsystemBase {
     table.put(4.0, 30.0);
     table.put(4.25, 27.0);*/
 
-    table.put(1.4, 54.0);
+    /*table.put(1.4, 54.0);
     table.put(1.75, 47.0);
     table.put(2.0, 42.0);
     table.put(2.5, 38.0);
@@ -174,6 +174,20 @@ public class Shooter extends SubsystemBase {
     table.put(4.0, 28.0);
     table.put(4.25, 27.0);
     table.put(4.5, 26.0);
+    table.put(4.75, 25.0);*/
+
+    table.put(1.45, 52.0);
+    table.put(1.75, 47.0);
+    table.put(2.0, 44.0);
+    table.put(2.5, 38.0);
+    table.put(2.75, 36.0);
+    table.put(3.0, 33.0);
+    table.put(3.25, 32.0);
+    table.put(3.5, 31.0);
+    table.put(3.75, 30.0);
+    table.put(4.0, 29.0);
+    table.put(4.25, 28.0);
+    table.put(4.5, 27.0);
     table.put(4.75, 25.0);
   }
 

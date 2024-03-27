@@ -18,6 +18,7 @@ import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.RotateToSpeakerCMD;
 import frc.robot.commands.DriveCMDs.SlowDriveCMD;
 import frc.robot.commands.ShooterCMDs.CollectSourceCMD;
+import frc.robot.commands.ShooterCMDs.FarPieceResetShooterCMD;
 import frc.robot.commands.ShooterCMDs.FeedShotFromMidLine;
 import frc.robot.commands.ShooterCMDs.FeedShotFromWingLine;
 import frc.robot.commands.ShooterCMDs.FourPieceResetShooterCMD;
@@ -99,6 +100,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootInAuto", new ShootInAutoCMD(shooterSubsystem, visionSubsystem, driveTrain));
     NamedCommands.registerCommand("Collect Pt1", new GroundCollectUntilBreakCMD(collectorSubsystem));
     NamedCommands.registerCommand("ResetFourPiece", new FourPieceResetShooterCMD(shooterSubsystem));
+    NamedCommands.registerCommand("ResetFarPiece", new FarPieceResetShooterCMD(shooterSubsystem));
 
     // Config for Auto Chooser
     autoChooser = AutoBuilder.buildAutoChooser("NAME DEFAULT AUTO HERE");
@@ -152,7 +154,7 @@ public class RobotContainer {
      */
     operatorController.leftTrigger().whileTrue(new RevAimEndFireCMD(shooterSubsystem, visionSubsystem));
     //operatorController.rightTrigger().whileTrue(new RevAimEndFireCMD(shooterSubsystem, visionSubsystem));
-    operatorController.rightTrigger().whileTrue(new ManShootCurrentAngleCMD(shooterSubsystem));
+    operatorController.rightTrigger().onTrue(new ShootInAutoCMD(shooterSubsystem, visionSubsystem, driveTrain));
     operatorController.leftBumper().whileTrue(new CollectSourceCMD(shooterSubsystem)).onFalse(new ResetShooterCMD(shooterSubsystem));
     operatorController.rightBumper().onTrue(new SetPivotAngleCMD(ShooterConstants.preAMPAngle, shooterSubsystem)).onFalse(new ScoreAMPCMD(shooterSubsystem));
     operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));

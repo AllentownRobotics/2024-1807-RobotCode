@@ -23,7 +23,7 @@ public class RotateToSpeakerCMD extends Command {
   public RotateToSpeakerCMD(DriveTrain driveTrain, Vision visionSubsystem) {
     this.driveTrain = driveTrain;
     this.visionSubsystem = visionSubsystem;
-    turningPIDContoller = new PIDController(0.03, 0.0, 0.0003);
+    turningPIDContoller = new PIDController(0.02, 0.0, 0.0006);
     turningPIDContoller.setTolerance(VisionConstants.rotationTolerance);
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveTrain);
