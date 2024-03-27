@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 0.75,
-      "y": 6.7
+      "y": 4.4
     },
-    "rotation": -120.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -49,7 +49,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "AMP Sub to AMP Note"
+                  "pathName": "Source Sub to Source Note"
                 }
               }
             ]
@@ -93,7 +93,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "AMP Note to Center Note"
+                  "pathName": "Source Note to Center Note"
                 }
               }
             ]
@@ -128,7 +128,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Collect"
+                        "name": "Collect Pt1"
                       }
                     }
                   ]
@@ -137,7 +137,126 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Center Note to Source Note"
+                  "pathName": "Center Note to AMP Midish Line"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "AMP Midish Line to Pre AMP Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Collect"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootInAuto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitShooter"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ResetShooter"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Collect Pt1"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pre AMP Note to Mid Line"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "AMP Mid Line to Pre AMP Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Collect"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootInAuto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ResetShooter"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Collect"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Pre AMP Note to AMP Note"
                 }
               }
             ]

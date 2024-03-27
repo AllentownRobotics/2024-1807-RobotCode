@@ -128,7 +128,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "Collect Pt1"
+                        "name": "Collect"
                       }
                     }
                   ]
@@ -137,26 +137,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Center Note to AMP Midish Line"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "AMP Midish Line to Pre AMP Note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Collect"
+                  "pathName": "Center Note to AMP Note"
                 }
               }
             ]
@@ -175,32 +156,25 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "ResetShooter"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ResetShooter"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Collect Pt1"
-                      }
-                    }
-                  ]
+                  "pathName": "AMP Note to Mid Line"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Pre AMP Note to Mid Line"
+                  "name": "Collect Pt1"
                 }
               }
             ]
@@ -223,68 +197,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootInAuto"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitShooter"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "ResetShooter"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Collect"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Pre AMP Note to AMP Note"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootInAuto"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitShooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ResetShooter"
           }
         }
       ]
