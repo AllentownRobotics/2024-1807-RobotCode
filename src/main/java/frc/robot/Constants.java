@@ -183,7 +183,7 @@ public final class Constants {
     public static final double sourceCollectionAngle = 115.0;
     public static final double preAMPAngle = 110;
     public static final double AMPAngle = 125.0;
-    public static final double subAngle = 54.0;
+    public static final double subAngle = 52.0;
     public static final double podiumAngle = 35.0;
     public static final double feedingAngle = 45.0;
 

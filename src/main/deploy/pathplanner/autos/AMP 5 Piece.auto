@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SelfShootAnyStraight"
+            "name": "SelfSubShot"
           }
         },
         {
@@ -153,12 +153,6 @@
           "type": "named",
           "data": {
             "name": "WaitShooter"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ResetShooter"
           }
         },
         {
