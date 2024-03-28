@@ -154,7 +154,7 @@ public class RobotContainer {
      */
     operatorController.leftTrigger().whileTrue(new RevAimEndFireCMD(shooterSubsystem, visionSubsystem));
     //operatorController.rightTrigger().whileTrue(new RevAimEndFireCMD(shooterSubsystem, visionSubsystem));
-    operatorController.rightTrigger().onTrue(new ShootInAutoCMD(shooterSubsystem, visionSubsystem, driveTrain));
+    operatorController.rightTrigger().whileTrue(new ManShootCurrentAngleCMD(shooterSubsystem));
     operatorController.leftBumper().whileTrue(new CollectSourceCMD(shooterSubsystem)).onFalse(new ResetShooterCMD(shooterSubsystem));
     operatorController.rightBumper().onTrue(new SetPivotAngleCMD(ShooterConstants.preAMPAngle, shooterSubsystem)).onFalse(new ScoreAMPCMD(shooterSubsystem));
     operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));

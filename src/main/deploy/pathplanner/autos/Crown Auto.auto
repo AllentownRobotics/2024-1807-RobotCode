@@ -34,7 +34,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "ResetFourPiece"
+                        "name": "ResetShooter"
                       }
                     },
                     {
@@ -97,7 +97,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "ResetFourPiece"
+                        "name": "ResetShooter"
                       }
                     },
                     {

@@ -23,7 +23,8 @@ public class ShootInAutoCMD extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ParallelCommandGroup(new RotateToSpeakerCMD(driveTrain, visionSubsystem), new RevAimEndCMD(shooterSubsystem, visionSubsystem)),
+      new RotateToSpeakerCMD(driveTrain, visionSubsystem), 
+      new RevAimEndCMD(shooterSubsystem, visionSubsystem),
       new InstantCommand(() -> shooterSubsystem.setAMPFeeder(ShooterConstants.feederAMPSpeed)));
   }
 }
