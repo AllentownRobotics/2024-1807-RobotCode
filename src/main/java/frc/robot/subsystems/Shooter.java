@@ -295,4 +295,10 @@ public class Shooter extends SubsystemBase {
   {
     return limitSwitch.get();
   }
+
+  public void setFlywheelsRPMTrap(double rpm)
+  {
+    topFlywheelPIDController.setReference(rpm-1000, ControlType.kVelocity);
+    bottomFlywheelPIDController.setReference(rpm, ControlType.kVelocity);
+  }
 }

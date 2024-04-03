@@ -86,4 +86,19 @@ public class Vision extends SubsystemBase {
   {
     alignReady = bool;
   }
+
+  public double getAngleOffset()
+  {
+    return frontLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[4];
+  }
+
+  public double getXTToTag()
+  {
+    return frontLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[0];
+  }
+
+  public double getZTToTag()
+  {
+    return frontLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[2];
+  }
 }

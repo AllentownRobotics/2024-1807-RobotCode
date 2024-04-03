@@ -28,6 +28,7 @@ import frc.robot.commands.ShooterCMDs.ScoreAMPCMD;
 import frc.robot.commands.ShooterCMDs.SelfPodiumShotCMD;
 import frc.robot.commands.ShooterCMDs.SelfShootAnyStraightCMD;
 import frc.robot.commands.ShooterCMDs.SelfSubShotCMD;
+import frc.robot.commands.ShooterCMDs.TrapShotCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.ManShootCurrentAngleCMD;
 import frc.robot.commands.ShooterCMDs.LowLevelCMDs.SetPivotAngleCMD;
 import frc.robot.subsystems.Climb;
@@ -154,7 +155,8 @@ public class RobotContainer {
      */
     operatorController.leftTrigger().whileTrue(new RevAimEndFireCMD(shooterSubsystem, visionSubsystem));
     //operatorController.rightTrigger().whileTrue(new RevAimEndFireCMD(shooterSubsystem, visionSubsystem));
-    operatorController.rightTrigger().whileTrue(new ManShootCurrentAngleCMD(shooterSubsystem));
+    //operatorController.rightTrigger().whileTrue(new ManShootCurrentAngleCMD(shooterSubsystem));
+    operatorController.rightTrigger().whileTrue(new TrapShotCMD(shooterSubsystem));
     operatorController.leftBumper().whileTrue(new CollectSourceCMD(shooterSubsystem)).onFalse(new ResetShooterCMD(shooterSubsystem));
     operatorController.rightBumper().onTrue(new SetPivotAngleCMD(ShooterConstants.preAMPAngle, shooterSubsystem)).onFalse(new ScoreAMPCMD(shooterSubsystem));
     operatorController.y().onTrue(new ResetShooterCMD(shooterSubsystem));

@@ -309,6 +309,11 @@ public class DriveTrain extends SubsystemBase {
     return gyro.getRotation2d().getDegrees();
   }
 
+  public Rotation2d getPoseRotation()
+  {
+    return getPose().getRotation();
+  }
+
   /**
    * Returns the turn rate of the robot.
    *
