@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.led.StrobeAnimation;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
@@ -217,7 +218,8 @@ public final class Constants {
     public static final int frontCollectorMotorID = 15;
     public static final int rearCollectorMotorID = 16;
     public static final double collectorSpeed = 1.0;
-    public static final int collectorBeamBreakPort = 6;
+    public static final int rearCollectorBeamBreakPort = 6;
+    public static final int frontCollectorBeamBreakPort = 8;
   }
 
   public static class IndexerConstants {
@@ -240,5 +242,14 @@ public final class Constants {
 
   public static class VisionConstants{
     public static final double rotationTolerance = 2.0;
+  }
+
+  public static class LightConstants {
+    public static final int brightness = 255;
+    public static final double speed = 0.2;
+    public static final int ledNumber = 60;
+    public static final int[] redbirdRed = {255, 0, 0};
+
+    public static final StrobeAnimation ringColor = new StrobeAnimation(255, 172, 28, brightness, speed, ledNumber);
   }
 }

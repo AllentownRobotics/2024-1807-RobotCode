@@ -72,6 +72,8 @@ public SwerveModule(int driveID, int turningID, double chassisAngularOffset) {
     config.Slot0.kI = 0.0;
     config.Slot0.kD = 0.0;
     config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    config.CurrentLimits.StatorCurrentLimitEnable = true;
+    config.CurrentLimits.StatorCurrentLimit = 80;
   driveKraken.getConfigurator().apply(config);
   driveKraken.getConfigurator().setPosition(0.0);
   turningSparkMax = new CANSparkMax(turningID, MotorType.kBrushless);

@@ -25,7 +25,7 @@ public class Vision extends SubsystemBase {
   /** Creates a new Limelight. */
   public Vision() {
     frontLimelightTable = NetworkTableInstance.getDefault().getTable("limelight-front");
-    frontLimelightTable.getEntry("priorityid").setNumber(-1);
+    rearLimelightTable = NetworkTableInstance.getDefault().getTable("limelight-rear");
   }
 
   @Override
@@ -64,12 +64,14 @@ public class Vision extends SubsystemBase {
 
   public void frontLightOn()
   {
-    frontLimelightTable.getEntry("ledMode").setNumber(3);
+    frontLimelightTable.getEntry("ledMode").setNumber(2);
+    rearLimelightTable.getEntry("ledMode").setNumber(2);
   }
 
   public void frontLightOff()
   {
     frontLimelightTable.getEntry("ledMode").setNumber(1);
+    rearLimelightTable.getEntry("ledMode").setNumber(1);
   }
 
   public void setShooterReady(boolean bool)

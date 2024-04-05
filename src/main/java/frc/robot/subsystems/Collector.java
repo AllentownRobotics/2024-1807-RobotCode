@@ -10,13 +10,15 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CollectorConstants;
 
 public class Collector extends SubsystemBase {
   private CANSparkMax frontCollectorMotor;
   private CANSparkFlex rearCollectorMotor;
-  private DigitalInput collectorBeamBreak;
+  private DigitalInput rearCollectorBeamBreak;
+  private DigitalInput frontCollectorBeamBreak;
 
   /** Creates a new Collector. */
   public Collector() {
@@ -32,10 +34,14 @@ public class Collector extends SubsystemBase {
     frontCollectorMotor.setInverted(true);
     rearCollectorMotor.follow(frontCollectorMotor);
 
+    //frontCollectorMotor.setSmartCurrentLimit(50);
+    //rearCollectorMotor.setSmartCurrentLimit(50);
+
     frontCollectorMotor.burnFlash();
     rearCollectorMotor.burnFlash();
 
-    collectorBeamBreak = new DigitalInput(CollectorConstants.collectorBeamBreakPort);
+    rearCollectorBeamBreak = new DigitalInput(CollectorConstants.rearCollectorBeamBreakPort);
+    frontCollectorBeamBreak = new DigitalInput(CollectorConstants.frontCollectorBeamBreakPort);
   }
 
   public void collect(double collectSpeed)
@@ -47,11 +53,15 @@ public class Collector extends SubsystemBase {
   /**Returns state of the beam break for the ground collection 
    * @return True if beam break is broken, false otherwise
    */
-  public boolean getCollectorBeamBreak()
+  public boolean getRearCollectorBeamBreak()
   {
-    return !collectorBeamBreak.get();
+    return !rearCollectorBeamBreak.get();
   }
 
+  public boolean getFrontCollectorBeamBreak()
+  {
+    return !frontCollectorBeamBreak.get();
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
