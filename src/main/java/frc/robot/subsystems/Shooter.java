@@ -252,11 +252,6 @@ public class Shooter extends SubsystemBase {
     return Math.abs(topFlywheelMotor.getEncoder().getVelocity()-ShooterConstants.shootingRPM) < ShooterConstants.shootingRPMTolerance;
   }
 
-  public boolean atDesiredRPMTrap()
-  {
-    return Math.abs(topFlywheelMotor.getEncoder().getVelocity()-ShooterConstants.shootingRPM) < ShooterConstants.shootingRPMTolerance;
-  }
-
   public void setAMPFeeder(double speed)
   {
     feederAMPShooterMotor.set(speed);
@@ -300,6 +295,12 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setFlywheelsRPMTrap(double rpm)
+  {
+    topFlywheelPIDController.setReference(rpm-1000, ControlType.kVelocity);
+    bottomFlywheelPIDController.setReference(rpm, ControlType.kVelocity);
+  }
+
+  public void setFlywheelsRPMFastTrap(double rpm)
   {
     topFlywheelPIDController.setReference(rpm-1000, ControlType.kVelocity);
     bottomFlywheelPIDController.setReference(rpm, ControlType.kVelocity);
