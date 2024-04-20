@@ -199,7 +199,7 @@ public final class Constants {
 
     public static final double shootingRPM = 7000;
     public static final double shootingRPMTolerance = 100;
-    public static final double feedingWingRPM = 5000;
+    public static final double feedingWingRPM = 4500;
     public static final double feedingMidRPM = 4000;
     public static final double flywheelAMPSpeed = .5;
     public static final double feederShootingSpeed = 1.0;

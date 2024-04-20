@@ -1,0 +1,169 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 6.7
+    },
+    "rotation": -120.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SelfSubShot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitShooter"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ResetFourPiece"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Collect"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "AMP Sub to AMP Note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootInAuto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitShooter"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ResetFourPiece"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Collect"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "AMP Note to Center Note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootInAuto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitShooter"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "ResetFourPiece"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Collect"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Center Note to Source Note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootInAuto"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ResetShooter"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

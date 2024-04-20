@@ -314,7 +314,8 @@ public class DriveTrain extends SubsystemBase {
     return getPose().getRotation();
   }
 
-  /**
+  /**.
+   * 
    * Returns the turn rate of the robot.
    *
    * @return The turn rate of the robot, in degrees per second

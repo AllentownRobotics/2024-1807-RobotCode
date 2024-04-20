@@ -36,6 +36,7 @@ public class Vision extends SubsystemBase {
 
     SmartDashboard.putBoolean("align Ready", facingSpeaker());
     SmartDashboard.putBoolean("shooter ready", shooterReady);
+    SmartDashboard.putNumber("distanceToSpeaker", getDistanceToSpeaker());
 
     if(shooterReady&&facingSpeaker())
     {
@@ -50,6 +51,16 @@ public class Vision extends SubsystemBase {
   public double getDegreesToSpeaker()
   {
     return frontLimelightTable.getEntry("tx").getDouble(0);
+  }
+
+  public double getDegreesToAMP()
+  {
+    return rearLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[4];
+  }
+
+  public double getTranslationToAMP()
+  {
+    return rearLimelightTable.getEntry("botpose_targetspace").getDoubleArray(new double[6])[0];
   }
 
   public double getDistanceToSpeaker()

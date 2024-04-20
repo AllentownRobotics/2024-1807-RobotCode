@@ -10,9 +10,11 @@ import frc.robot.commands.ClimbCMD;
 import frc.robot.commands.PanicButtonCMD;
 import frc.robot.commands.ShootInAutoCMD;
 import frc.robot.commands.CMDStoTest.RevAimEndFireCMD;
+import frc.robot.commands.CMDStoTest.SetFeedersCMD;
 import frc.robot.commands.CollectCMDs.GroundCollectIndexCMD;
 import frc.robot.commands.CollectCMDs.GroundCollectUntilBreakCMD;
 import frc.robot.commands.CollectCMDs.SourceCollectIndex;
+import frc.robot.commands.DriveCMDs.AlignToAMPCMD;
 import frc.robot.commands.DriveCMDs.AlignToSpeakerCMD;
 import frc.robot.commands.DriveCMDs.DriveCMD;
 import frc.robot.commands.DriveCMDs.RotateToSpeakerCMD;
@@ -138,6 +140,8 @@ public class RobotContainer {
     driverController.a().whileTrue(driveTrain.generateAndFollowPath("PathFindToBlueAMP"));
     driverController.b().onTrue(new InstantCommand(() -> driveTrain.setHeadingToPoseHeading()));
 
+    driverController.povRight().whileTrue(new AlignToAMPCMD(driveTrain, driverController, visionSubsystem));
+
     //operator controller configs
     //planned controls delete line when implemented
     /*Left Trigger - ManShotAnyStraight
@@ -157,8 +161,9 @@ public class RobotContainer {
      */
     operatorController.leftTrigger().whileTrue(new RevAimEndFireCMD(shooterSubsystem, visionSubsystem));
     //operatorController.rightTrigger().whileTrue(new RevAimEndFireCMD(shooterSubsystem, visionSubsystem));
-    //operatorController.rightTrigger().whileTrue(new ManShootCurrentAngleCMD(shooterSubsystem));
-    operatorController.rightTrigger().whileTrue(new MedTrapShotCMD(shooterSubsystem));
+    operatorController.rightTrigger().whileTrue(new ManShootCurrentAngleCMD(shooterSubsystem));
+    //operatorController.rightTrigger().whileTrue(new MedTrapShotCMD(shooterSubsystem));
+    //operatorController.rightTrigger().whileTrue(new TrapShotCMD(shooterSubsystem));
     operatorController.povLeft().whileTrue(new FastTrapShotCMD(shooterSubsystem));
     //operatorController.rightTrigger().onTrue(new ShootInAutoCMD(shooterSubsystem, visionSubsystem, driveTrain));
     operatorController.leftBumper().whileTrue(new CollectSourceCMD(shooterSubsystem)).onFalse(new ResetShooterCMD(shooterSubsystem));
@@ -173,6 +178,9 @@ public class RobotContainer {
     operatorController.back().onTrue(new SetPivotAngleCMD(90, shooterSubsystem));
     operatorController.b().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(1), shooterSubsystem));
     operatorController.x().onTrue(Commands.runOnce(() -> shooterSubsystem.incrementSetpoit(-1), shooterSubsystem));
+
+    //operatorController.b().whileTrue(new SetFeedersCMD(shooterSubsystem, 1));
+    //operatorController.x().whileTrue(new SetFeedersCMD(shooterSubsystem, 1));
   }
 
   /**
